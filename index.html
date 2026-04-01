@@ -1321,7 +1321,7 @@ function accueilSignup(btn){
 
   // Tentative envoi email via Resend
   // ⚠️ Pour activer : remplace YOUR_RESEND_API_KEY par ta clé sur resend.com
-  var RESEND_API_KEY='YOUR_RESEND_API_KEY';
+  var RESEND_API_KEY='re_LUygYqEH_PhY9myZsjbTryx7dQkWp5ztP';
   var prenom=email.split('@')[0].split('.')[0];
   prenom=prenom.charAt(0).toUpperCase()+prenom.slice(1);
 
@@ -1736,7 +1736,7 @@ function toggleDevDoc(){
 }
 
 function updateDevDocStatus(){
-  var RESEND_API_KEY='YOUR_RESEND_API_KEY'; // même valeur que dans accueilSignup
+  var RESEND_API_KEY='re_LUygYqEH_PhY9myZsjbTryx7dQkWp5ztP'; // même valeur que dans accueilSignup
   var dot=document.getElementById('dev-status-dot');
   var label=document.getElementById('dev-status-label');
   if(!dot||!label) return;
@@ -1756,7 +1756,7 @@ async function devTestEmail(){
   var result=document.getElementById('dev-test-result');
   if(!email||!email.includes('@')){result.textContent='adresse email invalide';result.style.color='#F09595';return;}
 
-  var RESEND_API_KEY='YOUR_RESEND_API_KEY';
+  var RESEND_API_KEY='re_LUygYqEH_PhY9myZsjbTryx7dQkWp5ztP';
   if(RESEND_API_KEY==='YOUR_RESEND_API_KEY'){
     result.textContent='⚠ clé API manquante — l\'email ne sera pas envoyé (simulation)';
     result.style.color='#FAC775';
