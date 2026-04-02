@@ -410,6 +410,17 @@ try {
   }
 } catch(e){ console.warn('Supabase non dispo'); }
 </script>
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+var stripeClient = Stripe('pk_test_51QdVVBFvCVQTBn78cnEtHMUKPH4WuwOKoEPw21uHnSofZdKOPmVHgyxN8lZxYXuvkWCmKOOKq77yWG6nG0tYOEzD00PthZL879');
+var STRIPE_PRICES = {
+  veille: 'price_1THjStFvCVQTBn78nLavk5M0',
+  sprint: 'price_1THjTVFvCVQTBn78j8meFUvw',
+  intensif: 'price_1THjUJFvCVQTBn78CZjhxvL5',
+  preparation: 'price_1THjVlFvCVQTBn78ppOGVemw',
+  serenite: 'price_1THjW7FvCVQTBn78ooquJfL0'
+};
+</script>
 </head>
 <body>
 
@@ -915,7 +926,7 @@ try {
         <div style="display:flex;align-items:center;gap:6px;font-size:13px"><span style="width:1em;height:1em;border-radius:50%;background:#EEF2FF;color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:.6em;flex-shrink:0">✓</span><span>corrections détaillées</span></div>
         <div style="display:flex;align-items:center;gap:6px;font-size:.7em;opacity:.3"><span style="width:1em;height:1em;border-radius:50%;background:rgba(0,0,0,.06);display:flex;align-items:center;justify-content:center;font-size:.6em;flex-shrink:0">✕</span><span>planning IA</span></div>
       </div>
-      <button onclick="inscChoisir('veille')" style="font-size:12px;font-weight:600;border:1.5px solid rgba(0,0,0,.13);border-radius:100px;padding:10px 0;cursor:pointer;text-transform:lowercase;width:100%;background:transparent;color:var(--ink)">je commence →</button>
+      <button onclick="stripeCheckout('veille')" style="font-size:12px;font-weight:600;border:1.5px solid rgba(0,0,0,.13);border-radius:100px;padding:10px 0;cursor:pointer;text-transform:lowercase;width:100%;background:transparent;color:var(--ink)">je commence →</button>
     </div>
     <div style="background:var(--white);border:1.5px solid rgba(0,0,0,.06);border-radius:18px;display:grid;grid-template-rows:auto auto auto 1fr auto;padding:16px 14px;gap:8px;">
       <div><div style="font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:5px">1 semaine avant</div><div style="font-size:13px;font-weight:600;color:var(--ink)">pack sprint</div></div>
@@ -926,7 +937,7 @@ try {
         <div style="display:flex;align-items:center;gap:6px;font-size:13px"><span style="width:1em;height:1em;border-radius:50%;background:#EEF2FF;color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:.6em;flex-shrink:0">✓</span><span>planning 7 jours IA</span></div>
         <div style="display:flex;align-items:center;gap:6px;font-size:13px"><span style="width:1em;height:1em;border-radius:50%;background:#EEF2FF;color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:.6em;flex-shrink:0">✓</span><span>conseils IA ciblés</span></div>
       </div>
-      <button onclick="inscChoisir('sprint')" style="font-size:12px;font-weight:600;border:1.5px solid rgba(0,0,0,.13);border-radius:100px;padding:10px 0;cursor:pointer;text-transform:lowercase;width:100%;background:transparent;color:var(--ink)">je commence →</button>
+      <button onclick="stripeCheckout('sprint')" style="font-size:12px;font-weight:600;border:1.5px solid rgba(0,0,0,.13);border-radius:100px;padding:10px 0;cursor:pointer;text-transform:lowercase;width:100%;background:transparent;color:var(--ink)">je commence →</button>
     </div>
     <div style="background:var(--blue);border-radius:18px;display:grid;grid-template-rows:auto auto auto 1fr auto;padding:16px 14px;gap:8px;position:relative;">
       <div style="position:absolute;top:.8em;right:.8em;font-size:9px;font-weight:700;padding:3px 10px;border-radius:100px;background:var(--orange);color:#fff;text-transform:uppercase;letter-spacing:.08em">populaire</div>
@@ -938,7 +949,7 @@ try {
         <div style="display:flex;align-items:center;gap:6px;font-size:13px"><span style="width:1em;height:1em;border-radius:50%;background:rgba(255,255,255,.2);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.6em;flex-shrink:0">✓</span><span style="color:rgba(255,255,255,.9)">planning 30 jours IA</span></div>
         <div style="display:flex;align-items:center;gap:6px;font-size:13px"><span style="width:1em;height:1em;border-radius:50%;background:rgba(255,255,255,.2);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.6em;flex-shrink:0">✓</span><span style="color:rgba(255,255,255,.9)">suivi de progression</span></div>
       </div>
-      <button onclick="inscChoisir('intensif')" style="font-size:12px;font-weight:600;border:none;border-radius:100px;padding:10px 0;cursor:pointer;text-transform:lowercase;width:100%;background:var(--orange);color:#fff">commencer l'essai →</button>
+      <button onclick="stripeCheckout('intensif')" style="font-size:12px;font-weight:600;border:none;border-radius:100px;padding:10px 0;cursor:pointer;text-transform:lowercase;width:100%;background:var(--orange);color:#fff">commencer l'essai →</button>
     </div>
     <div style="background:var(--ink);border-radius:18px;display:grid;grid-template-rows:auto auto auto 1fr auto;padding:16px 14px;gap:8px;">
       <div><div style="font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:5px">2 mois avant</div><div style="font-size:13px;font-weight:600;color:#fff">pack préparation</div></div>
@@ -949,7 +960,7 @@ try {
         <div style="display:flex;align-items:center;gap:6px;font-size:13px"><span style="width:1em;height:1em;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.6em;flex-shrink:0">✓</span><span style="color:rgba(255,255,255,.8)">planning 60 jours IA</span></div>
         <div style="display:flex;align-items:center;gap:6px;font-size:13px"><span style="width:1em;height:1em;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.6em;flex-shrink:0">✓</span><span style="color:rgba(255,255,255,.8)">suivi de progression</span></div>
       </div>
-      <button onclick="inscChoisir('preparation')" style="font-size:12px;font-weight:600;border:1px solid rgba(255,255,255,.15);border-radius:100px;padding:10px 0;cursor:pointer;text-transform:lowercase;width:100%;background:rgba(255,255,255,.08);color:rgba(255,255,255,.8)">je commence →</button>
+      <button onclick="stripeCheckout('preparation')" style="font-size:12px;font-weight:600;border:1px solid rgba(255,255,255,.15);border-radius:100px;padding:10px 0;cursor:pointer;text-transform:lowercase;width:100%;background:rgba(255,255,255,.08);color:rgba(255,255,255,.8)">je commence →</button>
     </div>
     <div style="background:var(--white);border:1.5px solid rgba(0,0,0,.06);border-radius:18px;display:grid;grid-template-rows:auto auto auto 1fr auto;padding:16px 14px;gap:8px;">
       <div><div style="font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:5px">3 mois avant</div><div style="font-size:13px;font-weight:600;color:var(--ink)">pack sérénité</div></div>
@@ -960,7 +971,7 @@ try {
         <div style="display:flex;align-items:center;gap:6px;font-size:13px"><span style="width:1em;height:1em;border-radius:50%;background:#EEF2FF;color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:.6em;flex-shrink:0">✓</span><span>planning 90 jours IA</span></div>
         <div style="display:flex;align-items:center;gap:6px;font-size:13px"><span style="width:1em;height:1em;border-radius:50%;background:#EEF2FF;color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:.6em;flex-shrink:0">✓</span><span>suivi de progression</span></div>
       </div>
-      <button onclick="inscChoisir('serenite')" style="font-size:12px;font-weight:600;border:1.5px solid rgba(0,0,0,.13);border-radius:100px;padding:10px 0;cursor:pointer;text-transform:lowercase;width:100%;background:transparent;color:var(--ink)">je commence →</button>
+      <button onclick="stripeCheckout('serenite')" style="font-size:12px;font-weight:600;border:1.5px solid rgba(0,0,0,.13);border-radius:100px;padding:10px 0;cursor:pointer;text-transform:lowercase;width:100%;background:transparent;color:var(--ink)">je commence →</button>
     </div>
     <!-- FORMULAIRE INSCRIPTION -->
     <div style="background:var(--white);border-radius:18px;padding:1.4em 1.3em;display:flex;flex-direction:column;gap:.8em;">
@@ -1906,6 +1917,53 @@ async function loadFromSupabase(){
   renderAll();
   renderPlanning();
 }
+
+
+// ── STRIPE CHECKOUT ──
+async function stripeCheckout(pack){
+  var priceId = STRIPE_PRICES[pack];
+  if(!priceId){ showToast('pack bientôt disponible'); return; }
+
+  // Récupérer l'email si connecté
+  var email = '';
+  if(supabaseClient){
+    var s = await supabaseClient.auth.getSession();
+    if(s.data.session) email = s.data.session.user.email;
+  }
+
+  // Appel à l'API Vercel
+  try {
+    var r = await fetch('/api/checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ priceId: priceId, email: email })
+    });
+    var data = await r.json();
+    if(data.url){
+      window.location.href = data.url;
+    } else {
+      showToast('erreur paiement — réessaie');
+    }
+  } catch(e) {
+    showToast('erreur réseau');
+  }
+}
+
+// Gérer le retour après paiement
+(function(){
+  var params = new URLSearchParams(window.location.search);
+  if(params.get('payment') === 'success'){
+    setTimeout(function(){
+      showToast('✓ paiement réussi — bienvenue !');
+      goTo('parcours');
+    }, 500);
+  } else if(params.get('payment') === 'cancel'){
+    setTimeout(function(){
+      showToast('paiement annulé');
+      goTo('inscription');
+    }, 500);
+  }
+})();
 
 // ── AUTH SUPABASE ──
 function updateNavAuth(session){
