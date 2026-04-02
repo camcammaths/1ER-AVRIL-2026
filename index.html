@@ -180,7 +180,7 @@ body > nav.nav{display:flex}
 /* PARCOURS */
 .p-divider{height:1px;background:rgba(0,0,0,.1)}
 .p-body{flex:1;overflow:hidden;padding:10px 14px;display:grid;grid-template-columns:200px 1fr 220px;grid-template-rows:auto 1fr;gap:8px}
-.panel{background:var(--white);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.panel{background:var(--white);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;border:1.5px solid rgba(0,0,0,.08)}
 .panel-head{padding:10px 14px 8px;border-bottom:1px solid rgba(0,0,0,.06);flex-shrink:0}
 .panel-label{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:2px}
 .panel-title{font-size:15px;font-weight:500;text-transform:lowercase;letter-spacing:-.02em;display:block}
@@ -211,8 +211,8 @@ body > nav.nav{display:flex}
 .obj-bar{height:3px;background:rgba(255,255,255,.15);border-radius:100px;overflow:hidden;margin-bottom:5px}
 .obj-bar-fill{height:100%;background:#fff;border-radius:100px;transition:width .6s}
 .obj-label{font-size:10px;color:rgba(255,255,255,.4);font-weight:300}
-.card-spark{background:var(--white);border-radius:12px;padding:10px 14px;flex-shrink:0}
-.card-badges{background:var(--white);border-radius:12px;padding:10px 14px;flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column}
+.card-spark{background:var(--white);border-radius:12px;padding:10px 14px;flex-shrink:0;border:1.5px solid rgba(0,0,0,.08)}
+.card-badges{background:var(--white);border-radius:12px;padding:10px 14px;flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column;border:1.5px solid rgba(0,0,0,.08)}
 .badges-grid{display:flex;flex-direction:column;gap:4px;margin-top:6px;flex:1;overflow-y:auto}
 .badges-grid::-webkit-scrollbar{width:2px}
 .badge-row{display:grid;grid-template-columns:28px 1fr auto;align-items:center;gap:8px;padding:6px 8px;border-radius:8px}
@@ -261,9 +261,9 @@ body > nav.nav{display:flex}
 .empty-title{font-size:14px;font-weight:500;text-transform:lowercase;color:var(--ink);margin-bottom:4px}
 .empty-sub{font-size:12px;font-weight:300;line-height:1.5}
 .col-right{grid-column:3;grid-row:1/3;display:flex;flex-direction:column;gap:8px}
-.card-radar{background:var(--white);border-radius:12px;padding:10px 14px;flex-shrink:0}
+.card-radar{background:var(--white);border-radius:12px;padding:10px 14px;flex-shrink:0;border:1.5px solid rgba(0,0,0,.08)}
 .radar-svg{overflow:visible;width:100%;max-width:160px;display:block;margin:0 auto}
-.card-notions{background:var(--white);border-radius:12px;padding:10px 14px;flex-shrink:0}
+.card-notions{background:var(--white);border-radius:12px;padding:10px 14px;flex-shrink:0;border:1.5px solid rgba(0,0,0,.08)}
 .notion-list{display:flex;flex-direction:column;gap:6px;margin-top:8px}
 .notion-item{display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px}
 .notion-left{display:flex;align-items:center;gap:6px}
@@ -272,7 +272,8 @@ body > nav.nav{display:flex}
 .notion-track{flex:1;height:4px;background:rgba(0,0,0,.07);border-radius:100px;overflow:hidden;min-width:40px}
 .notion-fill{height:100%;border-radius:100px;transition:width .7s}
 .notion-badge{font-size:10px;font-weight:700;font-family:'Courier New',monospace;padding:2px 7px;border-radius:100px;white-space:nowrap}
-.card-analyse{background:var(--white);border-radius:12px;padding:10px 14px;flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column}
+.card-analyse{background:var(--white);border-radius:12px;padding:10px 14px;flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column;border:1.5px solid rgba(0,0,0,.08)}
+.panel{background:var(--white);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;border:1.5px solid rgba(0,0,0,.08)}
 .analyse-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:8px;flex-shrink:0}
 .astrip{border-radius:6px;padding:8px 4px;text-align:center}
 .astrip.r{background:#FEF2F2}.astrip.o{background:#FFF0E8}.astrip.g{background:#EDFBF0}
@@ -397,6 +398,10 @@ body > nav.nav{display:flex}
 #tour-enter-card .tec-skip:hover{color:rgb(25,8,6)}
 </style>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+var supabaseClient = supabase.createClient('https://awjhkzoskjshabicnqbr.supabase.co', 'sb_publishable_yP57o15lpMOFKuRFv0PKwA_6RcyM2WO');
+</script>
 </head>
 <body>
 
@@ -1314,66 +1319,39 @@ function accueilSignup(btn){
   }
   err.style.display='none';
 
-  // Animation bouton → envoi en cours
-  btn.textContent='envoi en cours…';
+  btn.textContent='création du compte…';
   btn.style.opacity='.7';
   btn.disabled=true;
 
-  // Tentative envoi email via Resend
-  // ⚠️ Pour activer : remplace YOUR_RESEND_API_KEY par ta clé sur resend.com
-  var RESEND_API_KEY='re_2HyG124x_C2j69bjZn2Mh46EwtZ4QiBqx';
   var prenom=email.split('@')[0].split('.')[0];
   prenom=prenom.charAt(0).toUpperCase()+prenom.slice(1);
 
-  var emailBody={
-    from:'Prépa Brevet <noreply@prepabrevet.fr>',
-    to:[email],
-    subject:'Bienvenue sur Prépa Brevet ✦',
-    html:`<div style="font-family:-apple-system,sans-serif;max-width:520px;margin:0 auto;padding:40px 24px;background:#EDEEF0;border-radius:16px">
-      <div style="background:#0021BC;border-radius:12px;padding:28px 32px;margin-bottom:16px">
-        <div style="font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:8px">prépa brevet</div>
-        <div style="font-size:32px;font-weight:500;letter-spacing:-.04em;color:#fff;line-height:1;text-transform:lowercase">bienvenue<br>${prenom} <span style="color:#EE6E34">!</span></div>
-      </div>
-      <div style="background:#fff;border-radius:12px;padding:24px 32px;margin-bottom:12px">
-        <p style="font-size:15px;color:#8A8DAA;font-weight:300;line-height:1.7;margin:0 0 20px">Ton compte est créé. Tu peux maintenant générer ton premier brevet et commencer à préparer l'examen.</p>
-        <a href="#" style="display:inline-block;background:#0021BC;color:#fff;border-radius:100px;padding:12px 24px;font-size:13px;font-weight:600;text-decoration:none;text-transform:lowercase">accéder à la plateforme →</a>
-      </div>
-      <p style="font-size:11px;color:#8A8DAA;text-align:center;margin:0">© 2026 Prépa Brevet · tous droits réservés</p>
-    </div>`
-  };
-
-  var doAfterEmail=function(success){
+  supabaseClient.auth.signUp({email:email,password:mdp})
+  .then(function(result){
+    if(result.error){
+      btn.textContent="s\'inscrire →";
+      btn.style.opacity='1';
+      btn.disabled=false;
+      err.textContent=result.error.message||'erreur inscription';
+      err.style.display='block';
+      return;
+    }
     btn.textContent='✓ compte créé !';
     btn.style.background='var(--green)';
     btn.style.opacity='1';
     btn.disabled=true;
-
-    // Afficher le bandeau de confirmation
-    showEmailConfirmBanner(email, success);
-
-    setTimeout(()=>{
+    fetch('/api/signup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email,prenom:prenom})}).catch(function(){});
+    showEmailConfirmBanner(email,true);
+    setTimeout(function(){
       goTo('generer');
-      setTimeout(()=>{
+      setTimeout(function(){
         var h2=document.getElementById('tour-enter-title');
         if(h2) h2.innerHTML='bienvenue '+prenom+' <span style="color:#0021BC">!</span>';
         var el=document.getElementById('tour-enter');
         if(el) el.classList.add('show');
       },250);
     },1400);
-  };
-
-  if(RESEND_API_KEY==='YOUR_RESEND_API_KEY'){
-    // Mode simulation — pas de vraie clé
-    setTimeout(()=>doAfterEmail(false),800);
-  } else {
-    fetch('/api/signup',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({email,prenom})
-    })
-    .then(r=>r.ok?doAfterEmail(true):doAfterEmail(false))
-    .catch(()=>doAfterEmail(false));
-  }
+  });
 }
 
 function showEmailConfirmBanner(email, sent){
@@ -1736,7 +1714,7 @@ function toggleDevDoc(){
 }
 
 function updateDevDocStatus(){
-  var RESEND_API_KEY='re_2HyG124x_C2j69bjZn2Mh46EwtZ4QiBqx'; // même valeur que dans accueilSignup
+  var RESEND_API_KEY='YOUR_RESEND_API_KEY'; // même valeur que dans accueilSignup
   var dot=document.getElementById('dev-status-dot');
   var label=document.getElementById('dev-status-label');
   if(!dot||!label) return;
@@ -1756,7 +1734,7 @@ async function devTestEmail(){
   var result=document.getElementById('dev-test-result');
   if(!email||!email.includes('@')){result.textContent='adresse email invalide';result.style.color='#F09595';return;}
 
-  var RESEND_API_KEY='re_2HyG124x_C2j69bjZn2Mh46EwtZ4QiBqx';
+  var RESEND_API_KEY='YOUR_RESEND_API_KEY';
   if(RESEND_API_KEY==='YOUR_RESEND_API_KEY'){
     result.textContent='⚠ clé API manquante — l\'email ne sera pas envoyé (simulation)';
     result.style.color='#FAC775';
