@@ -400,7 +400,15 @@ body > nav.nav{display:flex}
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-var supabaseClient = supabase.createClient('https://awjhkzoskjshabicnqbr.supabase.co', 'sb_publishable_yP57o15lpMOFKuRFv0PKwA_6RcyM2WO');
+var supabaseClient = null;
+try {
+  if(typeof supabase !== 'undefined'){
+    supabaseClient = supabase.createClient(
+      'https://awjhkzoskjshabicnqbr.supabase.co',
+      'sb_publishable_yP57o15lpMOFKuRFv0PKwA_6RcyM2WO'
+    );
+  }
+} catch(e){ console.warn('Supabase non dispo'); }
 </script>
 </head>
 <body>
@@ -417,7 +425,10 @@ var supabaseClient = supabase.createClient('https://awjhkzoskjshabicnqbr.supabas
       <li data-page="parcours" onclick="goTo('parcours')">mon parcours</li>
       <li data-page="planning" onclick="goTo('planning')">planning</li>
       <li data-page="ressources">ressources</li>
-      <li data-page="inscription" class="on-orange" onclick="goTo('inscription')">s'inscrire ✦</li>
+      <li data-page="inscription" class="on-orange" onclick="goTo('inscription')" id="nav-insc">s'inscrire ✦</li>
+      <li id="nav-login-link" onclick="goTo('login')" style="cursor:pointer">connexion</li>
+      <li id="nav-logout-link" onclick="doLogout()" style="display:none;cursor:pointer">déconnexion</li>
+      <li id="nav-user-label" style="display:none;font-size:11px;color:var(--muted);font-weight:300;background:rgba(0,0,0,.05);padding:4px 10px;border-radius:100px"></li>
     </ul>
     <button class="cta" onclick="goTo('generer')" data-page="generer">générer un brevet →</button>
   </div>
@@ -994,6 +1005,37 @@ var supabaseClient = supabase.createClient('https://awjhkzoskjshabicnqbr.supabas
   </div>
 </div>
 
+<!-- PAGE LOGIN -->
+<div class="page" id="page-login">
+  <div style="display:flex;align-items:center;justify-content:center;height:100%;background:var(--bg)">
+    <div style="background:var(--white);border-radius:20px;padding:36px 40px;width:100%;max-width:400px;border:1.5px solid rgba(0,0,0,.07)">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px">
+        <div style="width:14px;height:2px;background:#EE6E34;border-radius:2px"></div>
+        <span style="font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#EE6E34">prépa brevet</span>
+      </div>
+      <div style="font-size:22px;font-weight:500;letter-spacing:-.04em;text-transform:lowercase;color:rgb(25,8,6);margin-bottom:6px">content de te revoir <span style="color:#0021BC">!</span></div>
+      <div style="font-size:13px;color:#8A8DAA;font-weight:300;margin-bottom:24px">connecte-toi pour accéder à ton parcours</div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div>
+          <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:5px">email</div>
+          <input id="login-email" type="email" placeholder="lucas@example.com" style="width:100%;padding:10px 12px;border:1.5px solid rgba(0,0,0,.1);border-radius:10px;font-family:var(--fd);font-size:13px;color:var(--ink);background:#FAFAFA;outline:none;transition:border-color .15s;box-sizing:border-box" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='rgba(0,0,0,.1)'">
+        </div>
+        <div>
+          <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:5px">mot de passe</div>
+          <input id="login-mdp" type="password" placeholder="••••••••" style="width:100%;padding:10px 12px;border:1.5px solid rgba(0,0,0,.1);border-radius:10px;font-family:var(--fd);font-size:13px;color:var(--ink);background:#FAFAFA;outline:none;transition:border-color .15s;box-sizing:border-box" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='rgba(0,0,0,.1)'" onkeydown="if(event.key==='Enter')doLogin()">
+        </div>
+        <div id="login-err" style="display:none;font-size:11px;color:var(--red);font-weight:500;text-align:center"></div>
+        <button id="login-btn" onclick="doLogin()" style="font-size:13px;font-weight:600;background:var(--blue);color:#fff;padding:12px;border-radius:100px;border:none;cursor:pointer;text-transform:lowercase;width:100%;transition:opacity .15s;margin-top:4px">se connecter →</button>
+        <div style="text-align:center;font-size:11px;color:var(--muted);padding-top:8px;border-top:1px solid rgba(0,0,0,.06)">
+          pas encore de compte ? <span style="color:var(--blue);font-weight:600;cursor:pointer" onclick="goTo('inscription')">s'inscrire</span>
+          &nbsp;·&nbsp;
+          <span style="color:var(--blue);cursor:pointer;font-size:11px" onclick="doResetPassword()">mot de passe oublié ?</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div id="toast" class="toast"></div>
 
 <!-- DEV DOC PANEL -->
@@ -1146,7 +1188,7 @@ const MONTHS=['janvier','février','mars','avril','mai','juin','juillet','août'
 const DAY_SHORT=['LU','MA','ME','JE','VE','SA','DI'];
 const DAY_FULL=['lundi','mardi','mercredi','jeudi','vendredi','samedi','dimanche'];
 const TASK_META={revision:{label:'Révision',color:'#0021BC',bg:'#EEF2FF',border:'#0021BC'},entrainement:{label:'Entraînement',color:'#EE6E34',bg:'#FFF0E8',border:'#EE6E34'},brevet:{label:'Brevet blanc',color:'#166534',bg:'#EDFBF0',border:'#22C55E'},repos:{label:'Repos',color:'#8A8DAA',bg:'rgba(0,0,0,.05)',border:'#8A8DAA'}};
-function saveTasks(){localStorage.setItem('pb_da2_tasks',JSON.stringify(weekTasks));}
+function saveTasks(){localStorage.setItem('pb_da2_tasks',JSON.stringify(weekTasks));Object.keys(weekTasks).forEach(function(k){sbSavePlanningDay(k,weekTasks[k]);});}
 function dk(d){return d.toISOString().slice(0,10);}
 function getWeekDates(offset=0){const today=new Date(),dow=(today.getDay()+6)%7;const monday=new Date(today);monday.setDate(today.getDate()-dow+offset*7);monday.setHours(0,0,0,0);return Array.from({length:7},(_,i)=>{const d=new Date(monday);d.setDate(monday.getDate()+i);return d;});}
 function setCalView(v){calView=v;document.getElementById('view-semaine').style.display=v==='semaine'?'flex':'none';document.getElementById('view-mois').style.display=v==='mois'?'flex':'none';if(v==='semaine')document.getElementById('view-semaine').style.flexDirection='column';if(v==='mois')document.getElementById('view-mois').style.flexDirection='column';const bs=document.getElementById('view-btn-semaine'),bm=document.getElementById('view-btn-mois'),a='font-size:12px;font-weight:600;padding:7px 20px;border-radius:8px;border:none;cursor:pointer;text-transform:lowercase;background:var(--white);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.1)',i='font-size:12px;font-weight:600;padding:7px 20px;border-radius:8px;border:none;cursor:pointer;text-transform:lowercase;background:transparent;color:var(--muted)';if(v==='semaine'){bs.style.cssText=a;bm.style.cssText=i;}else{bm.style.cssText=a;bs.style.cssText=i;}renderPlanning();}
@@ -1260,7 +1302,7 @@ const BADGES=[{id:'first',name:'Premier pas',check:s=>s.length>=1},{id:'trio',na
 function getMention(n){if(n>=18)return{label:'Félicitations',cls:'m-felicitations'};if(n>=16)return{label:'Très bien',cls:'m-tres-bien'};if(n>=14)return{label:'Bien',cls:'m-bien'};if(n>=12)return{label:'Assez bien',cls:'m-assez-bien'};if(n>=10)return{label:'Admis',cls:'m-admis'};return{label:'À retravailler',cls:'m-retravailler'};}
 function fmt(n){return String(n).replace('.',',')}
 function barColor(p){return p>=80?'#22C55E':p>=50?'var(--orange)':'var(--red)'}
-function save(){localStorage.setItem('pb_da2_sessions',JSON.stringify(sessions))}
+function save(){localStorage.setItem('pb_da2_sessions',JSON.stringify(sessions));if(sessions.length>0)sbSaveBrevet(sessions[0]);}
 function getUnlocked(){return BADGES.filter(b=>b.check(sessions))}
 function getNotionMap(){const m={};sessions.forEach(s=>(s.exos||[]).forEach(e=>{if(!m[e.nom])m[e.nom]={earned:0,max:0};m[e.nom].earned+=e.earned;m[e.nom].max+=e.max;}));return m;}
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800)}
@@ -1270,7 +1312,7 @@ function renderAll(){renderHero();renderList();renderAside();renderRadar();rende
 function renderHero(){const n=sessions.length;if(!n){document.getElementById('hero-stats-strip').innerHTML='';return;}const moy=Math.round(sessions.reduce((a,s)=>a+s.note,0)/n*10)/10,best=Math.max(...sessions.map(s=>s.note));document.getElementById('hero-stats-strip').innerHTML=`<div class="hstat"><div class="hstat-n">${n}</div><div class="hstat-l">brevets</div></div><div class="hstat"><div class="hstat-n">${fmt(moy)}</div><div class="hstat-l">moyenne</div></div><div class="hstat"><div class="hstat-n">${fmt(best)}</div><div class="hstat-l">meilleure note</div></div>`;}
 function renderAside(){if(!sessions.length){document.getElementById('aside-note').innerHTML='—<span style="font-size:18px;font-weight:300;opacity:.4">/20</span>';document.getElementById('aside-mention').innerHTML='';renderObj();return;}const moy=sessions.reduce((a,s)=>a+s.note,0)/sessions.length,moyR=Math.round(moy*10)/10,m=getMention(moyR);document.getElementById('aside-note').innerHTML=fmt(moyR)+'<span style="font-size:18px;font-weight:300;opacity:.4">/20</span>';document.getElementById('aside-mention').innerHTML=`<span class="cd-mention mention ${m.cls}" style="margin-top:6px">${m.label}</span>`;renderObj();}
 function renderObj(){const t=parseFloat(localStorage.getItem('pb_da2_obj')||'14');document.getElementById('obj-slider').value=t;updateObj(t,false);}
-function updateObj(val,doSave=true){val=parseFloat(val);if(doSave)localStorage.setItem('pb_da2_obj',val);document.getElementById('obj-val').textContent=fmt(val);document.getElementById('obj-mention').textContent=getMention(val).label.toLowerCase();if(!sessions.length){document.getElementById('obj-fill').style.width='0%';document.getElementById('obj-label').textContent='ajoute un brevet';return;}const moy=sessions.reduce((a,s)=>a+s.note,0)/sessions.length,pct=Math.min(100,Math.round(moy/val*100)),diff=Math.round((val-moy)*10)/10;document.getElementById('obj-fill').style.width=pct+'%';document.getElementById('obj-label').textContent=diff<=0?'🎯 objectif atteint !':`il te manque ${fmt(diff)} pts`;}
+function updateObj(val,doSave=true){val=parseFloat(val);if(doSave){localStorage.setItem('pb_da2_obj',val);sbSaveProfil(val,localStorage.getItem('pb_da2_brevet_date'));}document.getElementById('obj-val').textContent=fmt(val);document.getElementById('obj-mention').textContent=getMention(val).label.toLowerCase();if(!sessions.length){document.getElementById('obj-fill').style.width='0%';document.getElementById('obj-label').textContent='ajoute un brevet';return;}const moy=sessions.reduce((a,s)=>a+s.note,0)/sessions.length,pct=Math.min(100,Math.round(moy/val*100)),diff=Math.round((val-moy)*10)/10;document.getElementById('obj-fill').style.width=pct+'%';document.getElementById('obj-label').textContent=diff<=0?'🎯 objectif atteint !':`il te manque ${fmt(diff)} pts`;}
 function renderSparkline(){const svg=document.getElementById('spark-svg');if(sessions.length<2){svg.innerHTML=`<text x="90" y="22" text-anchor="middle" font-size="9" fill="var(--muted)" font-family="-apple-system,sans-serif">pas assez de données</text>`;return;}const data=sessions.slice().reverse().map(s=>s.note),W=180,H=40,px=6,py=4,mn=Math.min(...data,8),mx=Math.max(...data,12),xS=(W-px*2)/(data.length-1);const pts=data.map((v,i)=>({x:px+i*xS,y:py+(1-(v-mn)/(mx-mn||1))*(H-py*2)}));const lineD=pts.map((p,i)=>(i?'L':'M')+p.x.toFixed(1)+','+p.y.toFixed(1)).join(' '),areaD=lineD+` L${pts[pts.length-1].x},${H} L${pts[0].x},${H} Z`;svg.innerHTML=`<defs><linearGradient id="sg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="var(--blue)"/><stop offset="100%" stop-color="var(--blue)" stop-opacity="0"/></linearGradient></defs><path style="opacity:.08;fill:var(--blue)" d="${areaD}" fill="url(#sg)"/><path style="fill:none;stroke:var(--blue);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round" d="${lineD}"/>${pts.map((p,i)=>`<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="2.5" fill="var(--blue)"><title>${fmt(data[i])}/20</title></circle>`).join('')}`;}
 function renderRadar(){const svg=document.getElementById('radar-svg'),map=getNotionMap();const items=Object.entries(map).filter(([,v])=>v.max>0).map(([k,v])=>({name:k,pct:v.earned/v.max})).slice(0,6);if(items.length<3){svg.innerHTML=`<text y="6" text-anchor="middle" font-size="9" fill="var(--muted)" font-family="-apple-system,sans-serif">ajoute des exercices</text>`;return;}const N=items.length,R=72,ang=i=>-Math.PI/2+(2*Math.PI*i/N);const grid=[.25,.5,.75,1].map(r=>`<polygon points="${Array.from({length:N},(_,i)=>{const a=ang(i);return R*r*Math.cos(a)+','+R*r*Math.sin(a);}).join(' ')}" fill="none" stroke="rgba(0,0,0,.07)" stroke-width="1"/>`).join('');const axes=Array.from({length:N},(_,i)=>{const a=ang(i);return `<line x1="0" y1="0" x2="${R*Math.cos(a)}" y2="${R*Math.sin(a)}" stroke="rgba(0,0,0,.08)" stroke-width="1"/>`;}).join('');const dataPts=items.map((it,i)=>{const a=ang(i);return R*it.pct*Math.cos(a)+','+R*it.pct*Math.sin(a);}).join(' ');const labels=items.map((it,i)=>{const a=ang(i);return `<text x="${(R+14)*Math.cos(a)}" y="${(R+14)*Math.sin(a)+3}" text-anchor="middle" font-size="8" fill="var(--muted)" font-family="-apple-system,sans-serif">${it.name.slice(0,7).toLowerCase()}</text>`;}).join('');svg.innerHTML=grid+axes+`<polygon points="${dataPts}" fill="rgba(0,33,188,.1)" stroke="var(--blue)" stroke-width="1.5" stroke-linejoin="round"/>${items.map((it,i)=>{const a=ang(i);return `<circle cx="${R*it.pct*Math.cos(a)}" cy="${R*it.pct*Math.sin(a)}" r="3" fill="var(--blue)"/>`;}).join('')}${labels}`;}
 function renderNotions(){const map=getNotionMap(),items=Object.entries(map).filter(([,v])=>v.max>0).map(([k,v])=>({name:k,pct:Math.round(v.earned/v.max*100)})).sort((a,b)=>b.pct-a.pct).slice(0,6);const el=document.getElementById('notion-rows');if(!items.length){el.innerHTML='<div style="font-size:10px;color:var(--muted);font-weight:300;margin-top:4px">aucune donnée</div>';return;}el.innerHTML=items.map(it=>{const color=it.pct>=80?'#22C55E':it.pct>=50?'var(--orange)':'var(--red)',bg=it.pct>=80?'#EDFBF0':it.pct>=50?'#FFF0E8':'#FEF2F2',icon=it.pct>=80?'✦':it.pct>=50?'~':'!';return `<div class="notion-item"><div class="notion-left"><span class="notion-name">${it.name.toLowerCase()}</span></div><div style="display:flex;align-items:center;gap:6px"><div class="notion-track"><div class="notion-fill" style="width:0%;background:${color}" data-pct="${it.pct}"></div></div><span class="notion-badge" style="background:${bg};color:${color}">${icon} ${it.pct}%</span></div></div>`;}).join('');setTimeout(()=>el.querySelectorAll('.notion-fill').forEach(b=>b.style.width=b.dataset.pct+'%'),60);}
@@ -1319,29 +1361,16 @@ function accueilSignup(btn){
   }
   err.style.display='none';
 
-  btn.textContent='création du compte…';
-  btn.style.opacity='.7';
-  btn.disabled=true;
-
   var prenom=email.split('@')[0].split('.')[0];
   prenom=prenom.charAt(0).toUpperCase()+prenom.slice(1);
 
-  supabaseClient.auth.signUp({email:email,password:mdp})
-  .then(function(result){
-    if(result.error){
-      btn.textContent="s\'inscrire →";
-      btn.style.opacity='1';
-      btn.disabled=false;
-      err.textContent=result.error.message||'erreur inscription';
-      err.style.display='block';
-      return;
-    }
+  var doAfterSignup=function(success){
     btn.textContent='✓ compte créé !';
     btn.style.background='var(--green)';
     btn.style.opacity='1';
     btn.disabled=true;
     fetch('/api/signup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email,prenom:prenom})}).catch(function(){});
-    showEmailConfirmBanner(email,true);
+    showEmailConfirmBanner(email,success);
     setTimeout(function(){
       goTo('generer');
       setTimeout(function(){
@@ -1351,7 +1380,23 @@ function accueilSignup(btn){
         if(el) el.classList.add('show');
       },250);
     },1400);
-  });
+  };
+
+  btn.textContent='création…';btn.style.opacity='.7';btn.disabled=true;
+
+  if(supabaseClient){
+    supabaseClient.auth.signUp({email:email,password:mdp}).then(function(r){
+      if(r.error){
+        btn.textContent="s'inscrire →";btn.style.opacity='1';btn.disabled=false;
+        err.textContent=r.error.message;err.style.display='block';
+      } else {
+        updateNavAuth(r.data.session);
+        doAfterSignup(true);
+      }
+    });
+  } else {
+    setTimeout(function(){doAfterSignup(false);},600);
+  }
 }
 
 function showEmailConfirmBanner(email, sent){
@@ -1758,6 +1803,175 @@ async function devTestEmail(){
     if(r.ok){result.textContent='✓ email envoyé à '+email;result.style.color='#22C55E';}
     else{var d=await r.json();result.textContent='erreur : '+(d.message||r.status);result.style.color='#F09595';}
   }catch(e){result.textContent='erreur réseau — vérifie ta clé API';result.style.color='#F09595';}
+}
+
+
+// ── SUPABASE DATA SYNC ──
+async function sbSaveBrevet(brevet){
+  if(!supabaseClient) return;
+  var s=await supabaseClient.auth.getSession();
+  if(!s.data.session) return;
+  var uid=s.data.session.user.id;
+  await supabaseClient.from('brevets').insert({
+    user_id:uid,
+    date:brevet.date,
+    note:brevet.note,
+    notions:brevet.notions||'',
+    duree:brevet.duree||0
+  });
+}
+
+async function sbLoadBrevets(){
+  if(!supabaseClient) return null;
+  var s=await supabaseClient.auth.getSession();
+  if(!s.data.session) return null;
+  var uid=s.data.session.user.id;
+  var {data}=await supabaseClient.from('brevets').select('*').eq('user_id',uid).order('created_at',{ascending:false});
+  return data;
+}
+
+async function sbSavePlanningDay(dateKey,tasks){
+  if(!supabaseClient) return;
+  var s=await supabaseClient.auth.getSession();
+  if(!s.data.session) return;
+  var uid=s.data.session.user.id;
+  await supabaseClient.from('planning').upsert({
+    user_id:uid,
+    date_key:dateKey,
+    tasks:tasks
+  },{onConflict:'user_id,date_key'});
+}
+
+async function sbLoadPlanning(){
+  if(!supabaseClient) return null;
+  var s=await supabaseClient.auth.getSession();
+  if(!s.data.session) return null;
+  var uid=s.data.session.user.id;
+  var {data}=await supabaseClient.from('planning').select('*').eq('user_id',uid);
+  return data;
+}
+
+async function sbSaveProfil(objectif,dateBrevet){
+  if(!supabaseClient) return;
+  var s=await supabaseClient.auth.getSession();
+  if(!s.data.session) return;
+  var uid=s.data.session.user.id;
+  await supabaseClient.from('profil').upsert({
+    user_id:uid,
+    objectif:parseFloat(objectif)||14,
+    date_brevet:dateBrevet||'2026-06-27'
+  },{onConflict:'user_id'});
+}
+
+async function sbLoadProfil(){
+  if(!supabaseClient) return null;
+  var s=await supabaseClient.auth.getSession();
+  if(!s.data.session) return null;
+  var uid=s.data.session.user.id;
+  var {data}=await supabaseClient.from('profil').select('*').eq('user_id',uid).single();
+  return data;
+}
+
+// Charger les données Supabase si connecté
+async function loadFromSupabase(){
+  if(!supabaseClient) return;
+  var s=await supabaseClient.auth.getSession();
+  if(!s.data.session) return;
+
+  // Charger brevets
+  var brevets=await sbLoadBrevets();
+  if(brevets&&brevets.length>0){
+    sessions=brevets.map(function(b){
+      return {date:b.date,note:b.note,notions:b.notions||'',comment:'',exos:[]};
+    });
+    localStorage.setItem('pb_da2_sessions',JSON.stringify(sessions));
+  }
+
+  // Charger planning
+  var planning=await sbLoadPlanning();
+  if(planning&&planning.length>0){
+    planning.forEach(function(p){
+      weekTasks[p.date_key]=p.tasks||[];
+    });
+    localStorage.setItem('pb_da2_tasks',JSON.stringify(weekTasks));
+  }
+
+  // Charger profil
+  var profil=await sbLoadProfil();
+  if(profil){
+    localStorage.setItem('pb_da2_obj',profil.objectif);
+    if(profil.date_brevet) localStorage.setItem('pb_da2_brevet_date',profil.date_brevet);
+  }
+
+  renderAll();
+  renderPlanning();
+}
+
+// ── AUTH SUPABASE ──
+function updateNavAuth(session){
+  var u=session&&session.user?session.user:null;
+  var li=document.getElementById('nav-login-link');
+  var lo=document.getElementById('nav-logout-link');
+  var ul=document.getElementById('nav-user-label');
+  var ins=document.getElementById('nav-insc');
+  if(u){
+    if(li) li.style.display='none';
+    if(lo) lo.style.display='list-item';
+    if(ins) ins.style.display='none';
+    if(ul){ul.style.display='list-item';ul.textContent=u.email.split('@')[0];}
+  } else {
+    if(li) li.style.display='list-item';
+    if(lo) lo.style.display='none';
+    if(ins) ins.style.display='list-item';
+    if(ul) ul.style.display='none';
+  }
+}
+
+if(supabaseClient){
+  supabaseClient.auth.getSession().then(function(r){updateNavAuth(r.data.session);});
+  supabaseClient.auth.onAuthStateChange(function(e,s){updateNavAuth(s);if(s)loadFromSupabase();});
+}
+
+function doLogin(){
+  var email=document.getElementById('login-email').value.trim();
+  var mdp=document.getElementById('login-mdp').value;
+  var err=document.getElementById('login-err');
+  var btn=document.getElementById('login-btn');
+  if(!email||!mdp){err.textContent='remplis tous les champs';err.style.display='block';return;}
+  if(!supabaseClient){err.textContent='non disponible en local';err.style.display='block';return;}
+  btn.textContent='connexion…';btn.disabled=true;btn.style.opacity='.7';
+  supabaseClient.auth.signInWithPassword({email:email,password:mdp}).then(function(r){
+    if(r.error){
+      err.textContent='email ou mot de passe incorrect';err.style.display='block';
+      btn.textContent='se connecter →';btn.disabled=false;btn.style.opacity='1';
+    } else {
+      btn.textContent='✓ connecté !';btn.style.background='var(--green)';
+      updateNavAuth(r.data.session);
+      setTimeout(function(){goTo('parcours');},800);
+    }
+  });
+}
+
+function doLogout(){
+  if(supabaseClient){
+    supabaseClient.auth.signOut().then(function(){
+      updateNavAuth(null);goTo('accueil');showToast('à bientôt !');
+    });
+  }
+}
+
+function doResetPassword(){
+  var email=document.getElementById('login-email').value.trim();
+  var err=document.getElementById('login-err');
+  if(!email){err.textContent="entre ton email d'abord";err.style.display='block';return;}
+  if(!supabaseClient){err.textContent='non disponible en local';err.style.display='block';return;}
+  supabaseClient.auth.resetPasswordForEmail(email).then(function(r){
+    if(!r.error){
+      err.style.color='var(--green)';
+      err.textContent='email de réinitialisation envoyé !';
+      err.style.display='block';
+    }
+  });
 }
 
 loadDemo();
