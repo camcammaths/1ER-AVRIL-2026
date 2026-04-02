@@ -3,7 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prépa Brevet — Maths</title>
+<title>Prépa Brevet — Maths | Entraîne-toi avec des vraies annales</title>
+<meta name="description" content="Prépare ton brevet des collèges en maths avec des annales officielles, un planning personnalisé par IA et un suivi de progression. Brevet 2026.">
+<meta name="keywords" content="brevet maths, prépa brevet, annales brevet, DNB mathématiques, révision brevet collège 2026">
+<meta name="author" content="Prépa Brevet">
+<meta name="theme-color" content="#0021BC">
+<!-- Open Graph -->
+<meta property="og:title" content="Prépa Brevet — Maths">
+<meta property="og:description" content="Prépare ton brevet des collèges en maths. Annales officielles, planning IA, suivi personnalisé.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://1-er-avril-2026.vercel.app">
+<meta property="og:locale" content="fr_FR">
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Prépa Brevet — Maths">
+<meta name="twitter:description" content="Prépare ton brevet des collèges en maths. Annales officielles, planning IA, suivi personnalisé.">
+<!-- Favicon inline -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230021BC'/><text y='24' x='4' font-size='22' font-family='Arial' font-weight='800' fill='white'>B</text></svg>">
 <style>
 :root{--blue:#0021BC;--blue-lt:#BDD4E7;--orange:#EE6E34;--rose:#D0A6C6;--bg:#EDEEF0;--white:#FFFFFF;--ink:rgb(25,8,6);--muted:#8A8DAA;--green:#22C55E;--red:#EF4444;--fd:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -396,6 +412,115 @@ body > nav.nav{display:flex}
 #tour-enter-card .tec-btn:hover{opacity:.85}
 #tour-enter-card .tec-skip{background:transparent;color:#8A8DAA;border:1.5px solid rgba(0,0,0,.1);border-radius:100px;padding:12px 16px;font-family:var(--fd);font-size:12px;cursor:pointer;text-transform:lowercase;transition:color .15s}
 #tour-enter-card .tec-skip:hover{color:rgb(25,8,6)}
+
+/* ── RESPONSIVE MOBILE ── */
+@media(max-width:768px){
+  /* NAV mobile */
+  .nav{padding:16px 20px 0;flex-wrap:wrap;gap:12px}
+  .logo-bot{font-size:26px}
+  .nav-r{width:100%;justify-content:space-between;overflow-x:auto;padding-bottom:12px}
+  .nav-links{gap:16px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+  .nav-links::-webkit-scrollbar{display:none}
+  .cta{font-size:12px;padding:9px 16px;white-space:nowrap;flex-shrink:0}
+
+  /* ACCUEIL splash */
+  .splash{height:auto;min-height:calc(100vh - 80px)}
+  .splash-body{grid-template-columns:1fr;padding:20px 20px 32px;gap:32px}
+  .splash-left{padding-right:0}
+  .splash-title{font-size:clamp(28px,8vw,48px)}
+  .splash-ctas{flex-wrap:wrap}
+  .splash-right{gap:16px}
+  .countdown-digits{gap:6px}
+  .cd-num{font-size:clamp(18px,5vw,36px);padding:6px 10px;min-width:40px}
+  .scroll-hint{display:none}
+
+  /* STATS STRIP */
+  .stats-strip{grid-template-columns:1fr 1fr;padding:0 20px}
+  .stat{padding:24px 16px}
+  .stat-n{font-size:40px}
+
+  /* SEC */
+  .sec{padding:32px 20px}
+  .chap-grid{grid-template-columns:1fr 1fr}
+  .chap-card:nth-child(3){border-radius:0}
+  .chap-card:nth-child(4){margin-top:0}
+  .chap-card:nth-child(5){margin-top:0}
+  .chap-card:nth-child(2){border-radius:0 16px 0 0}
+  .chap-card:nth-child(6){border-radius:0 0 16px 0;margin-top:0}
+
+  /* FOOTER */
+  .footer-top{grid-template-columns:1fr 1fr;padding:32px 20px;gap:24px}
+  .footer-email-wrap{padding:0 20px}
+  .footer-email{font-size:clamp(20px,6vw,36px)}
+  .footer-bar{flex-direction:column;gap:12px;padding:16px 20px;text-align:center}
+  .footer-bar-links{flex-wrap:wrap;justify-content:center;gap:16px}
+  .divider{margin:0 20px}
+
+  /* PARCOURS */
+  #page-parcours.active{height:auto !important;overflow:visible !important;display:block !important}
+  .p-body{grid-template-columns:1fr;grid-template-rows:auto;padding:8px;gap:8px}
+  .col-left{grid-column:1;grid-row:auto}
+  .col-right{grid-column:1;grid-row:auto}
+  .hero-strip{grid-column:1;grid-row:auto;padding:12px 14px;flex-wrap:wrap;gap:10px}
+  #pcard-brevets{grid-column:1}
+  .p-hero-title{font-size:20px}
+
+  /* PLANNING */
+  #page-planning.active{height:auto !important;overflow:visible !important}
+  .planning-hero{padding:12px 20px 8px}
+  .planning-wrap{padding:0 8px}
+  .week-grid{grid-template-columns:repeat(7,1fr);gap:1px}
+  .day-header{padding:5px 4px 4px}
+  .day-num{font-size:14px}
+  .task-pill{font-size:9px;padding:4px 5px}
+  .plan-ia-card{margin-top:6px}
+
+  /* GENERER */
+  #page-generer.active{height:auto !important;overflow:visible !important}
+  .gen-layout{grid-template-columns:1fr;overflow:visible}
+  .gen-left{padding:20px;border-right:none;border-bottom:1px solid rgba(0,0,0,.08)}
+  .gen-right{padding:20px}
+
+  /* ABONNEMENT */
+  #page-abonnement.active{height:auto !important;overflow:visible !important}
+  #page-inscription.active{height:auto !important;overflow:visible !important}
+  #page-inscription > div{grid-template-columns:1fr 1fr !important;grid-template-rows:auto !important}
+
+  /* MODALS */
+  .modal{width:92vw;padding:24px 20px}
+
+  /* PAGES LÉGALES */
+  #page-mentions > div, #page-rgpd > div, #page-cgu > div{padding:32px 20px}
+
+  /* LOGIN */
+  #page-login > div > div{padding:24px 20px;width:90vw}
+
+  /* DEV PANEL */
+  #dev-doc-panel{width:90vw;right:5vw;left:5vw}
+
+  /* TOAST */
+  .toast{font-size:11px;padding:8px 16px;white-space:normal;text-align:center;max-width:80vw}
+}
+
+@media(max-width:480px){
+  .nav-links li{font-size:12px}
+  .chap-grid{grid-template-columns:1fr}
+  .chap-card:nth-child(1){border-radius:16px 16px 0 0}
+  .chap-card:nth-child(2){border-radius:0}
+  .chap-card:nth-child(3){border-radius:0}
+  .chap-card:nth-child(6){border-radius:0 0 16px 16px;margin-top:0}
+  .footer-top{grid-template-columns:1fr}
+  .stats-strip{grid-template-columns:1fr 1fr}
+  #page-inscription > div{grid-template-columns:1fr !important}
+  .splash-ctas{gap:8px}
+  .btn{font-size:12px;padding:11px 20px}
+
+  /* Planning vue semaine compressée */
+  .week-grid{grid-template-columns:repeat(7,1fr)}
+  .day-name{font-size:7px;letter-spacing:0}
+  .add-slot{font-size:12px;padding:3px}
+  .task-duration{display:none}
+}
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -474,54 +599,21 @@ var STRIPE_PRICES = {
             <div class="cd-unit"><div class="cd-num" id="cd-s">—</div><div class="cd-lbl">sec</div></div>
           </div>
         </div>
-        <!-- AUTH CARD avec drag-and-drop -->
-        <div class="exam-card" id="acc-auth-card" style="gap:0;padding:12px 14px 14px;overflow:hidden;position:relative;user-select:none">
-
-          <!-- TRACK (pill slider) -->
-          <div id="acc-track" style="display:flex;align-items:center;padding:5px;background:#EDEEF0;border-radius:100px;position:relative;cursor:grab;margin-bottom:14px;touch-action:none" title="glisse pour basculer">
-            <div id="acc-thumb" style="position:absolute;left:5px;top:5px;bottom:5px;width:calc(50% - 5px);background:#fff;border-radius:100px;box-shadow:0 1px 6px rgba(0,0,0,.16);transition:left .3s cubic-bezier(.4,0,.2,1);pointer-events:none;z-index:1"></div>
-            <div id="acc-tab-signup" style="flex:1;text-align:center;font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--ink);position:relative;z-index:2;padding:6px 0;transition:color .2s;cursor:pointer;text-transform:lowercase" onclick="accSwitchTo('signup')">inscription</div>
-            <div id="acc-tab-login" style="flex:1;text-align:center;font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--muted);position:relative;z-index:2;padding:6px 0;transition:color .2s;cursor:pointer;text-transform:lowercase" onclick="accSwitchTo('login')">connexion</div>
+        <div class="exam-card" style="gap:10px">
+          <div class="exam-card-top">
+            <div class="exam-card-title">créer mon compte</div>
           </div>
-
-          <!-- VIEWPORT (clips the sliding panels) -->
-          <div id="acc-viewport" style="width:100%;overflow:hidden;position:relative">
-            <div id="acc-panels" style="display:flex;width:200%;transition:transform .3s cubic-bezier(.4,0,.2,1);will-change:transform">
-
-              <!-- PANEL INSCRIPTION -->
-              <div style="width:50%;display:flex;flex-direction:column;gap:9px">
-                <div style="font-size:13px;font-weight:500;color:var(--ink);letter-spacing:-.02em;text-transform:lowercase">créer mon compte</div>
-                <div>
-                  <div style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:3px">email</div>
-                  <input id="acc-email" type="email" placeholder="lucas@example.com" style="width:100%;padding:8px 10px;border:1.5px solid rgba(0,0,0,.1);border-radius:8px;font-family:var(--fd);font-size:13px;color:var(--ink);background:#FAFAFA;outline:none;transition:border-color .15s" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='rgba(0,0,0,.1)'">
-                </div>
-                <div>
-                  <div style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:3px">mot de passe</div>
-                  <input id="acc-mdp" type="password" placeholder="••••••••" style="width:100%;padding:8px 10px;border:1.5px solid rgba(0,0,0,.1);border-radius:8px;font-family:var(--fd);font-size:13px;color:var(--ink);background:#FAFAFA;outline:none;transition:border-color .15s" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='rgba(0,0,0,.1)'">
-                </div>
-                <button onclick="accueilSignup(this)" id="acc-signup-btn" style="font-size:12px;font-weight:600;background:var(--blue);color:#fff;padding:9px;border-radius:100px;border:none;cursor:pointer;text-transform:lowercase;width:100%;transition:opacity .15s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">s'inscrire →</button>
-                <div id="acc-signup-err" style="display:none;text-align:center;font-size:11px;color:var(--red);font-weight:500"></div>
-                <div style="text-align:center;font-size:10px;color:var(--muted);padding-top:6px;border-top:1px solid rgba(0,0,0,.07)">déjà un compte ? <span style="color:var(--blue);font-weight:600;cursor:pointer" onclick="accSwitchTo('login')">se connecter</span></div>
-              </div>
-
-              <!-- PANEL CONNEXION -->
-              <div style="width:50%;display:flex;flex-direction:column;gap:9px;padding-left:28px;box-sizing:border-box">
-                <div style="font-size:13px;font-weight:500;color:var(--ink);letter-spacing:-.02em;text-transform:lowercase">bon retour !</div>
-                <div>
-                  <div style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:3px">email</div>
-                  <input id="acc-login-email" type="email" placeholder="lucas@example.com" style="width:100%;padding:8px 10px;border:1.5px solid rgba(0,0,0,.1);border-radius:8px;font-family:var(--fd);font-size:13px;color:var(--ink);background:#FAFAFA;outline:none;transition:border-color .15s" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='rgba(0,0,0,.1)'">
-                </div>
-                <div>
-                  <div style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:3px">mot de passe</div>
-                  <input id="acc-login-mdp" type="password" placeholder="••••••••" style="width:100%;padding:8px 10px;border:1.5px solid rgba(0,0,0,.1);border-radius:8px;font-family:var(--fd);font-size:13px;color:var(--ink);background:#FAFAFA;outline:none;transition:border-color .15s" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='rgba(0,0,0,.1)'">
-                </div>
-                <button onclick="accueilLogin(this)" id="acc-login-btn" style="font-size:12px;font-weight:600;background:var(--ink);color:#fff;padding:9px;border-radius:100px;border:none;cursor:pointer;text-transform:lowercase;width:100%;transition:opacity .15s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">se connecter →</button>
-                <div id="acc-login-err" style="display:none;text-align:center;font-size:11px;color:var(--red);font-weight:500"></div>
-                <div style="text-align:center;font-size:10px;color:var(--muted);padding-top:6px;border-top:1px solid rgba(0,0,0,.07)">pas encore de compte ? <span style="color:var(--blue);font-weight:600;cursor:pointer" onclick="accSwitchTo('signup')">s'inscrire</span></div>
-              </div>
-
-            </div>
+          <div>
+            <div style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:3px">email</div>
+            <input id="acc-email" type="email" placeholder="lucas@example.com" style="width:100%;padding:8px 10px;border:1.5px solid rgba(0,0,0,.1);border-radius:8px;font-family:var(--fd);font-size:13px;color:var(--ink);background:#FAFAFA;outline:none;transition:border-color .15s" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='rgba(0,0,0,.1)'">
           </div>
+          <div>
+            <div style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:3px">mot de passe</div>
+            <input id="acc-mdp" type="password" placeholder="••••••••" style="width:100%;padding:8px 10px;border:1.5px solid rgba(0,0,0,.1);border-radius:8px;font-family:var(--fd);font-size:13px;color:var(--ink);background:#FAFAFA;outline:none;transition:border-color .15s" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='rgba(0,0,0,.1)'">
+          </div>
+          <button onclick="accueilSignup(this)" style="font-size:12px;font-weight:600;background:var(--blue);color:#fff;padding:9px 20px;border-radius:100px;border:none;cursor:pointer;text-transform:lowercase;width:100%;transition:opacity .15s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">s'inscrire →</button>
+          <div id="acc-signup-err" style="display:none;text-align:center;font-size:11px;color:var(--red);font-weight:500;margin-top:-4px"></div>
+          <div style="text-align:center;font-size:10px;color:var(--muted);padding-top:4px;border-top:1px solid rgba(0,0,0,.06)">déjà un compte ? <span style="color:var(--blue);font-weight:600;cursor:pointer" onclick="goTo('login')">se connecter</span></div>
         </div>
       </div>
     </div>
@@ -556,9 +648,9 @@ var STRIPE_PRICES = {
       <div><div class="footer-logo-bot">bre<span>.</span>vet</div><p class="footer-desc">La plateforme d'entraînement au brevet des collèges. Exercices progressifs, corrections détaillées, suivi personnalisé.</p></div>
       <div><div class="footer-col-title">Notions</div><ul class="footer-links"><li>Nombres et calculs</li><li>Probabilités et Statistiques</li><li>Grandeurs et mesures</li><li>Espace et géométrie</li></ul></div>
       <div><div class="footer-col-title">Navigation</div><ul class="footer-links"><li onclick="goTo('accueil')">Accueil</li><li onclick="goTo('generer')">Générer mon brevet</li><li onclick="goTo('parcours')">Mon parcours</li><li>Mes Ressources</li><li onclick="goTo('inscription')">S'inscrire ou s'identifier</li></ul></div>
-      <div><div class="footer-col-title">Contact</div><ul class="footer-links"><li>nous écrire</li><li>instagram</li><li>newsletter</li></ul><div class="footer-col-title" style="margin-top:24px">Légales</div><ul class="footer-links"><li>Mentions légales</li><li>RGPD</li><li>CGU</li></ul></div>
+      <div><div class="footer-col-title">Contact</div><ul class="footer-links"><li><a href="mailto:contact@prepabrevet.fr" style="color:inherit;text-decoration:none">nous écrire</a></li><li>instagram</li><li>newsletter</li></ul><div class="footer-col-title" style="margin-top:24px">Légales</div><ul class="footer-links"><li onclick="goTo('mentions')" style="cursor:pointer">Mentions légales</li><li onclick="goTo('rgpd')" style="cursor:pointer">RGPD</li><li onclick="goTo('cgu')" style="cursor:pointer">CGU</li></ul></div>
     </div>
-    <div class="footer-email-wrap"><a class="footer-email" href="/cdn-cgi/l/email-protection#0a6965647e6b697e4a7a786f7a6b68786f7c6f7e246c78"><span class="__cf_email__" data-cfemail="284b47465c494b5c68585a4d58494a5a4d5e4d5c064e5a">[email&#160;protected]</span></a></div>
+    <div class="footer-email-wrap"><a class="footer-email" href="mailto:contact@prepabrevet.fr">contact@prepabrevet.fr</a></div>
     <div class="footer-bar"><div class="footer-bar-links"><a>Instagram</a><a>Newsletter</a><a>LinkedIn</a><a onclick="goTo('mentions')" style="cursor:pointer">mentions légales</a><a onclick="goTo('rgpd')" style="cursor:pointer">confidentialité</a><a onclick="goTo('cgu')" style="cursor:pointer">CGU</a></div><span class="footer-bar-copy">© 2026 Prépa Brevet — tous droits réservés</span></div>
   </div>
 </div>
@@ -703,6 +795,7 @@ var STRIPE_PRICES = {
           <button class="p-ctag b" onclick="setFilter('all',this)" id="f-all">tous</button>
           <button class="p-ctag" onclick="setFilter('good',this)" id="f-good">≥ 14</button>
           <button class="p-ctag" onclick="setFilter('low',this)" id="f-low">&lt; 10</button>
+          <button onclick="openModal()" style="font-size:10px;font-weight:600;background:var(--blue);color:#fff;border:none;border-radius:100px;padding:4px 10px;cursor:pointer;text-transform:lowercase;margin-left:4px">+ ajouter</button>
           <button class="pcard-expand-btn" style="position:relative;top:auto;right:auto;margin-left:4px" onclick="expandCard('brevets')">⤢</button>
         </div>
       </div>
@@ -719,13 +812,13 @@ var STRIPE_PRICES = {
           <text y="6" text-anchor="middle" font-size="9" fill="var(--muted)" font-family="-apple-system,sans-serif">ajoute des exercices</text>
         </svg>
       </div>
-      <div id="pcard-notions" class="pcard-expandable pcard-draggable pdrag-slot" draggable="true" card-notions" style="position:relative;cursor:pointer" onclick="expandCard('notions')" title="voir en grand">
+      <div id="pcard-notions" class="pcard-expandable pcard-draggable pdrag-slot" draggable="true" style="position:relative;cursor:pointer" onclick="expandCard('notions')" title="voir en grand">
         <div class="pdrag-handle"><span></span><span></span><span></span></div>
         <button class="pcard-expand-btn" onclick="event.stopPropagation();expandCard('notions')">⤢</button>
         <div style="font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:0">points forts · faibles</div>
         <div class="notion-list" id="notion-rows"><div style="font-size:10px;color:var(--muted);font-weight:300;margin-top:4px">aucune donnée</div></div>
       </div>
-      <div id="pcard-analyse" class="pcard-expandable pcard-draggable pdrag-slot" draggable="true" card-analyse" style="position:relative">
+      <div id="pcard-analyse" class="pcard-expandable pcard-draggable pdrag-slot" draggable="true" style="position:relative">
         <div class="pdrag-handle"><span></span><span></span><span></span></div>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;flex-shrink:0">
           <div><span class="panel-label">section 02</span><span class="panel-title">analyse des erreurs</span></div>
@@ -909,7 +1002,7 @@ var STRIPE_PRICES = {
           <div id="recap-corr" style="font-family:var(--fd);font-size:13px;font-weight:500;color:#fff">question par question</div>
         </div>
         <div class="gen-cta">
-          <button class="gen-btn gen-btn-blue" onclick="showToast('Base de données non chargée dans cette version')">générer mon brevet →</button>
+          <button class="gen-btn gen-btn-blue" onclick="lancerBrevet()">générer mon brevet →</button>
           <button class="gen-btn gen-btn-ghost" onclick="goTo('accueil')">← retour</button>
         </div>
       </div>
@@ -1019,7 +1112,7 @@ var STRIPE_PRICES = {
         <div><div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:5px">email</div><input id="insc-email" type="email" placeholder="lucas@example.com" style="width:100%;padding:9px 12px;border:1.5px solid rgba(0,0,0,.1);border-radius:10px;font-family:var(--fd);font-size:13px;color:var(--ink);background:#FAFAFA;outline:none;transition:border-color .15s" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='rgba(0,0,0,.1)'"></div>
         <div><div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:5px">mot de passe</div><input id="insc-mdp" type="password" placeholder="••••••••" style="width:100%;padding:9px 12px;border:1.5px solid rgba(0,0,0,.1);border-radius:10px;font-family:var(--fd);font-size:13px;color:var(--ink);background:#FAFAFA;outline:none;transition:border-color .15s" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='rgba(0,0,0,.1)'"></div>
         <button onclick="inscNext()" style="font-size:13px;font-weight:600;background:var(--blue);color:#fff;padding:11px;border-radius:100px;border:none;cursor:pointer;text-transform:lowercase;width:100%;margin-top:auto">continuer →</button>
-        <div style="text-align:center;font-size:11px;color:var(--muted);padding-top:.5em;border-top:1px solid rgba(0,0,0,.06)">déjà un compte ? <span style="color:var(--blue);font-weight:600;cursor:pointer">se connecter</span></div>
+        <div style="text-align:center;font-size:11px;color:var(--muted);padding-top:.5em;border-top:1px solid rgba(0,0,0,.06)">déjà un compte ? <span style="color:var(--blue);font-weight:600;cursor:pointer" onclick="goTo('login')">se connecter</span></div>
       </div>
       <div id="insc-step-1" style="display:none;flex-direction:column;gap:10px;flex:1">
         <div><div style="font-size:16px;font-weight:600;letter-spacing:-.03em;text-transform:lowercase;color:rgb(25,8,6)">ton objectif</div><div style="font-size:11px;color:var(--muted);margin-top:4px;font-weight:300">l'IA adapte tes exercices à ta cible</div></div>
@@ -1051,7 +1144,7 @@ var STRIPE_PRICES = {
 
 <!-- PAGE LOGIN -->
 <div class="page" id="page-login">
-  <div style="display:flex;align-items:center;justify-content:center;height:100%;background:var(--bg)">
+  <div style="display:flex;align-items:flex-start;justify-content:center;height:100%;background:var(--bg);padding-top:16vh">
     <div style="background:var(--white);border-radius:20px;padding:36px 40px;width:100%;max-width:400px;border:1.5px solid rgba(0,0,0,.07)">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px">
         <div style="width:14px;height:2px;background:#EE6E34;border-radius:2px"></div>
@@ -1100,7 +1193,7 @@ var STRIPE_PRICES = {
           Prépa Brevet est édité par un auto-entrepreneur.<br>
           <strong style="font-weight:500">Nom :</strong> [NOM PRÉNOM]<br>
           <strong style="font-weight:500">Adresse :</strong> [ADRESSE]<br>
-          <strong style="font-weight:500">Email :</strong> contact@prepabrevet.fr<br>
+          <strong style="font-weight:500">Email :</strong> <a href="mailto:contact@prepabrevet.fr" style="color:var(--blue)">contact@prepabrevet.fr</a><br>
           <strong style="font-weight:500">SIRET :</strong> [NUMÉRO SIRET]
         </div>
       </div>
@@ -1176,7 +1269,7 @@ var STRIPE_PRICES = {
       <div>
         <div style="font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:12px">tes droits</div>
         <div style="font-size:14px;color:rgb(25,8,6);line-height:1.8;font-weight:300">
-          Conformément au RGPD, tu as le droit d'accéder, modifier ou supprimer tes données. Pour exercer ces droits, contacte-nous à <strong style="font-weight:500">contact@prepabrevet.fr</strong>.
+          Conformément au RGPD, tu as le droit d'accéder, modifier ou supprimer tes données. Pour exercer ces droits, contacte-nous à <strong style="font-weight:500"><a href="mailto:contact@prepabrevet.fr" style="color:var(--blue)">contact@prepabrevet.fr</a></strong>.
         </div>
       </div>
       <div style="height:1px;background:rgba(0,0,0,.08)"></div>
@@ -1221,7 +1314,7 @@ var STRIPE_PRICES = {
         <div style="font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:12px">paiement et abonnement</div>
         <div style="font-size:14px;color:rgb(25,8,6);line-height:1.8;font-weight:300">
           Les paiements sont traités de façon sécurisée par <strong style="font-weight:500">Stripe</strong>. Les prix sont indiqués en euros TTC. Conformément à la loi, vous disposez d'un délai de rétractation de <strong style="font-weight:500">14 jours</strong> à compter de l'achat pour les achats en ligne.<br><br>
-          Pour toute demande de remboursement, contactez-nous à <strong style="font-weight:500">contact@prepabrevet.fr</strong>.
+          Pour toute demande de remboursement, contactez-nous à <strong style="font-weight:500"><a href="mailto:contact@prepabrevet.fr" style="color:var(--blue)">contact@prepabrevet.fr</a></strong>.
         </div>
       </div>
       <div style="height:1px;background:rgba(0,0,0,.08)"></div>
@@ -1242,7 +1335,7 @@ var STRIPE_PRICES = {
       <div>
         <div style="font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:12px">contact</div>
         <div style="font-size:14px;color:rgb(25,8,6);line-height:1.8;font-weight:300">
-          Pour toute question : <strong style="font-weight:500">contact@prepabrevet.fr</strong>
+          Pour toute question : <strong style="font-weight:500"><a href="mailto:contact@prepabrevet.fr" style="color:var(--blue)">contact@prepabrevet.fr</a></strong>
         </div>
       </div>
     </div>
@@ -1252,7 +1345,7 @@ var STRIPE_PRICES = {
 <div id="toast" class="toast"></div>
 
 <!-- DEV DOC PANEL -->
-<div id="dev-doc-btn" onclick="toggleDevDoc()" title="Documentation développeur" style="position:fixed;bottom:20px;right:20px;width:36px;height:36px;border-radius:10px;background:var(--ink);color:rgba(255,255,255,.5);border:none;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;z-index:400;transition:color .15s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.5)'">⚙</div>
+<div id="dev-doc-btn" onclick="toggleDevDoc()" ondblclick="event.stopPropagation();document.getElementById('admin-panel-bg').style.display='flex'" title="Documentation développeur (double-clic = admin)" style="position:fixed;bottom:20px;right:20px;width:36px;height:36px;border-radius:10px;background:var(--ink);color:rgba(255,255,255,.5);border:none;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;z-index:400;transition:color .15s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.5)'">⚙</div>
 
 <div id="dev-doc-panel" style="display:none;position:fixed;bottom:64px;right:20px;width:400px;max-height:80vh;overflow-y:auto;background:var(--ink);border-radius:16px;padding:24px;z-index:400;font-family:var(--fd)">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
@@ -1312,8 +1405,8 @@ var STRIPE_PRICES = {
         <div style="width:20px;height:20px;border-radius:6px;background:#0021BC;color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">4</div>
         <span style="font-size:12px;font-weight:600;color:#fff;text-transform:lowercase">vérifier le domaine expéditeur</span>
       </div>
-      <p style="font-size:11px;color:rgba(255,255,255,.45);font-weight:300;line-height:1.6;margin:0 0 8px">Le champ <code style="background:rgba(255,255,255,.1);padding:1px 6px;border-radius:4px;font-size:10px">from</code> doit utiliser un domaine vérifié dans Resend. Pour les tests, utilise <code style="background:rgba(255,255,255,.1);padding:1px 6px;border-radius:4px;font-size:10px">contact@prepabrevet.fr</code>.</p>
-      <div style="background:rgba(0,0,0,.3);border-radius:8px;padding:10px 12px;font-family:'Courier New',monospace;font-size:10px;color:#B5D4F4">from: 'Prépa Brevet &lt;contact@prepabrevet.fr&gt;'</div>
+      <p style="font-size:11px;color:rgba(255,255,255,.45);font-weight:300;line-height:1.6;margin:0 0 8px">Le champ <code style="background:rgba(255,255,255,.1);padding:1px 6px;border-radius:4px;font-size:10px">from</code> doit utiliser un domaine vérifié dans Resend. Pour les tests, utilise <code style="background:rgba(255,255,255,.1);padding:1px 6px;border-radius:4px;font-size:10px">onboarding@resend.dev</code>.</p>
+      <div style="background:rgba(0,0,0,.3);border-radius:8px;padding:10px 12px;font-family:'Courier New',monospace;font-size:10px;color:#B5D4F4">from: 'Prépa Brevet &lt;onboarding@resend.dev&gt;'</div>
     </div>
 
   </div>
@@ -2234,79 +2327,230 @@ function doResetPassword(){
   });
 }
 
-// ── ACC AUTH CARD DRAG & SWITCH ──
-(function(){
-  var currentPanel='signup';
-
-  function accSwitchTo(panel){
-    currentPanel=panel;
-    var thumb=document.getElementById('acc-thumb');
-    var panels=document.getElementById('acc-panels');
-    var viewport=document.getElementById('acc-viewport');
-    var tabS=document.getElementById('acc-tab-signup');
-    var tabL=document.getElementById('acc-tab-login');
-    if(!thumb||!panels||!viewport)return;
-    var w=viewport.offsetWidth;
-    if(panel==='login'){
-      thumb.style.left='calc(50%)';
-      panels.style.transform='translateX(-'+w+'px)';
-      tabS.style.color='var(--muted)';
-      tabL.style.color='var(--ink)';
-    } else {
-      thumb.style.left='5px';
-      panels.style.transform='translateX(0)';
-      tabS.style.color='var(--ink)';
-      tabL.style.color='var(--muted)';
-    }
-  }
-  window.accSwitchTo=accSwitchTo;
-
-  // Drag logic on the track
-  var track=document.getElementById('acc-track');
-  if(!track)return;
-  var startX=0,dragging=false;
-
-  function getClientX(e){return e.touches?e.touches[0].clientX:e.clientX;}
-  function onDown(e){dragging=true;startX=getClientX(e);track.style.cursor='grabbing';}
-  function onMove(e){
-    if(!dragging)return;
-    var dx=getClientX(e)-startX;
-    if(dx>36&&currentPanel==='signup'){accSwitchTo('login');dragging=false;track.style.cursor='grab';}
-    else if(dx<-36&&currentPanel==='login'){accSwitchTo('signup');dragging=false;track.style.cursor='grab';}
-  }
-  function onUp(){dragging=false;track.style.cursor='grab';}
-
-  track.addEventListener('mousedown',onDown);
-  window.addEventListener('mousemove',onMove);
-  window.addEventListener('mouseup',onUp);
-  track.addEventListener('touchstart',onDown,{passive:true});
-  window.addEventListener('touchmove',onMove,{passive:true});
-  window.addEventListener('touchend',onUp);
-})();
-
-function accueilLogin(btn){
-  var email=document.getElementById('acc-login-email').value.trim();
-  var mdp=document.getElementById('acc-login-mdp').value;
-  var err=document.getElementById('acc-login-err');
-  if(!email||!mdp){err.textContent='remplis tous les champs';err.style.display='block';return;}
-  if(!supabaseClient){err.textContent='non disponible en local';err.style.display='block';return;}
-  err.style.display='none';
-  btn.textContent='connexion…';btn.disabled=true;btn.style.opacity='.7';
-  supabaseClient.auth.signInWithPassword({email:email,password:mdp}).then(function(r){
-    if(r.error){
-      err.textContent='email ou mot de passe incorrect';err.style.display='block';
-      btn.textContent='se connecter →';btn.disabled=false;btn.style.opacity='1';
-    } else {
-      btn.textContent='✓ connecté !';btn.style.background='var(--green)';
-      updateNavAuth(r.data.session);
-      setTimeout(function(){goTo('parcours');},800);
-    }
-  });
-}
-
 loadDemo();
 document.querySelectorAll('.page').forEach(p=>p.style.display='none');
 goTo('accueil');
+</script>
+
+<!-- ── MODAL MINUTEUR BREVET ── -->
+<div id="timer-modal-bg" style="display:none;position:fixed;inset:0;background:rgba(10,6,30,.75);backdrop-filter:blur(6px);z-index:600;align-items:center;justify-content:center">
+  <div style="background:var(--white);border-radius:24px;padding:36px 40px;width:min(480px,92vw);box-shadow:0 32px 80px rgba(0,0,0,.25);position:relative">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px">
+      <div style="width:14px;height:2px;background:var(--orange);border-radius:2px"></div>
+      <span style="font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--orange)">brevet en cours</span>
+    </div>
+    <div id="timer-config" style="display:flex;flex-direction:column;gap:18px">
+      <div>
+        <div style="font-size:28px;font-weight:500;letter-spacing:-.04em;text-transform:lowercase;line-height:1;color:var(--ink);margin-bottom:6px">ton brevet<br><span id="timer-label-config" style="color:var(--blue)">2h</span> commence.</div>
+        <div style="font-size:13px;color:var(--muted);font-weight:300">Le minuteur démarre dès que tu cliques. Bonne chance !</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div style="background:#F4F5F8;border-radius:12px;padding:14px 16px">
+          <div style="font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:4px">durée</div>
+          <div style="font-size:22px;font-weight:500;letter-spacing:-.04em;color:var(--ink)" id="timer-recap-duree">2h</div>
+        </div>
+        <div style="background:#F4F5F8;border-radius:12px;padding:14px 16px">
+          <div style="font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:4px">notions</div>
+          <div style="font-size:13px;font-weight:500;color:var(--ink);line-height:1.3" id="timer-recap-notions">Toutes</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button onclick="startTimer()" style="flex:1;font-family:var(--fd);font-size:13px;font-weight:600;background:var(--blue);color:#fff;border:none;border-radius:100px;padding:13px;cursor:pointer;text-transform:lowercase;transition:opacity .15s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">démarrer →</button>
+        <button onclick="closeTimerModal()" style="font-family:var(--fd);font-size:13px;font-weight:500;background:transparent;color:var(--muted);border:1.5px solid rgba(0,0,0,.12);border-radius:100px;padding:13px 20px;cursor:pointer;text-transform:lowercase">annuler</button>
+      </div>
+    </div>
+    <div id="timer-running" style="display:none;flex-direction:column;gap:20px;align-items:center;text-align:center">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)">temps restant</div>
+      <div id="timer-display" style="font-family:var(--fd);font-size:72px;font-weight:500;letter-spacing:-.06em;line-height:1;color:var(--blue);font-variant-numeric:tabular-nums">02:00:00</div>
+      <div id="timer-progress-wrap" style="width:100%;height:6px;background:rgba(0,0,0,.08);border-radius:100px;overflow:hidden">
+        <div id="timer-progress-bar" style="height:100%;width:100%;background:var(--blue);border-radius:100px;transition:width 1s linear"></div>
+      </div>
+      <div style="display:flex;gap:10px;width:100%">
+        <button onclick="pauseTimer()" id="timer-pause-btn" style="flex:1;font-family:var(--fd);font-size:13px;font-weight:600;background:rgba(0,0,0,.06);color:var(--ink);border:none;border-radius:100px;padding:11px;cursor:pointer;text-transform:lowercase">⏸ pause</button>
+        <button onclick="stopTimer()" style="font-family:var(--fd);font-size:13px;font-weight:600;background:#FEF2F2;color:var(--red);border:1.5px solid #FCA5A5;border-radius:100px;padding:11px 20px;cursor:pointer;text-transform:lowercase">terminer</button>
+      </div>
+      <div style="font-size:11px;color:var(--muted);font-weight:300">Note la date et ta note dans ton parcours après l'examen.</div>
+    </div>
+    <div id="timer-done" style="display:none;flex-direction:column;gap:18px;align-items:center;text-align:center">
+      <div style="font-size:48px">🎉</div>
+      <div style="font-family:var(--fd);font-size:24px;font-weight:500;letter-spacing:-.04em;text-transform:lowercase;color:var(--ink)">temps écoulé !</div>
+      <div style="font-size:13px;color:var(--muted);font-weight:300;line-height:1.7">Pose ton stylo. Note ta note dans ton parcours pour suivre ta progression.</div>
+      <div style="display:flex;gap:10px;width:100%">
+        <button onclick="closeTimerModal();goTo('parcours');setTimeout(()=>openModal(),300)" style="flex:1;font-family:var(--fd);font-size:13px;font-weight:600;background:var(--blue);color:#fff;border:none;border-radius:100px;padding:13px;cursor:pointer;text-transform:lowercase">noter mon résultat →</button>
+        <button onclick="closeTimerModal()" style="font-family:var(--fd);font-size:13px;font-weight:500;background:transparent;color:var(--muted);border:1.5px solid rgba(0,0,0,.12);border-radius:100px;padding:13px 20px;cursor:pointer;text-transform:lowercase">fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PANNEAU ADMIN BROADCAST ── -->
+<div id="admin-panel-bg" style="display:none;position:fixed;inset:0;background:rgba(10,6,30,.75);backdrop-filter:blur(6px);z-index:500;align-items:center;justify-content:center" onclick="if(event.target===this)document.getElementById('admin-panel-bg').style.display='none'">
+  <div style="background:var(--ink);border-radius:20px;padding:32px;width:min(520px,92vw);max-height:85vh;overflow-y:auto">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <div>
+        <div style="font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:4px">administration</div>
+        <div style="font-size:18px;font-weight:500;letter-spacing:-.03em;color:#fff;text-transform:lowercase">broadcast email</div>
+      </div>
+      <button onclick="document.getElementById('admin-panel-bg').style.display='none'" style="background:rgba(255,255,255,.08);border:none;border-radius:8px;color:rgba(255,255,255,.5);cursor:pointer;width:28px;height:28px;font-size:14px">×</button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div>
+        <div style="font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:6px">clé admin</div>
+        <input id="admin-key" type="password" placeholder="ADMIN_SECRET" style="width:100%;padding:10px 12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;font-family:var(--fd);font-size:13px;color:#fff;outline:none;box-sizing:border-box">
+      </div>
+      <div>
+        <div style="font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:6px">sujet</div>
+        <input id="admin-subject" type="text" placeholder="Nouvelle annale disponible !" style="width:100%;padding:10px 12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;font-family:var(--fd);font-size:13px;color:#fff;outline:none;box-sizing:border-box">
+      </div>
+      <div>
+        <div style="font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:6px">corps HTML</div>
+        <textarea id="admin-html" placeholder="<h1>Bonjour !</h1><p>Un nouveau brevet est disponible...</p>" style="width:100%;padding:10px 12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;font-family:'Courier New',monospace;font-size:11px;color:#fff;outline:none;resize:vertical;min-height:100px;box-sizing:border-box;line-height:1.5"></textarea>
+      </div>
+      <div id="admin-result" style="display:none;font-size:12px;padding:10px 14px;border-radius:8px;font-weight:400"></div>
+      <button onclick="sendBroadcast()" id="admin-send-btn" style="font-family:var(--fd);font-size:13px;font-weight:600;background:#0021BC;color:#fff;border:none;border-radius:100px;padding:12px;cursor:pointer;text-transform:lowercase;transition:opacity .15s">envoyer à tous les utilisateurs →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── MINUTEUR ──
+var timerInterval=null, timerSecondsLeft=0, timerTotalSeconds=0, timerPaused=false;
+
+function lancerBrevet(){
+  var chip=document.querySelector('.duree-chip.sel');
+  var mins=chip?parseInt(chip.dataset.mins):120;
+  var dureeText=chip?chip.querySelector('span').textContent:'2h';
+
+  // Notions recap
+  var notionsEl=document.getElementById('recap-notions');
+  var notionsText=notionsEl?notionsEl.textContent.trim().slice(0,40):'Toutes';
+
+  document.getElementById('timer-label-config').textContent=dureeText;
+  document.getElementById('timer-recap-duree').textContent=dureeText;
+  document.getElementById('timer-recap-notions').textContent=notionsText;
+
+  timerSecondsLeft=mins*60;
+  timerTotalSeconds=mins*60;
+  timerPaused=false;
+  clearInterval(timerInterval);
+
+  // Reset views
+  document.getElementById('timer-config').style.display='flex';
+  document.getElementById('timer-running').style.display='none';
+  document.getElementById('timer-done').style.display='none';
+
+  var bg=document.getElementById('timer-modal-bg');
+  bg.style.display='flex';
+}
+
+function startTimer(){
+  document.getElementById('timer-config').style.display='none';
+  document.getElementById('timer-running').style.display='flex';
+  document.getElementById('timer-done').style.display='none';
+  timerPaused=false;
+  updateTimerDisplay();
+  timerInterval=setInterval(function(){
+    if(timerPaused) return;
+    timerSecondsLeft--;
+    updateTimerDisplay();
+    if(timerSecondsLeft<=0){
+      clearInterval(timerInterval);
+      timerDone();
+    }
+  },1000);
+}
+
+function updateTimerDisplay(){
+  var h=Math.floor(timerSecondsLeft/3600);
+  var m=Math.floor((timerSecondsLeft%3600)/60);
+  var s=timerSecondsLeft%60;
+  var txt=(h>0?pad2(h)+':':'')+pad2(m)+':'+pad2(s);
+  document.getElementById('timer-display').textContent=txt;
+  var pct=timerTotalSeconds>0?timerSecondsLeft/timerTotalSeconds*100:0;
+  document.getElementById('timer-progress-bar').style.width=pct+'%';
+  // Couleur urgence
+  var color=pct>50?'var(--blue)':pct>20?'var(--orange)':'var(--red)';
+  document.getElementById('timer-progress-bar').style.background=color;
+  document.getElementById('timer-display').style.color=color;
+}
+
+function pad2(n){return String(n).padStart(2,'0');}
+
+function pauseTimer(){
+  timerPaused=!timerPaused;
+  document.getElementById('timer-pause-btn').textContent=timerPaused?'▶ reprendre':'⏸ pause';
+}
+
+function stopTimer(){
+  clearInterval(timerInterval);
+  timerDone();
+}
+
+function timerDone(){
+  document.getElementById('timer-running').style.display='none';
+  document.getElementById('timer-done').style.display='flex';
+  // Notification sonore via AudioContext
+  try{
+    var ctx=new AudioContext();
+    [440,550,660].forEach(function(freq,i){
+      var osc=ctx.createOscillator();
+      var gain=ctx.createGain();
+      osc.connect(gain);gain.connect(ctx.destination);
+      osc.frequency.value=freq;
+      gain.gain.setValueAtTime(0.3,ctx.currentTime+i*0.15);
+      gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+i*0.15+0.4);
+      osc.start(ctx.currentTime+i*0.15);
+      osc.stop(ctx.currentTime+i*0.15+0.4);
+    });
+  }catch(e){}
+  // Confettis
+  setTimeout(confetti, 200);
+}
+
+function closeTimerModal(){
+  clearInterval(timerInterval);
+  timerPaused=false;
+  document.getElementById('timer-modal-bg').style.display='none';
+}
+
+// ── ADMIN BROADCAST ──
+async function sendBroadcast(){
+  var key=document.getElementById('admin-key').value.trim();
+  var subject=document.getElementById('admin-subject').value.trim();
+  var html=document.getElementById('admin-html').value.trim();
+  var result=document.getElementById('admin-result');
+  var btn=document.getElementById('admin-send-btn');
+
+  if(!key||!subject||!html){
+    result.style.display='block';
+    result.style.background='#FEF2F2';result.style.color='var(--red)';
+    result.textContent='remplis tous les champs';return;
+  }
+
+  btn.textContent='envoi en cours…';btn.disabled=true;btn.style.opacity='.6';
+
+  try{
+    var r=await fetch('/api/broadcast',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
+      body:JSON.stringify({subject:subject,html:html})
+    });
+    var data=await r.json();
+    result.style.display='block';
+    if(data.ok){
+      result.style.background='#EDFBF0';result.style.color='#166534';
+      result.textContent='✓ Envoyé à '+data.sent+' utilisateur'+(data.sent>1?'s':'')+' sur '+data.total;
+    } else {
+      result.style.background='#FEF2F2';result.style.color='var(--red)';
+      result.textContent='erreur : '+(data.error||'inconnue');
+    }
+  }catch(e){
+    result.style.display='block';
+    result.style.background='#FEF2F2';result.style.color='var(--red)';
+    result.textContent='erreur réseau';
+  }
+  btn.textContent='envoyer à tous les utilisateurs →';btn.disabled=false;btn.style.opacity='1';
+}
 </script>
 </body>
 </html>
