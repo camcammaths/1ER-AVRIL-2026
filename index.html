@@ -415,7 +415,7 @@ body > nav.nav{display:flex}
 
 /* ── PAGE BREVET PLAYER ── */
 .brevet-player{display:flex;flex-direction:column;height:calc(100vh - 93px);overflow:hidden}
-.brevet-topbar{display:flex;align-items:center;justify-content:space-between;padding:10px 24px;background:var(--white);border-bottom:1px solid rgba(0,0,0,.08);flex-shrink:0;gap:12px}
+.brevet-topbar{display:flex;align-items:center;justify-content:space-between;padding:10px 24px;background:var(--white);border-bottom:1px solid rgba(0,0,0,.08);flex-shrink:0;gap:12px;width:100%}
 .brevet-topbar-left{display:flex;align-items:center;gap:14px}
 .brevet-topbar-title{font-size:14px;font-weight:600;letter-spacing:-.02em;color:var(--ink);text-transform:lowercase}
 .brevet-topbar-sub{font-size:11px;color:var(--muted);font-weight:300}
@@ -425,17 +425,17 @@ body > nav.nav{display:flex}
 .brevet-timer-txt{font-size:15px;font-weight:700;letter-spacing:-.02em;color:var(--blue);font-variant-numeric:tabular-nums}
 .brevet-timer-pill.urgent .brevet-timer-txt{color:var(--red)}
 .brevet-timer-pill.warning .brevet-timer-txt{color:var(--orange)}
-.brevet-progress-bar{height:3px;background:rgba(0,0,0,.07);flex-shrink:0}
+.brevet-progress-bar{height:3px;background:rgba(0,0,0,.07);flex-shrink:0;width:100%}
 .brevet-progress-fill{height:100%;background:var(--blue);transition:width .4s}
-.brevet-exo-nav{display:flex;gap:4px;align-items:center;padding:10px 24px;background:var(--bg);border-bottom:1px solid rgba(0,0,0,.07);flex-shrink:0;flex-wrap:wrap}
+.brevet-exo-nav{display:flex;gap:4px;align-items:center;padding:8px 24px;background:var(--bg);border-bottom:1px solid rgba(0,0,0,.07);flex-shrink:0;flex-wrap:wrap;width:100%}
 .exo-tab{font-size:11px;font-weight:600;padding:5px 14px;border-radius:100px;border:1.5px solid rgba(0,0,0,.1);background:transparent;color:var(--muted);cursor:pointer;transition:all .15s;text-transform:lowercase}
 .exo-tab:hover{border-color:var(--blue);color:var(--blue)}
 .exo-tab.active{background:var(--blue);color:#fff;border-color:var(--blue)}
 .exo-tab.done{background:#EDFBF0;color:#166534;border-color:#22C55E}
-.brevet-content{flex:1;overflow-y:auto;padding:24px;display:block;min-height:0}
+.brevet-content{flex:1;overflow-y:auto;padding:24px 0 24px 0;display:block;min-height:0}
 .brevet-content::-webkit-scrollbar{width:5px}
 .brevet-content::-webkit-scrollbar-thumb{background:rgba(0,0,0,.12);border-radius:100px}
-.brevet-exo-frame{width:100%}
+.brevet-exo-frame{width:100%;padding:0 24px}
 .brevet-exo-frame > div{min-height:0;}
 .brevet-exo-frame iframe{width:100%;height:100%;border:none;border-radius:16px;background:var(--white)}
 .brevet-corr-panel{position:fixed;right:0;top:93px;bottom:0;width:300px;overflow-y:auto;padding:16px;background:var(--bg);border-left:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:12px;z-index:50}
@@ -448,7 +448,7 @@ body > nav.nav{display:flex}
 .corr-q-exp{font-size:11px;color:var(--muted);font-weight:300;line-height:1.55}
 .corr-q-etape{display:flex;gap:6px;font-size:11px;color:var(--ink);margin-bottom:2px}
 .corr-q-etape::before{content:'→';color:var(--blue);flex-shrink:0;font-weight:700}
-.brevet-bottombar{display:flex;align-items:center;justify-content:space-between;padding:10px 24px;background:var(--white);border-top:1px solid rgba(0,0,0,.08);flex-shrink:0}
+.brevet-bottombar{display:flex;align-items:center;justify-content:space-between;padding:10px 24px;background:var(--white);border-top:1px solid rgba(0,0,0,.08);flex-shrink:0;width:100%}
 .brevet-score-wrap{display:flex;gap:2px}
 .brevet-score-dot{width:8px;height:8px;border-radius:50%;background:rgba(0,0,0,.1)}
 .brevet-score-dot.ok{background:var(--green)}
@@ -2515,7 +2515,7 @@ var BREVETS_DB = {
         id: 'ex1', numero: 1, titre: 'Automatismes', points: 6,
         notion: 'Automatisme', duree_indicative: 20,
         fichier: 'data/brevets/2026-test-1/exo-01.html',
-        html_inline: `<div style="padding:36px 48px 72px;max-width:880px;margin:0 auto">
+        html_inline: `<div style="padding:36px 48px 72px">
 
 <div class="brevet-ex">
   <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;margin-bottom:14px">
