@@ -5,3 +5,13 @@
     "resend": "^3.0.0"
   }
 }
+
+{
+  "name": "prepabrevet-api",
+  "version": "1.0.0",
+  "dependencies": {
+    "resend": "^3.0.0",
+    "stripe": "^14.0.0",
+    "@supabase/supabase-js": "^2.0.0"
+  }
+}
