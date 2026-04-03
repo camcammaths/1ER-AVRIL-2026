@@ -1403,42 +1403,65 @@ var STRIPE_PRICES = {
       </p>
     </div>
 
-    <!-- Étape 2 : Inscription -->
-    <div id="co-step-signup" style="display:none;max-width:460px;margin:0 auto">
-      <button onclick="coBackToPacks()" style="background:none;border:none;cursor:pointer;font-size:12px;color:var(--muted);font-family:var(--fd);text-transform:lowercase;padding:0;margin-bottom:28px">← changer de pack</button>
+    <!-- Étape 2 : Inscription — layout 2 colonnes v2 -->
+    <div id="co-step-signup" style="display:none">
+      <button onclick="coBackToPacks()" style="background:none;border:none;cursor:pointer;font-size:12px;color:var(--muted);font-family:var(--fd);text-transform:lowercase;padding:0;margin-bottom:36px;display:flex;align-items:center;gap:6px">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M7.5 2L3.5 6L7.5 10" stroke="#8A8DAA" stroke-width="1.5" stroke-linecap="round"/></svg>
+        changer de pack
+      </button>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px;max-width:860px;align-items:stretch">
 
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
-        <div style="width:14px;height:2px;background:var(--orange);border-radius:2px"></div>
-        <span style="font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--orange)">étape 2 / 2</span>
-      </div>
-      <h1 style="font-size:clamp(24px,3vw,40px);font-weight:500;letter-spacing:-.04em;text-transform:lowercase;line-height:1;color:var(--ink);margin-bottom:6px">créer mon compte.</h1>
+        <!-- Colonne gauche : récap pack bleu -->
+        <div style="background:var(--blue);border-radius:20px;padding:32px;position:relative;overflow:hidden">
+          <div style="position:absolute;right:-40px;bottom:-40px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.05)"></div>
+          <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);border-radius:100px;padding:4px 12px;font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:20px">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1L6.2 3.8L9 4.1L7 6L7.6 9L5 7.5L2.4 9L3 6L1 4.1L3.8 3.8Z" fill="rgba(255,255,255,.7)"/></svg>
+            ton choix
+          </div>
+          <div id="co-recap-name" style="font-size:13px;font-weight:500;color:rgba(255,255,255,.6);text-transform:lowercase;margin-bottom:4px">—</div>
+          <div style="display:flex;align-items:baseline;gap:2px;margin-bottom:4px">
+            <span style="font-size:20px;font-weight:300;color:rgba(255,255,255,.6);margin-top:8px;line-height:1">€</span>
+            <span id="co-recap-price" style="font-size:52px;font-weight:500;letter-spacing:-.05em;color:#fff;line-height:1">—</span>
+          </div>
+          <div style="font-size:12px;color:rgba(255,255,255,.4);margin-bottom:24px">par mois · sans engagement</div>
+          <div style="height:1px;background:rgba(255,255,255,.1);margin-bottom:20px"></div>
+          <div id="co-recap-features" style="display:flex;flex-direction:column;gap:10px"></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-top:24px;padding:10px 14px;background:rgba(255,255,255,.07);border-radius:10px">
+            <div style="width:28px;height:28px;border-radius:8px;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="2" y="5.5" width="9" height="6.5" rx="1.5" stroke="rgba(255,255,255,.7)" stroke-width="1.2"/><path d="M4 5.5V3.5a2.5 2.5 0 015 0v2" stroke="rgba(255,255,255,.7)" stroke-width="1.2" stroke-linecap="round"/></svg>
+            </div>
+            <div style="font-size:11px;color:rgba(255,255,255,.5);line-height:1.5"><strong style="color:rgba(255,255,255,.8);font-weight:500">Paiement sécurisé Stripe.</strong><br>Aucune carte stockée.</div>
+          </div>
+        </div>
 
-      <!-- Récap pack sélectionné -->
-      <div id="co-pack-recap" style="display:flex;align-items:center;justify-content:space-between;background:#EEF2FF;border:1.5px solid var(--blue);border-radius:12px;padding:12px 16px;margin:20px 0 28px">
-        <div>
-          <div style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)">pack choisi</div>
-          <div id="co-recap-name" style="font-size:15px;font-weight:600;color:var(--ink);margin-top:2px">—</div>
+        <!-- Colonne droite : formulaire -->
+        <div style="background:var(--white);border-radius:20px;padding:36px;border:1.5px solid rgba(0,0,0,.07)">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+            <div style="width:14px;height:2px;background:var(--orange);border-radius:2px"></div>
+            <span style="font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--orange)">étape 2 / 2</span>
+          </div>
+          <h1 style="font-size:clamp(26px,3vw,38px);font-weight:500;letter-spacing:-.04em;text-transform:lowercase;line-height:1;color:var(--ink);margin-bottom:6px">créer<br>mon compte.</h1>
+          <p style="font-size:13px;color:var(--muted);font-weight:300;margin-bottom:28px;line-height:1.5">Ton accès est activé dès le paiement.</p>
+          <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:20px">
+            <div>
+              <div style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">email</div>
+              <input id="co-email" type="email" placeholder="lucas@example.com" style="width:100%;padding:12px 14px;border:1.5px solid rgba(0,0,0,.1);border-radius:10px;font-family:var(--fd);font-size:14px;color:var(--ink);background:#FAFAFA;outline:none;transition:border-color .15s;box-sizing:border-box" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='rgba(0,0,0,.1)'">
+            </div>
+            <div>
+              <div style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">mot de passe</div>
+              <input id="co-mdp" type="password" placeholder="6 caractères minimum" style="width:100%;padding:12px 14px;border:1.5px solid rgba(0,0,0,.1);border-radius:10px;font-family:var(--fd);font-size:14px;color:var(--ink);background:#FAFAFA;outline:none;transition:border-color .15s;box-sizing:border-box" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='rgba(0,0,0,.1)'" onkeydown="if(event.key==='Enter')coDoSignup()">
+            </div>
+          </div>
+          <div id="co-err" style="display:none;font-size:12px;color:var(--red);font-weight:500;text-align:center;padding:8px 12px;background:#FEF2F2;border-radius:8px;margin-bottom:14px"></div>
+          <button id="co-signup-btn" onclick="coDoSignup()" style="font-size:14px;font-weight:600;background:var(--blue);color:#fff;padding:14px;border-radius:100px;border:none;cursor:pointer;text-transform:lowercase;width:100%;transition:opacity .15s;letter-spacing:-.01em">
+            créer mon compte et payer →
+          </button>
+          <p style="font-size:11px;color:var(--muted);font-weight:300;text-align:center;line-height:1.7;margin-top:14px">
+            Tu seras redirigé·e vers Stripe.<br>
+            Déjà un compte ? <span style="color:var(--blue);cursor:pointer;font-weight:600" onclick="goTo('login')">se connecter</span>
+          </p>
         </div>
-        <div style="font-size:24px;font-weight:500;letter-spacing:-.04em;color:var(--blue)" id="co-recap-price">—</div>
-      </div>
 
-      <div style="display:flex;flex-direction:column;gap:14px">
-        <div>
-          <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">email</div>
-          <input id="co-email" type="email" placeholder="lucas@example.com" style="width:100%;padding:11px 14px;border:1.5px solid rgba(0,0,0,.1);border-radius:10px;font-family:var(--fd);font-size:14px;color:var(--ink);background:#FAFAFA;outline:none;transition:border-color .15s;box-sizing:border-box" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='rgba(0,0,0,.1)'">
-        </div>
-        <div>
-          <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">mot de passe</div>
-          <input id="co-mdp" type="password" placeholder="••••••••  (6 caractères min.)" style="width:100%;padding:11px 14px;border:1.5px solid rgba(0,0,0,.1);border-radius:10px;font-family:var(--fd);font-size:14px;color:var(--ink);background:#FAFAFA;outline:none;transition:border-color .15s;box-sizing:border-box" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='rgba(0,0,0,.1)'" onkeydown="if(event.key==='Enter')coDoSignup()">
-        </div>
-        <div id="co-err" style="display:none;font-size:12px;color:var(--red);font-weight:500;text-align:center;padding:8px 12px;background:#FEF2F2;border-radius:8px"></div>
-        <button id="co-signup-btn" onclick="coDoSignup()" style="font-size:14px;font-weight:600;background:var(--blue);color:#fff;padding:14px;border-radius:100px;border:none;cursor:pointer;text-transform:lowercase;width:100%;transition:opacity .15s;margin-top:4px">
-          créer mon compte et payer →
-        </button>
-        <p style="font-size:11px;color:var(--muted);font-weight:300;text-align:center;line-height:1.6">
-          Tu seras redirigé·e vers Stripe pour le paiement sécurisé.<br>
-          Déjà un compte ? <span style="color:var(--blue);cursor:pointer;font-weight:600" onclick="goTo('login')">se connecter</span>
-        </p>
       </div>
     </div>
 
@@ -2607,15 +2630,33 @@ function goToCheckout() {
   goTo('checkout');
 }
 
+var CO_PACK_FEATURES = {
+  veille:      ['1 brevet complet', 'corrections détaillées', 'fiches express'],
+  sprint:      ['3 brevets complets', 'corrections détaillées', 'planning 7 jours IA', 'conseils IA ciblés'],
+  intensif:    ['toutes les annales', 'corrections détaillées', 'planning 30 jours IA', 'suivi de progression'],
+  preparation: ['toutes les annales', 'corrections détaillées', 'planning 60 jours IA', 'suivi de progression'],
+  serenite:    ['toutes les annales', 'corrections détaillées', 'planning 90 jours IA', 'suivi de progression'],
+};
+
 function coSelectPack(packId, price, name) {
   coPackId = packId;
   coPackPrice = price;
   coPackName = name;
-  // Afficher étape 2
+
   document.getElementById('co-step-packs').style.display = 'none';
   document.getElementById('co-step-signup').style.display = 'block';
   document.getElementById('co-recap-name').textContent = name;
-  document.getElementById('co-recap-price').textContent = price + '€';
+  document.getElementById('co-recap-price').innerHTML = price + '<span style="font-size:16px;font-weight:300;color:var(--muted)">€</span>';
+
+  // Features
+  var features = CO_PACK_FEATURES[packId] || [];
+  document.getElementById('co-recap-features').innerHTML = features.map(function(f) {
+    return '<div style="display:flex;align-items:center;gap:10px;font-size:13px;color:rgba(255,255,255,.85)">'
+      + '<div style="width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0">'
+      + '<svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3.2 5.7L6.5 2.3" stroke="rgba(255,255,255,.9)" stroke-width="1.4" stroke-linecap="round"/></svg>'
+      + '</div>' + f + '</div>';
+  }).join('');
+
   document.getElementById('co-email').value = '';
   document.getElementById('co-mdp').value = '';
   document.getElementById('co-err').style.display = 'none';
