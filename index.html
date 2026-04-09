@@ -454,46 +454,140 @@ body > nav.nav{display:flex}
 .brevet-score-dot.ok{background:var(--green)}
 .brevet-score-dot.ko{background:var(--red)}
 
-/* ── MODE FOCUS ── */
+/* ══════════════════════════════════
+   MODE FOCUS — DA Prépa Brevet
+   ══════════════════════════════════ */
 .focus-mode #bp-exo-tabs{display:none}
 .focus-mode #bp-bottombar{display:none !important}
 .focus-mode #bp-focus-bar{display:flex !important}
 .focus-mode .brevet-exo-frame{display:none !important}
 .focus-mode #bp-focus-btn{background:#EEF2FF;border-color:var(--blue);color:var(--blue)}
-/* ── FOCUS MODE ── */
-#bp-focus-card{display:none;width:100%;max-width:680px;margin:0 auto;padding:20px 0 40px}
-.focus-mode #bp-focus-card{display:block}
-/* Dots nav */
-#bp-focus-dots{display:flex;gap:6px;justify-content:center;margin-bottom:24px;flex-wrap:wrap}
-.focus-dot{width:8px;height:8px;border-radius:50%;background:rgba(0,0,0,.12);transition:all .2s;cursor:pointer;border:none;padding:0}
-.focus-dot.active{background:var(--blue);width:24px;border-radius:4px}
-.focus-dot.done{background:var(--green)}
-/* Carte question */
-.focus-q-card{background:var(--white);border-radius:20px;padding:36px 40px;border:1.5px solid rgba(0,0,0,.08);animation:focusIn .25s ease}
-@keyframes focusIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.focus-exo-label{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--orange);display:flex;align-items:center;gap:8px;margin-bottom:20px}
-.focus-exo-label::before{content:'';width:14px;height:2px;background:var(--orange);border-radius:2px;display:inline-block}
-.focus-q-num{font-size:13px;font-weight:700;color:var(--blue);background:#EEF2FF;padding:4px 12px;border-radius:100px;display:inline-block;margin-bottom:16px}
-.focus-q-text{font-size:19px;font-weight:500;color:var(--ink);line-height:1.6;letter-spacing:-.02em;margin-bottom:28px}
-.focus-q-text strong{color:var(--blue)}
-.focus-answer-label{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;display:block}
-.focus-textarea{width:100%;font-size:15px;color:var(--ink);background:#FAFAFA;border:1.5px solid rgba(0,0,0,.08);border-radius:12px;padding:16px 18px;resize:none;line-height:1.6;min-height:90px;font-family:inherit;box-sizing:border-box;outline:none;transition:border-color .15s}
-.focus-textarea:focus{border-color:var(--blue);background:var(--white)}
-.focus-textarea::placeholder{color:var(--muted);font-style:italic}
-/* Correction inline */
-.focus-figure{margin:16px 0;padding:16px;background:#F8F9FF;border-radius:14px;border:1.5px solid rgba(0,33,188,.08);display:flex;justify-content:center;overflow-x:auto}
-.focus-figure svg{max-width:100%;height:auto}
-.focus-figure table{max-width:100%}
-.focus-corr-btn{margin-top:18px;font-size:12px;font-weight:600;padding:8px 20px;border-radius:100px;border:1.5px solid rgba(0,0,0,.1);background:transparent;color:var(--muted);cursor:pointer;text-transform:lowercase;transition:all .15s;font-family:inherit}
-.focus-corr-btn:hover{border-color:var(--blue);color:var(--blue)}
-.focus-corr-panel{display:none;margin-top:16px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:14px;padding:18px 22px}
-.focus-corr-panel.visible{display:block;animation:focusIn .2s ease}
-.focus-corr-reponse{font-size:15px;font-weight:700;color:#166534;margin-bottom:8px}
-.focus-corr-methode{font-size:13px;color:#15803D;line-height:1.6}
-/* Barre de progression focus */
+.focus-mode .brevet-content{overflow:hidden !important;padding:0 !important;display:flex !important;flex-direction:column;background:var(--bg)}
+.focus-mode .brevet-topbar{display:none !important}
+.focus-mode .brevet-progress-bar{display:none !important}
+
+/* Progression orange fine */
 #bp-focus-progress{height:3px;background:rgba(0,0,0,.07);flex-shrink:0;display:none}
-#bp-focus-progress-fill{height:100%;background:var(--orange);transition:width .4s;border-radius:0 2px 2px 0}
+#bp-focus-progress-fill{height:100%;background:var(--orange);transition:width .5s cubic-bezier(.4,0,.2,1);border-radius:0 2px 2px 0}
 .focus-mode #bp-focus-progress{display:block}
+
+/* Conteneur principal */
+#bp-focus-card{display:none;width:100%;flex:1;min-height:0}
+.focus-mode #bp-focus-card{display:flex;flex-direction:column}
+#bp-focus-dots{display:none}
+
+/* Barre exercices focus */
+#bp-focus-exo-bar{display:flex;align-items:center;gap:6px;padding:8px 12px 0;flex-shrink:0}
+.focus-exo-pill{display:flex;align-items:center;gap:6px;padding:5px 12px 5px 8px;border-radius:100px;font-size:11px;font-weight:600;text-transform:lowercase;letter-spacing:-.01em;cursor:pointer;border:1.5px solid transparent;transition:all .2s;font-family:var(--fd);white-space:nowrap}
+.focus-exo-pill .fep-num{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;flex-shrink:0}
+.focus-exo-pill.idle{background:var(--white);border-color:rgba(0,0,0,.1);color:var(--muted)}
+.focus-exo-pill.idle .fep-num{background:rgba(0,0,0,.07);color:var(--muted)}
+.focus-exo-pill.active{background:#EEF2FF;border-color:var(--blue);color:var(--blue)}
+.focus-exo-pill.active .fep-num{background:var(--blue);color:#fff}
+.focus-exo-pill.done{background:#EDFBF0;border-color:#22C55E;color:#166534}
+.focus-exo-pill.done .fep-num{background:#22C55E;color:#fff}
+.focus-exo-sep{width:16px;height:1.5px;background:rgba(0,0,0,.1);border-radius:2px;flex-shrink:0}
+
+/* Layout 2 colonnes */
+#bp-focus-qwrap{flex:1;display:flex;min-height:0;padding:10px 12px 8px;gap:10px}
+
+/* ── Colonne figure (gauche) ── */
+.focus-col-right{flex:1;display:flex;flex-direction:column;min-width:0}
+.focus-figure-panel{
+  flex:1;
+  background:var(--white);
+  border-radius:18px;
+  border:1.5px solid rgba(0,0,0,.08);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:16px;
+  overflow:auto;
+  min-height:0;
+  position:relative;
+}
+.focus-figure-panel::before{
+  content:'figure';
+  position:absolute;
+  top:12px;left:16px;
+  font-size:9px;font-weight:700;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:var(--muted);opacity:.5;
+}
+.focus-figure-panel svg{max-width:100%;max-height:100%;height:auto}
+.focus-figure-panel table{max-width:100%;font-size:13px}
+
+/* ── Colonne question (droite) ── */
+.focus-col-left{flex:1;display:flex;flex-direction:column;min-width:0}
+.focus-q-card{
+  background:var(--white);
+  border-radius:18px;
+  border:1.5px solid rgba(0,0,0,.08);
+  display:flex;flex-direction:column;
+  height:100%;
+  overflow:hidden;
+  animation:focusIn .22s ease;
+}
+@keyframes focusIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* Header carte — bande bleue */
+.focus-q-header{
+  background:var(--blue);
+  padding:12px 18px 10px;
+  flex-shrink:0;
+  display:flex;align-items:center;justify-content:space-between;
+  border-radius:16px 16px 0 0;
+}
+.focus-q-exo-name{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:lowercase;color:rgba(255,255,255,.55)}
+.focus-q-badge{font-size:11px;font-weight:700;color:#fff;background:rgba(255,255,255,.15);padding:3px 12px;border-radius:100px;letter-spacing:-.01em}
+
+/* Corps carte */
+.focus-q-body{flex:1;display:flex;flex-direction:column;padding:18px 20px 16px;min-height:0;overflow-y:auto}
+.focus-q-text{
+  font-size:17px;font-weight:500;
+  color:var(--ink);line-height:1.55;
+  letter-spacing:-.02em;
+  margin-bottom:16px;
+  flex-shrink:0;
+}
+.focus-q-text strong{color:var(--blue)}
+.focus-answer-label{
+  font-size:9px;font-weight:700;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:8px;
+  display:flex;align-items:center;gap:8px;flex-shrink:0;
+}
+.focus-answer-label::before{content:'';width:12px;height:1.5px;background:var(--muted);border-radius:2px;display:inline-block}
+.focus-textarea{
+  width:100%;font-size:14px;color:var(--ink);
+  background:#FAFAFA;border:1.5px solid rgba(0,0,0,.08);
+  border-radius:12px;padding:12px 16px;resize:none;
+  line-height:1.6;flex:1;min-height:60px;
+  font-family:inherit;box-sizing:border-box;outline:none;
+  transition:border-color .15s,background .15s;
+}
+.focus-textarea:focus{border-color:var(--blue);background:var(--white)}
+.focus-textarea::placeholder{color:var(--muted);font-style:italic;font-size:13px}
+
+/* Correction */
+.focus-corr-btn{
+  margin-top:10px;font-size:11px;font-weight:600;
+  padding:6px 16px;border-radius:100px;
+  border:1.5px solid rgba(0,0,0,.1);background:transparent;
+  color:var(--muted);cursor:pointer;text-transform:lowercase;
+  transition:all .15s;font-family:inherit;flex-shrink:0;
+  align-self:flex-start;
+}
+.focus-corr-btn:hover{border-color:var(--green);color:#166534;background:#F0FDF4}
+.focus-corr-panel{
+  display:none;margin-top:10px;
+  background:#F0FDF4;border:1.5px solid #BBF7D0;
+  border-radius:12px;padding:12px 16px;flex-shrink:0;
+}
+.focus-corr-panel.visible{display:block;animation:focusIn .18s ease}
+.focus-corr-reponse{font-size:13px;font-weight:700;color:#166534;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.focus-corr-reponse::before{content:'✓';font-size:14px}
+.focus-corr-methode{font-size:12px;color:#15803D;line-height:1.6;padding-left:20px}
 
 
 .co-pack-card{background:var(--white);border:1.5px solid rgba(0,0,0,.08);border-radius:18px;padding:22px 20px;cursor:pointer;transition:all .2s;position:relative;display:flex;flex-direction:column}
@@ -1258,6 +1352,17 @@ var STRIPE_PRICES = {
     <div class="brevet-progress-bar"><div class="brevet-progress-fill" id="bp-progress" style="width:0%"></div></div>
     <!-- Barre de progression focus (questions) -->
     <div id="bp-focus-progress"><div id="bp-focus-progress-fill" style="width:0%"></div></div>
+    <!-- Barre exercices focus -->
+    <div id="bp-focus-exo-bar" style="display:none;align-items:center;gap:8px;padding:8px 12px;background:var(--bg);border-bottom:1px solid rgba(0,0,0,.07);flex-shrink:0">
+      <!-- Les pilules ex.1…ex.5 sont injectées ici par JS -->
+      <div style="flex:1"></div>
+      <!-- Timer dupliqué pour le mode focus -->
+      <div id="bp-focus-timer-pill" class="brevet-timer-pill" style="flex-shrink:0">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.2"/><path d="M6 3v3l2 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        <span class="brevet-timer-txt" id="bp-focus-timer-txt">—</span>
+      </div>
+      <button onclick="toggleFocusMode()" style="font-size:11px;font-weight:600;padding:5px 12px;border-radius:100px;border:1.5px solid rgba(0,33,188,.2);background:#EEF2FF;color:var(--blue);cursor:pointer;text-transform:lowercase;font-family:var(--fd);flex-shrink:0">quitter focus</button>
+    </div>
     <!-- Onglets exercices -->
     <div class="brevet-exo-nav" id="bp-exo-tabs"></div>
     <!-- Contenu -->
@@ -1303,12 +1408,11 @@ var STRIPE_PRICES = {
       </div>
     </div>
     <!-- Bottombar focus (cachée par défaut) -->
-    <div id="bp-focus-bar" style="display:none;padding:14px 28px;background:var(--white);border-top:1px solid rgba(0,0,0,.08);gap:12px;align-items:center">
-      <button onclick="focusPrev()" id="bp-focus-prev" style="font-size:12px;font-weight:600;padding:10px 22px;border-radius:100px;border:1.5px solid rgba(0,0,0,.1);background:transparent;color:var(--muted);cursor:pointer;text-transform:lowercase;transition:all .15s;font-family:var(--fd)">‹ précédente</button>
-      <button onclick="focusNext()" id="bp-focus-next" style="flex:1;font-size:14px;font-weight:600;padding:13px;border-radius:100px;background:var(--blue);color:#fff;border:none;cursor:pointer;text-transform:lowercase;transition:opacity .15s;font-family:var(--fd)">question suivante →</button>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:2px;min-width:56px;background:#EEF2FF;border-radius:10px;padding:6px 12px">
-        <span id="bp-focus-counter" style="font-size:14px;font-weight:700;color:var(--blue);letter-spacing:-.02em">1/1</span>
-        <span style="font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">question</span>
+    <div id="bp-focus-bar" style="display:none;padding:8px 12px;background:var(--bg);border-top:1px solid rgba(0,0,0,.08);gap:8px;align-items:center">
+      <button onclick="focusPrev()" id="bp-focus-prev" style="font-size:12px;font-weight:600;padding:9px 20px;border-radius:100px;border:1.5px solid rgba(0,0,0,.1);background:var(--white);color:var(--muted);cursor:pointer;text-transform:lowercase;transition:all .15s;font-family:var(--fd);flex-shrink:0">‹ précédente</button>
+      <button onclick="focusNext()" id="bp-focus-next" style="flex:1;font-size:13px;font-weight:600;padding:10px;border-radius:100px;background:var(--blue);color:#fff;border:none;cursor:pointer;text-transform:lowercase;transition:opacity .15s;font-family:var(--fd)">question suivante →</button>
+      <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+        <span id="bp-focus-counter" style="font-size:13px;font-weight:700;color:var(--blue);background:var(--white);border:1.5px solid rgba(0,33,188,.15);padding:6px 14px;border-radius:100px;letter-spacing:-.02em">1 / 1</span>
       </div>
     </div>
   </div>
@@ -2698,6 +2802,41 @@ function focusBuildQuestions(exo) {
   return results;
 }
 
+// État avancement exercices en focus
+var bpFocusExoDone = {}; // { exoIndex: true } quand toutes questions répondues
+
+function renderFocusExoBar() {
+  var bar = document.getElementById('bp-focus-exo-bar');
+  if (!bar || !bpBrevet) return;
+  var exos = bpBrevet.exercices;
+  bar.innerHTML = exos.map(function(ex, i) {
+    var state = i === bpExoIndex ? 'active' : (bpFocusExoDone[i] ? 'done' : 'idle');
+    var icon = state === 'done' ? '✓' : (i + 1);
+    var sep = i < exos.length - 1 ? '<div class="focus-exo-sep"></div>' : '';
+    return '<button class="focus-exo-pill ' + state + '" onclick="focusGoToExo(' + i + ')">'
+      + '<span class="fep-num">' + icon + '</span>'
+      + 'ex. ' + (i + 1)
+      + '</button>' + sep;
+  }).join('');
+}
+
+function focusGoToExo(i) {
+  if (!bpBrevet || !bpBrevet.exercices[i]) return;
+  bpNav(i - bpExoIndex); // naviguer relatif
+  // Si même exercice, juste reset
+  if (i === bpExoIndex) {
+    bpFocusQIndex = 0;
+    renderFocusQuestion();
+    return;
+  }
+  setTimeout(function() {
+    bpFocusQuestions = focusBuildQuestions(bpBrevet.exercices[bpExoIndex]);
+    bpFocusQIndex = 0;
+    renderFocusQuestion();
+    renderFocusExoBar();
+  }, 300);
+}
+
 function toggleFocusMode() {
   bpFocusMode = !bpFocusMode;
   var btn = document.getElementById('bp-focus-btn');
@@ -2718,11 +2857,15 @@ function toggleFocusMode() {
     if (frameWrap) frameWrap.style.display = 'none';
     if (tabs) tabs.style.display = 'none';
     if (focusProgress) focusProgress.style.display = 'block';
-    if (focusCard) focusCard.style.display = 'block';
+    if (focusCard) focusCard.style.display = 'flex';
+    var exoBar = document.getElementById('bp-focus-exo-bar');
+    if (exoBar) exoBar.style.display = 'flex';
     var exo = bpBrevet && bpBrevet.exercices ? bpBrevet.exercices[bpExoIndex] : null;
     bpFocusQuestions = focusBuildQuestions(exo);
     bpFocusDone = {};
+    bpFocusExoDone = {};
     bpFocusQIndex = 0;
+    renderFocusExoBar();
     renderFocusQuestion();
   } else {
     btn.style.background = 'transparent';
@@ -2735,6 +2878,8 @@ function toggleFocusMode() {
     if (tabs) tabs.style.display = '';
     if (focusProgress) focusProgress.style.display = 'none';
     if (focusCard) focusCard.style.display = 'none';
+    var exoBar2 = document.getElementById('bp-focus-exo-bar');
+    if (exoBar2) exoBar2.style.display = 'none';
   }
 }
 
@@ -2771,20 +2916,32 @@ function renderFocusQuestion() {
     + (q.methode ? '<div class="focus-corr-methode">' + q.methode + '</div>' : '')
     + '</div>' : '';
 
-  var figureHTML = q.figure ? '<div class="focus-figure">' + q.figure + '</div>' : '';
+  // Colonne gauche : figure si présente
+  var leftHTML = q.figure
+    ? '<div class="focus-col-right"><div class="focus-figure-panel">' + q.figure + '</div></div>'
+    : '';
 
-  var html = '<div class="focus-q-card">'
-    + '<div class="focus-exo-label">' + (exo ? exo.titre : 'exercice') + '</div>'
-    + '<div class="focus-q-num">Question ' + q.num + '</div>'
-    + '<div class="focus-q-text">' + q.text + '</div>'
-    + figureHTML
-    + '<span class="focus-answer-label">ta réponse</span>'
-    + '<textarea class="focus-textarea" rows="3" placeholder="Écris ta réponse ici…" oninput="bpFocusDone[' + bpFocusQIndex + ']=this.value.length>0;renderFocusDots()"></textarea>'
-    + corrHTML
+  // Colonne droite : carte question avec header bleu
+  var exoName = exo ? exo.titre.toLowerCase() : 'exercice';
+  var qBadge = 'question ' + q.num + ' <span style="opacity:.5;font-weight:400;font-size:10px">/ ' + total + '</span>';
+
+  var rightHTML = '<div class="focus-col-left">'
+    + '<div class="focus-q-card">'
+    + '<div class="focus-q-body">'
+    +   '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-shrink:0">'
+    +     '<span style="font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:lowercase;color:var(--muted)">' + exoName + '</span>'
+    +     '<span style="font-size:11px;font-weight:700;color:var(--blue);background:#EEF2FF;padding:3px 12px;border-radius:100px">' + qBadge + '</span>'
+    +   '</div>'
+    +   '<div class="focus-q-text">' + q.text + '</div>'
+    +   '<span class="focus-answer-label">ta réponse</span>'
+    +   '<textarea class="focus-textarea" placeholder="Écris ta réponse ici…" oninput="bpFocusDone[' + bpFocusQIndex + ']=this.value.length>0"></textarea>'
+    +   corrHTML
+    + '</div>'
+    + '</div>'
     + '</div>';
 
   var wrap = document.getElementById('bp-focus-qwrap');
-  if (wrap) wrap.innerHTML = html;
+  if (wrap) wrap.innerHTML = leftHTML + rightHTML;
 
   // Focus sur textarea
   setTimeout(function() {
@@ -2802,6 +2959,9 @@ function renderFocusQuestion() {
   // Compteur
   var counter = document.getElementById('bp-focus-counter');
   if (counter) counter.textContent = (bpFocusQIndex + 1) + ' / ' + total;
+
+  // Barre exercices
+  renderFocusExoBar();
 
   // Barre de progression orange
   var fill = document.getElementById('bp-focus-progress-fill');
@@ -2829,8 +2989,11 @@ function focusNext() {
     bpFocusQIndex++;
     renderFocusQuestion();
   } else {
+    // Marquer l'exercice courant comme terminé
+    bpFocusExoDone[bpExoIndex] = true;
     var isLastExo = bpBrevet && bpExoIndex >= bpBrevet.exercices.length - 1;
     if (isLastExo) {
+      renderFocusExoBar();
       terminerBrevet();
     } else {
       bpNav(+1);
@@ -2839,6 +3002,7 @@ function focusNext() {
         bpFocusQuestions = focusBuildQuestions(exo);
         bpFocusDone = {};
         bpFocusQIndex = 0;
+        renderFocusExoBar();
         renderFocusQuestion();
       }, 300);
     }
@@ -3604,13 +3768,16 @@ function bpUpdateTimer() {
   var m = Math.floor((bpSecondsLeft % 3600) / 60);
   var s = bpSecondsLeft % 60;
   var txt = (h > 0 ? pad2(h) + ':' : '') + pad2(m) + ':' + pad2(s);
+  var pct = bpTotalSeconds > 0 ? bpSecondsLeft / bpTotalSeconds : 1;
+  var cls = 'brevet-timer-pill' + (pct < 0.15 ? ' urgent' : pct < 0.3 ? ' warning' : '');
   var el = document.getElementById('bp-timer');
   var pill = document.getElementById('bp-timer-pill');
   if (el) el.textContent = txt;
-  if (pill) {
-    var pct = bpTotalSeconds > 0 ? bpSecondsLeft / bpTotalSeconds : 1;
-    pill.className = 'brevet-timer-pill' + (pct < 0.15 ? ' urgent' : pct < 0.3 ? ' warning' : '');
-  }
+  if (pill) pill.className = cls;
+  var fel = document.getElementById('bp-focus-timer-txt');
+  var fpill = document.getElementById('bp-focus-timer-pill');
+  if (fel) fel.textContent = txt;
+  if (fpill) fpill.className = cls;
 }
 
 function bpGoExo(idx) {
