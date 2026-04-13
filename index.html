@@ -1279,11 +1279,13 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-famil
 <div class="page" id="page-brevet" style="position:relative">
   <div style="position:absolute;top:0;left:0;right:0;z-index:20;background:var(--bg);display:flex;justify-content:space-between;align-items:center;padding:8px 20px;border-bottom:1px solid rgba(0,0,0,.08)">
     <button onclick="quitterBrevet()" style="font-family:var(--fd);font-size:12px;font-weight:500;color:var(--muted);background:none;border:none;cursor:pointer;text-transform:lowercase;padding:6px 0">← quitter</button>
-    <div class="timer-wrap" style="display:flex;align-items:center;gap:8px;background:var(--white);border:1.5px solid rgba(0,0,0,.08);border-radius:100px;padding:6px 14px">
-      <div class="timer-dot" id="timerDot"></div>
-      <span class="timer-val" id="timerVal">2:00:00</span>
+    <div style="display:flex;align-items:center;gap:8px">
+      <span class="pts-pill" id="ptsPill">0 pts</span>
+      <div class="timer-wrap" style="display:flex;align-items:center;gap:8px;background:var(--white);border:1.5px solid rgba(0,0,0,.08);border-radius:100px;padding:6px 14px">
+        <div class="timer-dot" id="timerDot"></div>
+        <span class="timer-val" id="timerVal">2:00:00</span>
+      </div>
     </div>
-    <span class="pts-pill" id="ptsPill">0 pts</span>
   </div>
   <div class="stage" style="top:45px">
     <div class="main">
@@ -1805,11 +1807,14 @@ function goTo(page){
   else if(page==='abonnement'){target.style.display='flex';target.style.flexDirection='column';target.style.height='calc(100vh - 93px)';target.style.overflow='hidden';}
   else if(page==='planning'){target.style.display='flex';target.style.flexDirection='column';target.style.height='calc(100vh - 93px)';target.style.overflow='hidden';setTimeout(()=>renderPlanning(),50);}
   else if(page==='generer'){target.style.display='flex';target.style.flexDirection='column';target.style.height='calc(100vh - 93px)';target.style.overflow='hidden';}
-  else if(page==='brevet'){target.style.display='flex';target.style.flexDirection='column';target.style.height='calc(100vh - 93px)';target.style.overflow='hidden';}
+  else if(page==='brevet'){target.style.display='flex';target.style.flexDirection='column';target.style.height='100vh';target.style.overflow='hidden';}
   else if(page==='inscription'){target.style.display='block';target.style.height='calc(100vh - 93px)';target.style.overflow='hidden';inscUpdateCd();}
   else if(page==='checkout'){target.style.display='block';}
   else{target.style.display='block';}
   document.querySelectorAll('.nav-links li').forEach(li=>{li.classList.remove('on','on-orange');if(li.dataset.page==='inscription')li.classList.add('on-orange');else if(li.dataset.page===page)li.classList.add('on');});
+  // Masquer toute la nav sur la page brevet
+  var mainNav=document.querySelector('body > nav.nav');
+  if(mainNav) mainNav.style.display = (page==='brevet') ? 'none' : '';
   window.scrollTo(0,0);
   if(page==='parcours') renderAll();
   if(page==='parcours') setTimeout(initParcoursDrag, 100);
