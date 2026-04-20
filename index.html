@@ -643,9 +643,11 @@ html,body{width:100%;height:100%;background:var(--bg);font-family:var(--fd);-web
 .ex-info{flex:1;min-width:0}
 .ex-name{font-size:12px;font-weight:500;letter-spacing:-.01em;text-transform:lowercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ex-sub{font-size:10px;color:var(--muted);margin-top:2px;font-weight:300}
-.ex-dots{display:flex;gap:4px;padding:4px 10px 8px 46px}
-.dot{width:7px;height:7px;border-radius:50%;background:rgba(0,0,0,.1);transition:background .2s;cursor:pointer}
+.ex-dots{display:flex;flex-wrap:wrap;gap:4px;padding:4px 10px 8px 46px}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(0,0,0,.1);transition:background .2s;cursor:pointer}
 .dot.done{background:var(--green)}
+.dot.partial{background:var(--orange)}
+.dot.wrong{background:var(--red)}
 .dot.active{background:var(--blue)}
 .sidebar-progress{margin-top:auto;padding-top:10px;border-top:1px solid rgba(0,0,0,.06)}
 .prog-label{font-size:10px;color:var(--muted);display:flex;justify-content:space-between;margin-bottom:6px;font-weight:500}
@@ -3098,7 +3100,12 @@ function lancerBrevet() {
   playerVerdicts = {};
   curEx = playerExercises[0].id;
   curQ = 0;
-  totalSecs = mins * 60;
+  // Partie 1 Automatismes = 20 min, Partie 2 = 1h40 (6000s)
+  // Detect if first exercise is automatismes
+  var firstEx = playerExercises[0];
+  var isAuto = firstEx && (firstEx.pts === 6 || (firstEx.name && firstEx.name.toLowerCase().indexOf('automatisme') !== -1));
+  totalSecs = isAuto ? 20 * 60 : 100 * 60;
+  playerPhase = isAuto ? 1 : 2; // phase 1 = automatismes, phase 2 = partie 2
   var tv=document.getElementById('timerVal');
   if(tv) tv.textContent = formatTimerVal(totalSecs);
   goTo('brevet');
@@ -3309,6 +3316,31 @@ const figureOctagon='<img src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDA
 const figureCircle='<img src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMzMyIDMzMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBzdHlsZT0ibWF4LXdpZHRoOjEwMCU7aGVpZ2h0OmF1dG8iPgo8cmVjdCB4PSI0MCIgeT0iNDAiIHdpZHRoPSIyNTIiIGhlaWdodD0iMjUyIiBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjEuNSIvPgo8bGluZSB4MT0iNDAiIHkxPSI0MCIgeDI9IjI5MiIgeTI9IjI5MiIgc3Ryb2tlPSIjNDQ0IiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLWRhc2hhcnJheT0iNiw0Ii8+CjxsaW5lIHgxPSIyOTIiIHkxPSI0MCIgeDI9IjQwIiB5Mj0iMjkyIiBzdHJva2U9IiM0NDQiIHN0cm9rZS13aWR0aD0iMS4yIiBzdHJva2UtZGFzaGFycmF5PSI2LDQiLz4KPGNpcmNsZSBjeD0iMTY2LjAiIGN5PSIxNjYuMCIgcj0iMTI2LjAiIGZpbGw9IiNkMGQwZDAiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxLjgiLz4KPHBvbHlnb24gcG9pbnRzPSIxMjQsNDAgMjA4LDQwIDI5MiwxMjQgMjkyLDIwOCAyMDgsMjkyIDEyNCwyOTIgNDAsMjA4IDQwLDEyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjEuOCIvPgo8dGV4dCB4PSIxNzAuMCIgeT0iMTcwLjAiIGZpbGw9IiMzMzMiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtd2VpZ2h0PSI2MDAiPlMgw5c8L3RleHQ+CjxsaW5lIHgxPSI4Mi4wIiB5MT0iMzcuMCIgeDI9IjgyLjAiIHkyPSI0My4wIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMS4yIi8+CjxsaW5lIHgxPSIyNTAuMCIgeTE9IjM3LjAiIHgyPSIyNTAuMCIgeTI9IjQzLjAiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxLjIiLz4KPGxpbmUgeDE9IjI5NS4wIiB5MT0iODIuMCIgeDI9IjI4OS4wIiB5Mj0iODIuMCIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjEuMiIvPgo8bGluZSB4MT0iMjk1LjAiIHkxPSIyNTAuMCIgeDI9IjI4OS4wIiB5Mj0iMjUwLjAiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxLjIiLz4KPGxpbmUgeDE9IjI1MC4wIiB5MT0iMjk1LjAiIHgyPSIyNTAuMCIgeTI9IjI4OS4wIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMS4yIi8+CjxsaW5lIHgxPSI4Mi4wIiB5MT0iMjk1LjAiIHgyPSI4Mi4wIiB5Mj0iMjg5LjAiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxLjIiLz4KPGxpbmUgeDE9IjM3LjAiIHkxPSIyNTAuMCIgeDI9IjQzLjAiIHkyPSIyNTAuMCIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjEuMiIvPgo8bGluZSB4MT0iMzcuMCIgeTE9IjgyLjAiIHgyPSI0My4wIiB5Mj0iODIuMCIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjEuMiIvPgo8bGluZSB4MT0iMTYzLjUiIHkxPSIzNy4wIiB4Mj0iMTYzLjUiIHkyPSI0My4wIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMS4yIi8+PGxpbmUgeDE9IjE2OC41IiB5MT0iMzcuMCIgeDI9IjE2OC41IiB5Mj0iNDMuMCIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjEuMiIvPgo8bGluZSB4MT0iMjk1LjAiIHkxPSIxNjMuNSIgeDI9IjI4OS4wIiB5Mj0iMTYzLjUiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxLjIiLz48bGluZSB4MT0iMjk1LjAiIHkxPSIxNjguNSIgeDI9IjI4OS4wIiB5Mj0iMTY4LjUiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxLjIiLz4KPGxpbmUgeDE9IjE2OC41IiB5MT0iMjk1LjAiIHgyPSIxNjguNSIgeTI9IjI4OS4wIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMS4yIi8+PGxpbmUgeDE9IjE2My41IiB5MT0iMjk1LjAiIHgyPSIxNjMuNSIgeTI9IjI4OS4wIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMS4yIi8+CjxsaW5lIHgxPSIzNy4wIiB5MT0iMTY4LjUiIHgyPSI0My4wIiB5Mj0iMTY4LjUiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxLjIiLz48bGluZSB4MT0iMzcuMCIgeTE9IjE2My41IiB4Mj0iNDMuMCIgeTI9IjE2My41IiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMS4yIi8+Cjx0ZXh0IHg9IjI2IiB5PSI0NCIgZmlsbD0iIzExMSIgZm9udC13ZWlnaHQ9IjYwMCIgZm9udC1zaXplPSIxMyI+QTwvdGV4dD4KPHRleHQgeD0iMzAyIiB5PSI0NCIgZmlsbD0iIzExMSIgZm9udC13ZWlnaHQ9IjYwMCIgZm9udC1zaXplPSIxMyI+QjwvdGV4dD4KPHRleHQgeD0iMzAyIiB5PSIzMDAiIGZpbGw9IiMxMTEiIGZvbnQtd2VpZ2h0PSI2MDAiIGZvbnQtc2l6ZT0iMTMiPkM8L3RleHQ+Cjx0ZXh0IHg9IjI2IiB5PSIzMDAiIGZpbGw9IiMxMTEiIGZvbnQtd2VpZ2h0PSI2MDAiIGZvbnQtc2l6ZT0iMTMiPkQ8L3RleHQ+Cjx0ZXh0IHg9IjE2MS4wIiB5PSIzMiIgZmlsbD0iIzExMSIgZm9udC13ZWlnaHQ9IjYwMCIgZm9udC1zaXplPSIxMyI+STwvdGV4dD4KPHRleHQgeD0iMTkyLjAiIHk9IjMyIiBmaWxsPSIjMTExIiBmb250LXdlaWdodD0iNjAwIiBmb250LXNpemU9IjEzIj5KPC90ZXh0Pgo8dGV4dCB4PSIzMDAiIHk9IjE2Ni4wIiBmaWxsPSIjMTExIiBmb250LXdlaWdodD0iNjAwIiBmb250LXNpemU9IjEzIj5LPC90ZXh0Pgo8dGV4dCB4PSIzMDAiIHk9IjIwNi4wIiBmaWxsPSIjMTExIiBmb250LXdlaWdodD0iNjAwIiBmb250LXNpemU9IjEzIj5MPC90ZXh0Pgo8dGV4dCB4PSIxODQuMCIgeT0iMzA4IiBmaWxsPSIjMTExIiBmb250LXdlaWdodD0iNjAwIiBmb250LXNpemU9IjEzIj5NPC90ZXh0Pgo8dGV4dCB4PSIxMjguMCIgeT0iMzA4IiBmaWxsPSIjMTExIiBmb250LXdlaWdodD0iNjAwIiBmb250LXNpemU9IjEzIj5OPC90ZXh0Pgo8dGV4dCB4PSIyMiIgeT0iMTcwLjAiIGZpbGw9IiMxMTEiIGZvbnQtd2VpZ2h0PSI2MDAiIGZvbnQtc2l6ZT0iMTMiPk88L3RleHQ+Cjx0ZXh0IHg9IjIyIiB5PSIxMzAuMCIgZmlsbD0iIzExMSIgZm9udC13ZWlnaHQ9IjYwMCIgZm9udC1zaXplPSIxMyI+UDwvdGV4dD4KPC9zdmc+" width="100%" style="max-width:100%;height:auto">';
 const figureEx5_q4='<img src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNTAwIDgwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLHNhbnMtc2VyaWYiIHN0eWxlPSJtYXgtd2lkdGg6MTAwJTtoZWlnaHQ6YXV0byI+CjxyZWN0IHg9IjIwIiB5PSIxNCIgd2lkdGg9IjQ2MCIgaGVpZ2h0PSI1MiIgZmlsbD0iI2Y4ZjhmOCIgc3Ryb2tlPSIjY2NjIiBzdHJva2Utd2lkdGg9IjAuOCIvPgo8bGluZSB4MT0iMTAwLjAiIHkxPSIxNCIgeDI9IjEwMC4wIiB5Mj0iNjYiIHN0cm9rZT0iI2RkZCIgc3Ryb2tlLXdpZHRoPSIwLjYiLz4KPGxpbmUgeDE9IjE2MC4wIiB5MT0iMTQiIHgyPSIxNjAuMCIgeTI9IjY2IiBzdHJva2U9IiNkZGQiIHN0cm9rZS13aWR0aD0iMC42Ii8+CjxsaW5lIHgxPSIyMjAuMCIgeTE9IjE0IiB4Mj0iMjIwLjAiIHkyPSI2NiIgc3Ryb2tlPSIjZGRkIiBzdHJva2Utd2lkdGg9IjAuNiIvPgo8bGluZSB4MT0iMjgwLjAiIHkxPSIxNCIgeDI9IjI4MC4wIiB5Mj0iNjYiIHN0cm9rZT0iI2RkZCIgc3Ryb2tlLXdpZHRoPSIwLjYiLz4KPGxpbmUgeDE9IjM0MC4wIiB5MT0iMTQiIHgyPSIzNDAuMCIgeTI9IjY2IiBzdHJva2U9IiNkZGQiIHN0cm9rZS13aWR0aD0iMC42Ii8+CjxsaW5lIHgxPSI0MDAuMCIgeTE9IjE0IiB4Mj0iNDAwLjAiIHkyPSI2NiIgc3Ryb2tlPSIjZGRkIiBzdHJva2Utd2lkdGg9IjAuNiIvPgo8bGluZSB4MT0iNDYwLjAiIHkxPSIxNCIgeDI9IjQ2MC4wIiB5Mj0iNjYiIHN0cm9rZT0iI2RkZCIgc3Ryb2tlLXdpZHRoPSIwLjYiLz4KPGxpbmUgeDE9IjIwIiB5MT0iNDAiIHgyPSI0ODAiIHkyPSI0MCIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjEuNSIvPgo8cG9seWdvbiBwb2ludHM9IjQ4MCw0MCA0NzQsMzYgNDc0LDQ0IiBmaWxsPSIjMzMzIi8+CjxsaW5lIHgxPSIxMDAiIHkxPSIzNCIgeDI9IjEwMCIgeTI9IjQ2IiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMS41Ii8+Cjx0ZXh0IHg9IjEwMCIgeT0iNTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMzMzMiIGZvbnQtc2l6ZT0iMTMiIGZvbnQtd2VpZ2h0PSI1MDAiPjA8L3RleHQ+CjxsaW5lIHgxPSIyMjAiIHkxPSIzNCIgeDI9IjIyMCIgeTI9IjQ2IiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMS41Ii8+Cjx0ZXh0IHg9IjIyMCIgeT0iNTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMzMzMiIGZvbnQtc2l6ZT0iMTMiIGZvbnQtd2VpZ2h0PSI1MDAiPjE8L3RleHQ+CjxjaXJjbGUgY3g9IjEwMCIgY3k9IjQwIiByPSI0IiBmaWxsPSIjMjIyIi8+CjxjaXJjbGUgY3g9IjQwMC4wIiBjeT0iNDAiIHI9IjQiIGZpbGw9IiMyMjIiLz4KPHRleHQgeD0iNDA4LjAiIHk9IjMyIiBmaWxsPSIjMjIyIiBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iNzAwIj5FPC90ZXh0Pgo8L3N2Zz4=" width="100%" style="max-width:100%;height:auto">';
 const figureEx3_q1='<svg viewBox="0 0 520 380" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,BlinkMacSystemFont,sans-serif" style="max-width:520px;display:block;margin:0 auto"><rect x="50" y="20" width="450" height="320" fill="white" stroke="rgba(0,0,0,.08)" stroke-width="1"/><line x1="50.0" y1="20" x2="50.0" y2="340" stroke="#ddd" stroke-width="0.8"/><line x1="84.6" y1="20" x2="84.6" y2="340" stroke="#ddd" stroke-width="0.8"/><line x1="119.2" y1="20" x2="119.2" y2="340" stroke="#ddd" stroke-width="0.8"/><line x1="153.8" y1="20" x2="153.8" y2="340" stroke="#ddd" stroke-width="0.8"/><line x1="188.5" y1="20" x2="188.5" y2="340" stroke="#ddd" stroke-width="0.8"/><line x1="223.1" y1="20" x2="223.1" y2="340" stroke="#ddd" stroke-width="0.8"/><line x1="257.7" y1="20" x2="257.7" y2="340" stroke="#ddd" stroke-width="0.8"/><line x1="292.3" y1="20" x2="292.3" y2="340" stroke="#ddd" stroke-width="0.8"/><line x1="326.9" y1="20" x2="326.9" y2="340" stroke="#ddd" stroke-width="0.8"/><line x1="361.5" y1="20" x2="361.5" y2="340" stroke="#ddd" stroke-width="0.8"/><line x1="396.2" y1="20" x2="396.2" y2="340" stroke="#ddd" stroke-width="0.8"/><line x1="430.8" y1="20" x2="430.8" y2="340" stroke="#ddd" stroke-width="0.8"/><line x1="465.4" y1="20" x2="465.4" y2="340" stroke="#ddd" stroke-width="0.8"/><line x1="500.0" y1="20" x2="500.0" y2="340" stroke="#ddd" stroke-width="0.8"/><line x1="50" y1="340.0" x2="500" y2="340.0" stroke="#ddd" stroke-width="0.8"/><line x1="50" y1="308.0" x2="500" y2="308.0" stroke="#ddd" stroke-width="0.8"/><line x1="50" y1="276.0" x2="500" y2="276.0" stroke="#ddd" stroke-width="0.8"/><line x1="50" y1="244.0" x2="500" y2="244.0" stroke="#ddd" stroke-width="0.8"/><line x1="50" y1="212.0" x2="500" y2="212.0" stroke="#ddd" stroke-width="0.8"/><line x1="50" y1="180.0" x2="500" y2="180.0" stroke="#ddd" stroke-width="0.8"/><line x1="50" y1="148.0" x2="500" y2="148.0" stroke="#ddd" stroke-width="0.8"/><line x1="50" y1="116.0" x2="500" y2="116.0" stroke="#ddd" stroke-width="0.8"/><line x1="50" y1="84.0" x2="500" y2="84.0" stroke="#ddd" stroke-width="0.8"/><line x1="50" y1="52.0" x2="500" y2="52.0" stroke="#ddd" stroke-width="0.8"/><line x1="50" y1="20.0" x2="500" y2="20.0" stroke="#ddd" stroke-width="0.8"/><line x1="50" y1="340.0" x2="500" y2="340.0" stroke="#111" stroke-width="2"/><line x1="153.8" y1="20" x2="153.8" y2="340" stroke="#111" stroke-width="2"/><polygon points="500,340.0 492,336.0 492,344.0" fill="#111"/><polygon points="153.8,20 149.8,28 157.8,28" fill="#111"/><line x1="84.6" y1="336.0" x2="84.6" y2="344.0" stroke="#111" stroke-width="1.2"/><text x="84.6" y="356.0" text-anchor="middle" font-size="10" fill="#333">−1.0</text><line x1="119.2" y1="336.0" x2="119.2" y2="344.0" stroke="#111" stroke-width="1.2"/><text x="119.2" y="356.0" text-anchor="middle" font-size="10" fill="#333">−0.5</text><line x1="153.8" y1="336.0" x2="153.8" y2="344.0" stroke="#111" stroke-width="1.2"/><line x1="188.5" y1="336.0" x2="188.5" y2="344.0" stroke="#111" stroke-width="1.2"/><text x="188.5" y="356.0" text-anchor="middle" font-size="10" fill="#333">0.5</text><line x1="223.1" y1="336.0" x2="223.1" y2="344.0" stroke="#111" stroke-width="1.2"/><text x="223.1" y="356.0" text-anchor="middle" font-size="10" fill="#333">1.0</text><line x1="257.7" y1="336.0" x2="257.7" y2="344.0" stroke="#111" stroke-width="1.2"/><text x="257.7" y="356.0" text-anchor="middle" font-size="10" fill="#333">1.5</text><line x1="292.3" y1="336.0" x2="292.3" y2="344.0" stroke="#111" stroke-width="1.2"/><text x="292.3" y="356.0" text-anchor="middle" font-size="10" fill="#333">2.0</text><line x1="326.9" y1="336.0" x2="326.9" y2="344.0" stroke="#111" stroke-width="1.2"/><text x="326.9" y="356.0" text-anchor="middle" font-size="10" fill="#333">2.5</text><line x1="361.5" y1="336.0" x2="361.5" y2="344.0" stroke="#111" stroke-width="1.2"/><text x="361.5" y="356.0" text-anchor="middle" font-size="10" fill="#333">3.0</text><line x1="396.2" y1="336.0" x2="396.2" y2="344.0" stroke="#111" stroke-width="1.2"/><text x="396.2" y="356.0" text-anchor="middle" font-size="10" fill="#333">3.5</text><line x1="430.8" y1="336.0" x2="430.8" y2="344.0" stroke="#111" stroke-width="1.2"/><text x="430.8" y="356.0" text-anchor="middle" font-size="10" fill="#333">4.0</text><line x1="465.4" y1="336.0" x2="465.4" y2="344.0" stroke="#111" stroke-width="1.2"/><text x="465.4" y="356.0" text-anchor="middle" font-size="10" fill="#333">4.5</text><line x1="500.0" y1="336.0" x2="500.0" y2="344.0" stroke="#111" stroke-width="1.2"/><text x="500.0" y="356.0" text-anchor="middle" font-size="10" fill="#333">5.0</text><line x1="149.8" y1="308.0" x2="157.8" y2="308.0" stroke="#111" stroke-width="1.2"/><text x="145.8" y="312.0" text-anchor="end" font-size="10" fill="#333">2</text><line x1="149.8" y1="276.0" x2="157.8" y2="276.0" stroke="#111" stroke-width="1.2"/><text x="145.8" y="280.0" text-anchor="end" font-size="10" fill="#333">4</text><line x1="149.8" y1="244.0" x2="157.8" y2="244.0" stroke="#111" stroke-width="1.2"/><text x="145.8" y="248.0" text-anchor="end" font-size="10" fill="#333">6</text><line x1="149.8" y1="212.0" x2="157.8" y2="212.0" stroke="#111" stroke-width="1.2"/><text x="145.8" y="216.0" text-anchor="end" font-size="10" fill="#333">8</text><line x1="149.8" y1="180.0" x2="157.8" y2="180.0" stroke="#111" stroke-width="1.2"/><text x="145.8" y="184.0" text-anchor="end" font-size="10" fill="#333">10</text><line x1="149.8" y1="148.0" x2="157.8" y2="148.0" stroke="#111" stroke-width="1.2"/><text x="145.8" y="152.0" text-anchor="end" font-size="10" fill="#333">12</text><line x1="149.8" y1="116.0" x2="157.8" y2="116.0" stroke="#111" stroke-width="1.2"/><text x="145.8" y="120.0" text-anchor="end" font-size="10" fill="#333">14</text><line x1="149.8" y1="84.0" x2="157.8" y2="84.0" stroke="#111" stroke-width="1.2"/><text x="145.8" y="88.0" text-anchor="end" font-size="10" fill="#333">16</text><line x1="149.8" y1="52.0" x2="157.8" y2="52.0" stroke="#111" stroke-width="1.2"/><text x="145.8" y="56.0" text-anchor="end" font-size="10" fill="#333">18</text><line x1="146.9" y1="348.0" x2="420.4" y2="32.0" stroke="#0021BC" stroke-width="2.2" stroke-linecap="round"/><text x="403.1" y="42.0" fill="#0021BC" font-size="13" font-weight="600" font-style="italic">(d₁)</text><line x1="50.0" y1="340.0" x2="461.9" y2="149.6" stroke="#CC2200" stroke-width="2.2" stroke-linecap="round"/><text x="420.4" y="173.8" fill="#CC2200" font-size="13" font-weight="600" font-style="italic">(d₂)</text></svg>';
+const figureEx63_q5="<svg viewBox=\"0 0 480 400\" width=\"100%\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"sans-serif\" style=\"max-width:480px;display:block;margin:0 auto;background:#fff;border-radius:8px\"><line x1=\"60\" "
++"y1=\"20\" x2=\"60\" y2=\"350\" stroke=\"#e5e7eb\" stroke-width=\"0.8\"/><line x1=\"93\" y1=\"20\" x2=\"93\" y2=\"350\" stroke=\"#e5e7eb\" stroke-width=\"0.8\"/><line x1=\"127\" y1=\"20\" x2=\"127\" y2=\"350\" stroke=\"#e5e7eb\" stro"
++"ke-width=\"0.8\"/><line x1=\"160\" y1=\"20\" x2=\"160\" y2=\"350\" stroke=\"#e5e7eb\" stroke-width=\"0.8\"/><line x1=\"193\" y1=\"20\" x2=\"193\" y2=\"350\" stroke=\"#e5e7eb\" stroke-width=\"0.8\"/><line x1=\"227\" y1=\"20\" x2=\"2"
++"27\" y2=\"350\" stroke=\"#e5e7eb\" stroke-width=\"0.8\"/><line x1=\"260\" y1=\"20\" x2=\"260\" y2=\"350\" stroke=\"#e5e7eb\" stroke-width=\"0.8\"/><line x1=\"293\" y1=\"20\" x2=\"293\" y2=\"350\" stroke=\"#e5e7eb\" stroke-width=\""
++"0.8\"/><line x1=\"327\" y1=\"20\" x2=\"327\" y2=\"350\" stroke=\"#e5e7eb\" stroke-width=\"0.8\"/><line x1=\"360\" y1=\"20\" x2=\"360\" y2=\"350\" stroke=\"#e5e7eb\" stroke-width=\"0.8\"/><line x1=\"393\" y1=\"20\" x2=\"393\" y2=\"35"
++"0\" stroke=\"#e5e7eb\" stroke-width=\"0.8\"/><line x1=\"427\" y1=\"20\" x2=\"427\" y2=\"350\" stroke=\"#e5e7eb\" stroke-width=\"0.8\"/><line x1=\"460\" y1=\"20\" x2=\"460\" y2=\"350\" stroke=\"#e5e7eb\" stroke-width=\"0.8\"/><lin"
++"e x1=\"60\" y1=\"350\" x2=\"460\" y2=\"350\" stroke=\"#e5e7eb\" stroke-width=\"0.8\"/><line x1=\"60\" y1=\"312\" x2=\"460\" y2=\"312\" stroke=\"#e5e7eb\" stroke-width=\"0.8\"/><line x1=\"60\" y1=\"275\" x2=\"460\" y2=\"275\" stroke="
++"\"#e5e7eb\" stroke-width=\"0.8\"/><line x1=\"60\" y1=\"238\" x2=\"460\" y2=\"238\" stroke=\"#e5e7eb\" stroke-width=\"0.8\"/><line x1=\"60\" y1=\"200\" x2=\"460\" y2=\"200\" stroke=\"#e5e7eb\" stroke-width=\"0.8\"/><line x1=\"60\" "
++"y1=\"162\" x2=\"460\" y2=\"162\" stroke=\"#e5e7eb\" stroke-width=\"0.8\"/><line x1=\"60\" y1=\"125\" x2=\"460\" y2=\"125\" stroke=\"#e5e7eb\" stroke-width=\"0.8\"/><line x1=\"60\" y1=\"88\" x2=\"460\" y2=\"88\" stroke=\"#e5e7eb\" st"
++"roke-width=\"0.8\"/><line x1=\"60\" y1=\"50\" x2=\"460\" y2=\"50\" stroke=\"#e5e7eb\" stroke-width=\"0.8\"/><line x1=\"60\" y1=\"350\" x2=\"470\" y2=\"350\" stroke=\"#111\" stroke-width=\"2\"/><line x1=\"60\" y1=\"350\" x2=\"60\" y2"
++"=\"10\" stroke=\"#111\" stroke-width=\"2\"/><polygon points=\"470,350 463,346 463,354\" fill=\"#111\"/><polygon points=\"60,10 56,17 64,17\" fill=\"#111\"/><text x=\"60\" y=\"365\" text-anchor=\"middle\" font-size=\"9\" fi"
++"ll=\"#374151\">0</text><text x=\"93\" y=\"365\" text-anchor=\"middle\" font-size=\"9\" fill=\"#374151\">10</text><text x=\"127\" y=\"365\" text-anchor=\"middle\" font-size=\"9\" fill=\"#374151\">20</text><text x=\"160\" y=\"3"
++"65\" text-anchor=\"middle\" font-size=\"9\" fill=\"#374151\">30</text><text x=\"193\" y=\"365\" text-anchor=\"middle\" font-size=\"9\" fill=\"#374151\">40</text><text x=\"227\" y=\"365\" text-anchor=\"middle\" font-size=\"9\""
++" fill=\"#374151\">50</text><text x=\"260\" y=\"365\" text-anchor=\"middle\" font-size=\"9\" fill=\"#374151\">60</text><text x=\"293\" y=\"365\" text-anchor=\"middle\" font-size=\"9\" fill=\"#374151\">70</text><text x=\"327\""
++" y=\"365\" text-anchor=\"middle\" font-size=\"9\" fill=\"#374151\">80</text><text x=\"360\" y=\"365\" text-anchor=\"middle\" font-size=\"9\" fill=\"#374151\">90</text><text x=\"393\" y=\"365\" text-anchor=\"middle\" font-siz"
++"e=\"9\" fill=\"#374151\">100</text><text x=\"427\" y=\"365\" text-anchor=\"middle\" font-size=\"9\" fill=\"#374151\">110</text><text x=\"460\" y=\"365\" text-anchor=\"middle\" font-size=\"9\" fill=\"#374151\">120</text><text"
++" x=\"55\" y=\"316\" text-anchor=\"end\" font-size=\"9\" fill=\"#374151\">5 000</text><text x=\"55\" y=\"278\" text-anchor=\"end\" font-size=\"9\" fill=\"#374151\">10 000</text><text x=\"55\" y=\"240\" text-anchor=\"end\" font-"
++"size=\"9\" fill=\"#374151\">15 000</text><text x=\"55\" y=\"203\" text-anchor=\"end\" font-size=\"9\" fill=\"#374151\">20 000</text><text x=\"55\" y=\"165\" text-anchor=\"end\" font-size=\"9\" fill=\"#374151\">25 000</text><"
++"text x=\"55\" y=\"128\" text-anchor=\"end\" font-size=\"9\" fill=\"#374151\">30 000</text><text x=\"55\" y=\"90\" text-anchor=\"end\" font-size=\"9\" fill=\"#374151\">35 000</text><text x=\"55\" y=\"53\" text-anchor=\"end\" fo"
++"nt-size=\"9\" fill=\"#374151\">40 000</text><text x=\"475\" y=\"354\" font-size=\"10\" fill=\"#374151\">mois</text><text x=\"10\" y=\"25\" font-size=\"9\" fill=\"#374151\">Depense (€)</text><line x1=\"60\" y1=\"182\" x2=\"460"
++"\" y2=\"114\" stroke=\"#0f766e\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><text x=\"427\" y=\"112\" fill=\"#0f766e\" font-size=\"12\" font-weight=\"700\">Cf</text><line x1=\"60\" y1=\"350\" x2=\"393\" y2=\"31\" stroke=\"#d"
++"c2626\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><text x=\"300\" y=\"112\" fill=\"#dc2626\" font-size=\"12\" font-weight=\"700\">Cg</text><line x1=\"273\" y1=\"146\" x2=\"273\" y2=\"350\" stroke=\"#6b7280\" stroke-width"
++"=\"1\" stroke-dasharray=\"4,3\"/><circle cx=\"273\" cy=\"146\" r=\"4\" fill=\"#6b7280\"/><text x=\"273\" y=\"376\" text-anchor=\"middle\" font-size=\"9\" fill=\"#6b7280\">64</text></svg>";
+
+const figureEx64='<svg viewBox="0 0 320 260" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,sans-serif" style="max-width:320px;display:block;margin:0 auto"><rect width="320" height="260" fill="rgba(0,33,188,.03)" rx="10"/><line x1="60" y1="100" x2="200" y2="100" stroke="#0021BC" stroke-width="1.8"/><line x1="200" y1="100" x2="280" y2="100" stroke="#0021BC" stroke-width="1.8" stroke-dasharray="6,3"/><line x1="60" y1="100" x2="95" y2="185" stroke="#0021BC" stroke-width="1.8"/><line x1="95" y1="185" x2="200" y2="100" stroke="#0021BC" stroke-width="1.8"/><line x1="95" y1="185" x2="95" y2="230" stroke="#0021BC" stroke-width="1.8"/><line x1="95" y1="230" x2="280" y2="100" stroke="#0021BC" stroke-width="1.8"/><rect x="60" y="100" width="10" height="10" fill="none" stroke="#333" stroke-width="1.2"/><text x="46" y="98" font-size="13" font-weight="700" fill="#190806">A</text><text x="198" y="90" font-size="13" font-weight="700" fill="#190806">C</text><text x="282" y="98" font-size="13" font-weight="700" fill="#190806">B</text><text x="82" y="183" font-size="13" font-weight="700" fill="#190806">D</text><text x="82" y="235" font-size="13" font-weight="700" fill="#190806">E</text><text x="120" y="93" font-size="10" fill="#8A8DAA" text-anchor="middle">480 m</text><text x="242" y="90" font-size="10" fill="#8A8DAA" text-anchor="middle">120 m</text><text x="40" y="148" font-size="10" fill="#8A8DAA" text-anchor="middle">250 m</text><text x="108" y="212" font-size="10" fill="#8A8DAA">50 m</text></svg>';
 const figureEx5_q5='<div style="display:flex;justify-content:center;padding:8px 0"><svg viewBox="0 0 220 180" width="200" height="163" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif">'+'<polygon points="30,155 170,155 170,30" fill="rgba(0,33,188,.05)" stroke="#0021BC" stroke-width="1.8" stroke-linejoin="round"/>'+'<rect x="158" y="143" width="12" height="12" fill="none" stroke="#333" stroke-width="1.4"/>'+'<path d="M 52,155 A 24,24 0 0,0 44.5,135" fill="none" stroke="#EE6E34" stroke-width="1.4"/>'+'<text x="56" y="150" fill="#EE6E34" font-size="12">35°</text>'+'<path d="M 170,52 A 22,22 0 0,1 152,46" fill="none" stroke="#0021BC" stroke-width="1.4" stroke-dasharray="3,2"/>'+'<text x="148" y="44" fill="#0021BC" font-size="13" font-weight="600">?</text>'+'<text x="16" y="162" fill="#190806" font-size="13" font-weight="600">A</text>'+'<text x="174" y="162" fill="#190806" font-size="13" font-weight="600">B</text>'+'<text x="174" y="26" fill="#190806" font-size="13" font-weight="600">C</text>'+'<text x="80" y="172" fill="#8A8DAA" font-size="10">rectangle en B</text>'+'</svg></div>';
 const figureEx5_q6='<div style="display:flex;justify-content:center;padding:8px 0"><svg viewBox="0 0 220 170" width="200" height="154" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif">'+'<polygon points="30,145 185,145 30,30" fill="rgba(0,33,188,.05)" stroke="#0021BC" stroke-width="1.8" stroke-linejoin="round"/>'+'<rect x="30" y="133" width="12" height="12" fill="none" stroke="#333" stroke-width="1.4"/>'+'<path d="M 171,145 A 20,20 0 0,0 166,127" fill="none" stroke="#EE6E34" stroke-width="1.4"/>'+'<text x="150" y="141" fill="#EE6E34" font-size="11">B̂</text>'+'<line x1="30" y1="145" x2="185" y2="145" stroke="#8A8DAA" stroke-width="1" stroke-dasharray="3,2"/>'+'<line x1="30" y1="30" x2="30" y2="145" stroke="#8A8DAA" stroke-width="1" stroke-dasharray="3,2"/>'+'<text x="15" y="152" fill="#190806" font-size="13" font-weight="600">A</text>'+'<text x="190" y="152" fill="#190806" font-size="13" font-weight="600">B</text>'+'<text x="15" y="28" fill="#190806" font-size="13" font-weight="600">C</text>'+'<text x="96" y="160" fill="#8A8DAA" font-size="10">AB</text>'+'<text x="3" y="90" fill="#8A8DAA" font-size="10">AC</text>'+'<text x="95" y="82" fill="#0021BC" font-size="10" transform="rotate(-37,95,82)">BC (hyp.)</text>'+'<text x="50" y="165" fill="#8A8DAA" font-size="10">rectangle en A</text>'+'</svg></div>';
 const figureEx5_q7='<img src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMzIwIDIyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxzYW5zLXNlcmlmIiBzdHlsZT0ibWF4LXdpZHRoOjEwMCU7aGVpZ2h0OmF1dG8iPgo8cG9seWdvbiBwb2ludHM9IjMwLDE5MCAyOTAsMTkwIDIyMCwzMCIgZmlsbD0iI0VFRjJGRiIgc3Ryb2tlPSIjMDAyMUJDIiBzdHJva2Utd2lkdGg9IjEuOCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8bGluZSB4MT0iMTU2LjciIHkxPSI4My4zIiB4Mj0iMjAzLjMiIHkyPSIxOTAuMCIgc3Ryb2tlPSIjMDAyMUJDIiBzdHJva2Utd2lkdGg9IjEuNSIvPgo8dGV4dCB4PSIxNCIgeT0iMTk1IiBmaWxsPSIjMTExIiBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iNzAwIj5BPC90ZXh0Pgo8dGV4dCB4PSIyMDMiIHk9IjIwNiIgZmlsbD0iIzExMSIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9IjcwMCI+QjwvdGV4dD4KPHRleHQgeD0iMTQxIiB5PSI4MyIgZmlsbD0iIzExMSIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9IjcwMCI+QzwvdGV4dD4KPHRleHQgeD0iMjI0IiB5PSIzMCIgZmlsbD0iIzExMSIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9IjcwMCI+RDwvdGV4dD4KPHRleHQgeD0iMjk0IiB5PSIxOTUiIGZpbGw9IiMxMTEiIGZvbnQtc2l6ZT0iMTMiIGZvbnQtd2VpZ2h0PSI3MDAiPkU8L3RleHQ+Cjx0ZXh0IHg9IjcxIiB5PSIxMzciIGZpbGw9IiM1NTUiIGZvbnQtc2l6ZT0iMTEiPjQgY208L3RleHQ+Cjx0ZXh0IHg9IjE4MiIgeT0iNTciIGZpbGw9IiM1NTUiIGZvbnQtc2l6ZT0iMTEiPjIgY208L3RleHQ+Cjx0ZXh0IHg9IjI1OSIgeT0iMTEwIiBmaWxsPSIjNTU1IiBmb250LXNpemU9IjExIj43IGNtPC90ZXh0Pgo8L3N2Zz4=" width="100%" style="max-width:100%;height:auto">';
@@ -3946,7 +3978,61 @@ const exercises=[
       {pts:0.75, text:"L\'entreprise revend <strong>15 %</strong> de sa production au tarif de <strong>8 centimes le kWh</strong>. Combien a-t-elle gagné en euros sur ces 7 jours ?", figureExtra:"<div style=\'overflow-x:auto;margin:10px 0\'><table style=\'width:100%;border-collapse:collapse;font-size:12px;background:white;border:1.5px solid rgba(0,0,0,.15)\'><thead><tr><th style=\'background:#EEF2FF;padding:6px 8px;text-align:left;font-weight:700;color:#0021BC;border:1px solid rgba(0,0,0,.12)\'>Jour</th><th style=\'background:#EEF2FF;padding:6px 8px;text-align:center;font-weight:700;color:#0021BC;border:1px solid rgba(0,0,0,.12)\'>Lun</th><th style=\'background:#EEF2FF;padding:6px 8px;text-align:center;font-weight:700;color:#0021BC;border:1px solid rgba(0,0,0,.12)\'>Mar</th><th style=\'background:#EEF2FF;padding:6px 8px;text-align:center;font-weight:700;color:#0021BC;border:1px solid rgba(0,0,0,.12)\'>Mer</th><th style=\'background:#EEF2FF;padding:6px 8px;text-align:center;font-weight:700;color:#0021BC;border:1px solid rgba(0,0,0,.12)\'>Jeu</th><th style=\'background:#EEF2FF;padding:6px 8px;text-align:center;font-weight:700;color:#0021BC;border:1px solid rgba(0,0,0,.12)\'>Ven</th><th style=\'background:#EEF2FF;padding:6px 8px;text-align:center;font-weight:700;color:#0021BC;border:1px solid rgba(0,0,0,.12)\'>Sam</th><th style=\'background:#EEF2FF;padding:6px 8px;text-align:center;font-weight:700;color:#0021BC;border:1px solid rgba(0,0,0,.12)\'>Dim</th></tr></thead><tbody><tr><td style=\'padding:6px 8px;text-align:left;border:1px solid rgba(0,0,0,.1);font-weight:600;color:#8A8DAA;font-size:11px\'>kWh</td><td style=\'padding:6px 8px;text-align:center;border:1px solid rgba(0,0,0,.1);font-weight:700\'>381</td><td style=\'padding:6px 8px;text-align:center;border:1px solid rgba(0,0,0,.1);font-weight:700\'>363</td><td style=\'padding:6px 8px;text-align:center;border:1px solid rgba(0,0,0,.1);font-weight:700\'>322</td><td style=\'padding:6px 8px;text-align:center;border:1px solid rgba(0,0,0,.1);font-weight:700\'>329</td><td style=\'padding:6px 8px;text-align:center;border:1px solid rgba(0,0,0,.1);font-weight:700\'>393</td><td style=\'padding:6px 8px;text-align:center;border:1px solid rgba(0,0,0,.1);font-weight:700\'>405</td><td style=\'padding:6px 8px;text-align:center;border:1px solid rgba(0,0,0,.1);font-weight:700\'>376</td></tr></tbody></table></div>",answer:"30,83 €",solution:"Total = 2569 kWh — 15% = 385,35 kWh — Gain = 385,35×0,08 = 30,83 €"},
       {pts:1.2, text:"La pente optimale est entre 30° et 35°. Dans le triangle OTV rectangle en V, OT = 13,5 m et OV = 7 m. Calculer l\'angle OTV et conclure si les panneaux ont une production maximale.", figureExtra:"<div style=\'display:flex;justify-content:center;margin:10px 0\'><svg viewBox=\'0 0 300 260\' width=\'240\' height=\'208\' xmlns=\'http://www.w3.org/2000/svg\' font-size=\'12\'><rect x=\'20\' y=\'155\' width=\'260\' height=\'65\' fill=\'rgba(0,0,0,.04)\' stroke=\'#333\' stroke-width=\'1.8\'/><line x1=\'20\' y1=\'155\' x2=\'155\' y2=\'30\' stroke=\'#333\' stroke-width=\'2\'/><line x1=\'155\' y1=\'30\' x2=\'280\' y2=\'155\' stroke=\'#333\' stroke-width=\'1.8\'/><line x1=\'155\' y1=\'30\' x2=\'155\' y2=\'155\' stroke=\'#555\' stroke-width=\'1.2\' stroke-dasharray=\'5,3\'/><rect x=\'155\' y=\'145\' width=\'10\' height=\'10\' fill=\'none\' stroke=\'#555\' stroke-width=\'1.2\'/><line x1=\'20\' y1=\'155\' x2=\'140\' y2=\'42\' stroke=\'#0021BC\' stroke-width=\'4\' stroke-opacity=\'.5\'/><circle cx=\'20\' cy=\'155\' r=\'3\' fill=\'#333\'/><circle cx=\'280\' cy=\'155\' r=\'3\' fill=\'#333\'/><circle cx=\'155\' cy=\'155\' r=\'3\' fill=\'#333\'/><circle cx=\'155\' cy=\'30\' r=\'3\' fill=\'#333\'/><text x=\'8\' y=\'152\' fill=\'#333\' font-weight=\'700\'>T</text><text x=\'276\' y=\'152\' fill=\'#333\' font-weight=\'700\'>K</text><text x=\'148\' y=\'172\' fill=\'#333\' font-weight=\'700\'>V</text><text x=\'152\' y=\'22\' fill=\'#333\' font-weight=\'700\'>O</text><text x=\'70\' y=\'85\' fill=\'#0021BC\' font-size=\'11\' font-weight=\'600\' transform=\'rotate(-42,70,85)\'>13,5 m</text><text x=\'162\' y=\'95\' fill=\'#8A8DAA\' font-size=\'11\'>7 m</text></svg></div>",answer:"Oui — angle ≈ 31,3°",solution:"sin(angle) = OV/OT = 7/13,5 ≈ 0,519 → angle ≈ 31,3° — entre 30° et 35° ✓"}
     ]}
-];
+,
+  // ── MÉTROPOLE JUIN 2025 ────────────────────────────────────
+  {id:57,num:"57",source:"Métropole Juin 2025",name:"Automatismes",sub:"Automatismes · 12 pts",pts:12,
+    questions:[
+      {pts:1,text:"Donner la valeur exacte de sin(30°).",answer:"1/2",solution:"sin(30°) = 1/2 — à connaître par cœur"},
+      {pts:1,text:"Calculer 2,5 × 10³ + 4,7 × 10².",answer:"2970",solution:"2500 + 470 = 2970"},
+      {pts:1,text:"Factoriser l'expression : 4x² − 9.",answer:"(2x − 3)(2x + 3)",solution:"4x² − 9 = (2x)² − 3² = (2x−3)(2x+3) — identité remarquable a²−b²"},
+      {pts:1,text:"Un triangle ABC a pour côtés AB = 5 cm, BC = 12 cm et AC = 13 cm. Montrer que ce triangle est rectangle.",answer:"AB² + BC² = AC² donc rectangle en B",solution:"5² + 12² = 25 + 144 = 169 = 13² = AC² → triangle rectangle en B (Pythagore)"},
+      {pts:1,text:"Résoudre l'inéquation : 3x − 7 > 2.",answer:"x > 3",solution:"3x > 9 → x > 3"},
+      {pts:1,text:"Dans une classe de 30 élèves, 40 % sont des filles. Combien y a-t-il de garçons ?",answer:"18 garçons",solution:"Filles : 30 × 0,4 = 12. Garçons : 30 − 12 = 18"},
+      {pts:1,text:"Le prix de 3 melons est 8,40 €. Combien coûtent 5 melons ?",answer:"14 €",solution:"Prix unitaire = 8,40 ÷ 3 = 2,80 €. 5 melons = 5 × 2,80 = 14 €"},
+      {pts:1,text:"Quelle transformation permet de passer de la figure 1 à la figure 2 ? A. Une symétrie centrale  B. Une rotation  C. Une translation  D. Une symétrie axiale",answer:"C. Une translation",solution:"La figure 2 est l'image de la figure 1 par une translation (même orientation, même forme, juste déplacée)"},
+      {pts:1,text:"Un article coûte 350 €. Son prix augmente de 20 %. Quel est son nouveau prix ?",answer:"420 €",solution:"350 × 1,20 = 420 €"},
+      {pts:1,text:"Quelle est l'aire du triangle rectangle ABC avec AB = 6 cm et BC = 4,5 cm (angle droit en B) ?",answer:"13,5 cm²",solution:"Aire = (AB × BC) / 2 = (6 × 4,5) / 2 = 13,5 cm²"},
+      {pts:1,text:"Quelle est la forme développée et réduite de (2x + 3)(x − 4) ?",answer:"2x² − 5x − 12",solution:"(2x+3)(x−4) = 2x²−8x+3x−12 = 2x²−5x−12"},
+      {pts:1,text:"Parmi les nombres suivants, lequel est une solution de l'équation 3x + 2 = 11 ?",answer:"x = 3",solution:"3×3 + 2 = 9 + 2 = 11 ✓ → x = 3"}
+    ]},
+  {id:64,num:"64",source:"Métropole Juin 2025",name:"Aquathlon — Course & Natation",sub:"Pythagore · Thalès · Trigonométrie · Stats · 23 pts",pts:23,
+    stimulus:"Des professeurs d\'EPS proposent un aquathlon (course à pied et natation).\nParcours ACDEB : A, C, B alignés. A, D, E alignés. Triangle ADC rectangle en A.\nAC = 480 m, CB = 120 m, AE = 250 m, DE = 50 m.",
+    questions:[
+      {pts:3,figureWide:true,figureOverride:figureEx64,text:"Partie A — Q1. Justifier que AD = 200 m.",answer:"AD = 200 m",solution:"Triangle ADC rectangle en A. Les points A, D, E sont alignés avec AE = 250 m et DE = 50 m.\nDonc AD = AE − DE = 250 − 50 = 200 m."},
+      {pts:4,figureWide:true,figureOverride:figureEx64,text:"Partie A — Q2. Calculer la longueur CD.",answer:"CD ≈ 539 m",solution:"Triangle ADC rectangle en A : CD² = AC² + AD² = 480² + 200² = 230 400 + 40 000 = 270 400\nCD = √270 400 ≈ 519,9 ≈ 520 m"},
+      {pts:5,figureWide:true,figureOverride:figureEx64,text:"Partie A — Q3a. Les droites (CD) et (BE) sont-elles parallèles ? Justifier.",answer:"Oui, (CD) ∥ (BE) par la réciproque du théorème de Thalès",solution:"Dans le triangle ACB (ou avec les droites coupées par les sécantes) :\nAD/AE = 200/250 = 4/5 et AC/AB = 480/(480+120) = 480/600 = 4/5\nDonc AD/AE = AC/AB → par la réciproque de Thalès, (CD) ∥ (BE)."},
+      {pts:4,figureWide:true,figureOverride:figureEx64,text:"Partie A — Q3b. La mesure de l'angle ACD est-elle supérieure à 20° ?",answer:"Non, ACD ≈ 22,6° > 20° — oui, supérieure à 20°",solution:"tan(ACD) = AD/AC = 200/480 ≈ 0,4167\nACD = arctan(0,4167) ≈ 22,6° > 20° ✓"},
+      {pts:2,text:"Partie A — Q3c. Le parcours est-il validé ?",answer:"Oui, le parcours est validé",solution:"Les deux conditions sont remplies : (CD) ∥ (BE) ✓ et angle ACD ≈ 22,6° > 20° ✓. Le parcours est validé."},
+      {pts:3,text:"Partie B — Q4. Quel est le temps médian de la série de 9 élèves ?\n5min 30s ; 5min 45s ; 5min 49s ; 5min 50s ; 6min ; 6min 11s ; 6min 12s ; 6min 20s ; 6min 40s",answer:"Médiane = 6 min",solution:"9 valeurs triées : la médiane est la 5e valeur = 6 min 00 s."},
+      {pts:2,text:"Partie B — Q5. Un poisson rouge nage à 5 km/h. L'élève le plus rapide nage 200 m en 5 min 30 s. Nage-t-il plus vite que l'élève le plus rapide ?",answer:"Oui, le poisson rouge nage plus vite",solution:"Vitesse élève le plus rapide : 200 m en 5 min 30 s = 330 s.\nv = 200/330 m/s = 0,606 m/s = 0,606 × 3,6 ≈ 2,18 km/h.\nLe poisson rouge nage à 5 km/h > 2,18 km/h. Il nage plus vite."}
+    ]},
+  {id:61,num:"61",source:"Métropole Juin 2025",name:"Probabilités & Statistiques",sub:"Probabilités · Stats · 5 pts",pts:5,
+    questions:[
+      {pts:1,text:"Une urne contient 4 boules rouges, 6 boules bleues et 2 boules vertes. On tire une boule au hasard. Quelle est la probabilité d'obtenir une boule bleue ?",answer:"P(bleue) = 1/2",solution:"6 boules bleues sur 12 total : P = 6/12 = 1/2"},
+      {pts:1,text:"Dans la même urne, quelle est la probabilité de ne pas obtenir une boule rouge ?",answer:"P(non rouge) = 2/3",solution:"Non rouge = bleue ou verte = 6+2 = 8 boules. P = 8/12 = 2/3"},
+      {pts:1,text:"Les notes d'une classe de 20 élèves sont : 8 élèves ont 12, 6 élèves ont 15, 4 élèves ont 10, 2 élèves ont 18. Calculer la moyenne.",answer:"13 / 20",solution:"Moyenne = (8×12 + 6×15 + 4×10 + 2×18) / 20 = (96+90+40+36)/20 = 262/20 = 13,1"},
+      {pts:1,text:"Dans cette même série, quelle est la médiane ?",answer:"12",solution:"20 élèves, valeurs triées : 4×10, 8×12, 6×15, 2×18. Médiane = moyenne des 10e et 11e valeurs = (12+12)/2 = 12"},
+      {pts:1,text:"L'étendue de cette série est-elle supérieure à 8 ?",answer:"Oui, l'étendue est 10 (18 − 8 = 10 > 8)",solution:"Étendue = valeur max − valeur min = 18 − 8 = 10 > 8"}
+    ]},
+  {id:62,num:"62",source:"Métropole Juin 2025",name:"Programmes de calcul — Zoé & Fred",sub:"Algèbre · Scratch · 20 pts",pts:20,
+    stimulus:"Au club « Mathsetmagie », on s'amuse à créer des programmes de calcul plus ou moins magiques.\nProgramme de Zoé : Choisir un nombre → Soustraire 4 → Multiplier par 2 → Ajouter 8.",
+    questions:[
+      {pts:3,text:"Partie A — Q1. Vérifier que si on choisit 10 comme nombre de départ, on obtient 20 avec le programme de Zoé.",answer:"(10 − 4) × 2 + 8 = 6 × 2 + 8 = 12 + 8 = 20 ✓",solution:"Étape par étape : 10 → −4 = 6 → ×2 = 12 → +8 = 20. On retrouve bien 20."},
+      {pts:3,text:"Partie A — Q2. Quel résultat obtient-on avec le programme de Zoé si on choisit −7 comme nombre de départ ?",answer:"−10",solution:"−7 → −4 = −11 → ×2 = −22 → +8 = −14. Attendre — recalcul : (−7−4)×2+8 = −11×2+8 = −22+8 = −14"},
+      {pts:4,text:"Partie A — Q3. Zoé prétend que son programme est « magique » car, quel que soit le nombre choisi, le résultat est toujours le double du nombre de départ. A-t-elle raison ?",answer:"Oui, car (x − 4) × 2 + 8 = 2x − 8 + 8 = 2x",solution:"On appelle x le nombre de départ. Résultat = (x−4)×2+8 = 2x−8+8 = 2x. Le résultat est bien le double de x. Zoé a raison."},
+      {pts:4,text:"Partie B — Q4. Le programme Scratch de Fred effectue : réponse × 4, puis résultat + 10, puis résultat × 5. Démontrer que si le nombre de départ est x, le résultat est 20x + 50.",answer:"(x×4+10)×5 = 20x+50",solution:"Étape 1 : résultat ← réponse × 4 = 4x\nÉtape 2 : résultat ← résultat + 10 = 4x + 10\nÉtape 3 : résultat ← résultat × 5 = (4x+10)×5 = 20x + 50 ✓"},
+      {pts:3,text:"Partie B — Q5. Quel nombre faut-il choisir au départ pour obtenir 75 avec le programme de Fred ?",answer:"x = 1,25",solution:"20x + 50 = 75 → 20x = 25 → x = 25/20 = 1,25"},
+      {pts:3,text:"Partie B — Q6. Fred souhaite modifier son programme pour que le résultat soit toujours 20 fois plus grand que le nombre de départ. Quelle 6e ligne doit-il ajouter ?",answer:"mettre résultat à résultat − 50",solution:"Le programme actuel donne 20x + 50. Pour obtenir 20x, il faut soustraire 50. La 6e ligne est : mettre résultat à résultat − 50."}
+    ]},
+  {id:63,num:"63",source:"Métropole Juin 2025",name:"Voiture — Achat ou Location",sub:"Fonctions · Tableur · 19 pts",pts:19,
+    stimulus:"Un garage propose 2 options :\n• Option Achat : prix d\'achat 22 400 €, assurance 75 € par mois.\n• Option Location : 425 € par mois, assurance comprise.\nL\'objectif est de comparer ces deux options.",
+    questions:[
+      {pts:3,text:"Partie A — Q1. Montrer qu'avec l'option Achat, la dépense à la fin de la première année est de 23 300 €.",answer:"22 400 + 12 × 75 = 22 400 + 900 = 23 300 €",solution:"Prix d'achat : 22 400 €\nAssurance sur 12 mois : 12 × 75 = 900 €\nTotal : 22 400 + 900 = 23 300 € ✓"},
+      {pts:4,text:"Partie A — Q2. Après 36 mois, calculer l'économie réalisée par le client s'il choisit l'option Location.",answer:"L'option Location est moins chère de 7 100 €",solution:"Option Achat sur 36 mois : 22 400 + 36 × 75 = 22 400 + 2 700 = 25 100 €\nOption Location sur 36 mois : 36 × 425 = 15 300 €\nÉconomie : 25 100 − 15 300 = 9 800 €"},
+      {pts:4,text:"Partie A — Q3. Quelle formule doit être saisie dans la cellule B3 (option Location, nombre de mois en B1) pour compléter le tableau ?",answer:"=B1*425",solution:"La dépense Location = nombre de mois × 425. En B1 se trouve le nombre de mois, donc la formule est =B1*425. Elle s'étend de B3 à F3."},
+      {pts:4,text:"Partie B — Q4. Déterminer l'expression de f(x) permettant de calculer la dépense correspondant à l'option Achat (x = nombre de mois).",answer:"f(x) = 75x + 22 400",solution:"Prix d'achat fixe : 22 400 €\nAssurance : 75 € par mois → 75x\nDonc f(x) = 75x + 22 400"},
+      {pts:4,figureWide:true,figureOverride:figureEx63_q5,text:"Partie B — Q5. Par lecture graphique, à partir de combien de mois l'option Achat est-elle la plus avantageuse ?",answer:"À partir d'environ 64 mois (≈ 5 ans 4 mois)",solution:"Les deux courbes se croisent quand f(x) = g(x) : 75x + 22 400 = 425x → 22 400 = 350x → x = 64 mois. Avant 64 mois, Location moins chère. Après 64 mois, Achat plus avantageux."}
+    ]}];
 
 </script>
 <script id="player-logic">
@@ -4000,9 +4086,18 @@ function buildSidebar(){
     const allDone=ex.questions.every((_,i)=>doneSet.has(key(ex.id,i)));
     const item=document.createElement("div");
     item.className="ex-item"+(isActive?" active":"")+(allDone&&!isActive?" done":"");
-    const dots=ex.questions.map((_,i)=>{
+    const dots=ex.questions.map((q,i)=>{
       const d=doneSet.has(key(ex.id,i));const a=isActive&&i===curQ;
-      return '<div class="dot '+(d?"done":"")+" "+(a?"active":"")+'" onclick="jumpTo('+ex.id+','+i+')"></div>';
+      const v=playerVerdicts[key(ex.id,i)]||'';
+      const isWrong=v.indexOf('INCORRECT')!==-1;
+      const isPartial=v.indexOf('PARTIELLEMENT')!==-1;
+      const isCorrect=v&&!isWrong&&!isPartial&&v.indexOf('CORRECT')!==-1;
+      var dotCls='dot';
+      if(a) dotCls+=' active';
+      else if(isCorrect) dotCls+=' done';
+      else if(isPartial) dotCls+=' partial';
+      else if(isWrong) dotCls+=' wrong';
+      return '<div class="'+dotCls+'" onclick="jumpTo('+ex.id+','+i+')"></div>';
     }).join("");
     item.innerHTML='<div class="ex-header"><div class="ex-num">'+(allDone&&!isActive?"✓":ex.num)+'</div><div class="ex-info"><div class="ex-name">'+ex.name+'</div><div class="ex-sub">'+ex.pts+' pts</div>'+(ex.source?'<div style="font-size:9px;color:var(--blue);opacity:.6;margin-top:1px;font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+ex.source+'</div>':'')+'</div></div></div><div class="ex-dots">'+dots+'</div>';
     item.querySelector(".ex-header").onclick=()=>jumpTo(ex.id,0);
@@ -4012,12 +4107,47 @@ function buildSidebar(){
   document.getElementById("progText").textContent=done+" / "+total+" questions";
   document.getElementById("progPct").textContent=pct+"%";
   document.getElementById("progFill").style.width=pct+"%";
-  document.getElementById("ptsPill").textContent=Math.min(done,totalPts())+" / "+totalPts()+" pts";
+  // Calcul pts gagnés en temps réel via verdicts IA
+  var exs = playerExercises.length ? playerExercises : exercises;
+  var earned = 0, maxPts = 0;
+  var hasAnyVerdict = false;
+  exs.forEach(function(ex){
+    ex.questions.forEach(function(q, i){
+      var pts = parseFloat(q.pts)||0;
+      maxPts += pts;
+      var v = playerVerdicts[key(ex.id, i)]||'';
+      if(v) hasAnyVerdict = true;
+      if(v && v.indexOf('INCORRECT')===-1 && v.indexOf('PARTIELLEMENT')===-1 && v.indexOf('CORRECT')!==-1){
+        earned += pts;
+      } else if(v && v.indexOf('PARTIELLEMENT')!==-1){
+        earned += pts * 0.5;
+      }
+    });
+  });
+  var pill = document.getElementById("ptsPill");
+  if(pill){
+    if(hasAnyVerdict){
+      var score20 = maxPts > 0 ? Math.min(20, Math.round(earned/maxPts*20*2)/2) : 0;
+      pill.textContent = Math.round(earned*10)/10 + " / " + Math.round(maxPts*10)/10 + " pts · " + score20 + "/20";
+      pill.style.background = earned > maxPts*0.7 ? "rgba(34,197,94,.12)" : earned > maxPts*0.4 ? "#FFF0E8" : "#FEF2F2";
+      pill.style.borderColor = earned > maxPts*0.7 ? "#22C55E" : earned > maxPts*0.4 ? "var(--orange)" : "var(--red)";
+      pill.style.color = earned > maxPts*0.7 ? "#166534" : earned > maxPts*0.4 ? "var(--orange)" : "var(--red)";
+    } else {
+      pill.textContent = "0 / " + Math.round(maxPts*10)/10 + " pts";
+      pill.style.background = "#EEF2FF";
+      pill.style.borderColor = "rgba(0,33,188,.15)";
+      pill.style.color = "var(--blue)";
+    }
+  }
 }
 
 function buildQuestion(){
   showingCorrection=false;
   const old=document.getElementById('corrBlock');if(old)old.remove();
+  // Reset textarea color
+  var ta2=document.getElementById('answerTA');
+  if(ta2){ta2.style.background='';ta2.style.border='';ta2.style.boxShadow='';}
+
   const ex=(playerExercises.length?playerExercises:exercises).find(e=>e.id===curEx);
   const q=ex.questions[curQ];
   const card=document.getElementById("questionCard");
@@ -4049,7 +4179,24 @@ function buildQuestion(){
     bodyHTML='<div class="card-body no-figure"><div class="card-main">'+(q.figureExtra?'<div style="margin-bottom:10px">'+q.figureExtra+'</div>':'')+'<div class="q-block">'+stimHTML+contextHTML+'<div class="q-number-label">Question '+(curQ+1)+'</div><div class="q-text">'+q.text+'</div></div><div class="answer-block"><div class="answer-label">Ta réponse</div><textarea class="answer-textarea" id="answerTA" placeholder="Rédige tes calculs et réponses ici…">'+saved+'</textarea><div class="answer-hint" id="ansHint">'+cw(saved)+' mot(s)</div></div></div></div>';
   }
 
-  card.innerHTML='<div class="card-header"><div class="q-meta"><span class="q-tag">Ex. '+ex.id+' — '+ex.name+'</span><span class="q-pts-badge">'+q.pts+' pts</span>'+(ex.source?'<span style="font-size:10px;color:var(--muted);font-weight:300;margin-left:4px">'+ex.source+'</span>':'')+'</div><div class="q-breadcrumb">Question <strong>'+(curQ+1)+'</strong> / '+ex.questions.length+'</div></div><div class="card-prog"><div class="card-prog-fill" style="width:'+progPct+'%"></div></div>'+bodyHTML+'<div class="card-footer" id="footerNav"></div>';
+  // Check if this question already has a verdict (revisiting)
+  var existingV=playerVerdicts[key(curEx,curQ)]||'';
+  var existingIsWrong=existingV.indexOf('INCORRECT')!==-1;
+  var existingIsPartial=existingV.indexOf('PARTIELLEMENT')!==-1;
+  var existingIsOk=existingV&&!existingIsWrong&&!existingIsPartial&&existingV.indexOf('CORRECT')!==-1;
+  var scoreBadge='';
+  if(existingIsOk){
+    var ep=parseFloat(q.pts)||0;
+    scoreBadge='<span id="q-score-badge" style="font-size:11px;font-weight:700;padding:3px 10px;border-radius:100px;background:#f0fdf4;border:1.5px solid #22c55e;color:#16a34a">+'+ep+' pt'+(ep>1?'s':'')+'</span>';
+  } else if(existingIsPartial){
+    var ep=Math.round((parseFloat(q.pts)||0)*0.5*10)/10;
+    scoreBadge='<span id="q-score-badge" style="font-size:11px;font-weight:700;padding:3px 10px;border-radius:100px;background:#fffbeb;border:1.5px solid #f59e0b;color:#d97706">+'+ep+' pt'+(ep>1?'s':'')+'</span>';
+  } else if(existingIsWrong){
+    scoreBadge='<span id="q-score-badge" style="font-size:11px;font-weight:700;padding:3px 10px;border-radius:100px;background:#fef2f2;border:1.5px solid #f87171;color:#dc2626">+0 pt</span>';
+  } else {
+    scoreBadge='<span id="q-score-badge" style="display:none"></span>';
+  }
+  card.innerHTML='<div class="card-header"><div class="q-meta"><span class="q-tag">Ex. '+ex.id+' — '+ex.name+'</span><span class="q-pts-badge">'+q.pts+' pts</span>'+scoreBadge+(ex.source?'<span style="font-size:10px;color:var(--muted);font-weight:300;margin-left:4px">'+ex.source+'</span>':'')+'</div><div class="q-breadcrumb">Question <strong>'+(curQ+1)+'</strong> / '+ex.questions.length+'</div></div><div class="card-prog"><div class="card-prog-fill" style="width:'+progPct+'%"></div></div>'+bodyHTML+'<div class="card-footer" id="footerNav"></div>';
 
   const ta=document.getElementById("answerTA");
   ta.addEventListener("input",()=>{playerAnswers[key(curEx,curQ)]=ta.value;document.getElementById("ansHint").textContent=cw(ta.value)+" mot(s)";});
@@ -4093,36 +4240,46 @@ function validateAndShowCorr(){
     block.id='corrBlock';
     block.style.cssText='margin-top:14px;padding:14px 16px;background:#f8fafc;border:1.5px solid #cbd5e1;border-radius:12px;font-size:13px;line-height:1.7';
     block.innerHTML='<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><div style="width:20px;height:20px;border-radius:50%;background:#e2e8f0;display:flex;align-items:center;justify-content:center"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#94a3b8" stroke-width="2"/><path d="M12 6v6l4 2" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></svg></div><span style="font-size:11px;font-weight:600;color:#64748b;letter-spacing:.05em">Analyse en cours…</span></div>';
-    if(ta) ta.parentNode.insertBefore(block, ta.nextSibling);
-    else document.getElementById('footerNav').parentNode.insertBefore(block, document.getElementById('footerNav'));
+    // Insert corrBlock after the answer-block container (not inside it)
+    var ansBlock = ta ? ta.closest('.answer-block') : null;
+    if(ansBlock && ansBlock.parentNode){
+      ansBlock.parentNode.insertBefore(block, ansBlock.nextSibling);
+    } else if(ta){
+      ta.parentNode.insertBefore(block, ta.nextSibling);
+    } else {
+      document.getElementById('footerNav').parentNode.insertBefore(block, document.getElementById('footerNav'));
+    }
     analyseWithAI(ex, q, ta ? ta.value : '', block, curEx, curQ);
   }
   buildFooter(ex);buildSidebar();
 }
 
 async function analyseWithAI(ex, q, userAnswer, block, analyseEx, analyseQ){
-  // Build prompt
+  const pts = parseFloat(q.pts)||0;
   const prompt = [
-    'Tu es un professeur de mathématiques bienveillant qui corrige le brevet des collèges.',
-    'Exercice : ' + ex.name + ' (source : ' + ex.source + ')',
-    'Question : ' + q.text.replace(/<[^>]+>/g,''),
-    userAnswer ? 'Réponse de l\'élève : ' + userAnswer : 'L\'élève n\'a pas répondu.',
-    q.answer ? 'Bonne réponse attendue : ' + q.answer : '',
+    'Tu es un professeur de mathématiques bienveillant qui corrige une copie de brevet des collèges (DNB 3e).',
+    'Tu t\'adresses directement à l\'élève, en le tutoyant, avec un ton chaleureux et encourageant.',
+    '',
+    'Exercice : ' + ex.name + ' (' + ex.source + ')',
+    'Question (' + pts + ' pt' + (pts>1?'s':'') + ') : ' + q.text.replace(/<[^>]+>/g,'').replace(/\s+/g,' ').trim(),
+    userAnswer && userAnswer.trim() ? 'Réponse de l\'élève : ' + userAnswer.trim() : 'L\'élève n\'a pas répondu.',
+    q.answer ? 'Réponse attendue : ' + q.answer : '',
     q.solution ? 'Démarche officielle : ' + q.solution : '',
     '',
-    'Analyse la réponse de l\'élève en 3 points :',
-    '1. VERDICT en un mot : CORRECT, PARTIELLEMENT CORRECT, ou INCORRECT',
-    '2. FEEDBACK : une phrase courte et encourageante expliquant ce qui va bien ou ce qui manque',
-    '3. CORRECTION : la bonne réponse avec la démarche étape par étape (maximum 4 lignes)',
+    'Évalue la réponse et réponds UNIQUEMENT en JSON avec ces 4 clés :',
+    '- verdict : "CORRECT", "PARTIELLEMENT CORRECT", ou "INCORRECT"',
+    '- points : nombre de points attribués (' + pts + ' si correct, ' + Math.round(pts*0.5*10)/10 + ' si partiel, 0 si incorrect)',
+    '- commentaire : 1-2 phrases personnalisées à l\'élève. Si correct → félicite-le chaleureusement en précisant ce qu\'il a bien fait. Si partiel → encourage-le en disant ce qui est juste et ce qui manque. Si incorrect → sois bienveillant, dis-lui où il a buté sans le décourager.',
+    '- demarche : explication étape par étape de la bonne démarche (3-5 étapes numérotées, claires, avec les calculs). Utilise → pour séparer les étapes.',
     '',
-    'Réponds UNIQUEMENT en JSON valide avec ces 3 clés : verdict, feedback, correction.',
-    'Exemple : {"verdict":"CORRECT","feedback":"Bravo, tu as bien appliqué Pythagore !","correction":"BC² = 9²+12² = 225 → BC = 15 cm"}'
+    'JSON uniquement, pas de texte avant ou après. Exemple :',
+    '{"verdict":"PARTIELLEMENT CORRECT","points":' + Math.round(pts*0.5*10)/10 + ',"commentaire":"Tu as bien identifié la formule à utiliser, bravo ! Il manquait juste l\'unité dans ta réponse finale.","demarche":"1. On identifie un triangle rectangle → 2. On applique Pythagore : BC² = AB² + AC² → 3. BC² = 9² + 12² = 81 + 144 = 225 → 4. BC = √225 = 15 cm"}'
   ].join('\n');
 
   try {
     const data = await callAI({
       model:'claude-sonnet-4-20250514',
-      max_tokens:400,
+      max_tokens:600,
       messages:[{role:'user',content:prompt}]
     });
     const raw = data.content && data.content[0] ? data.content[0].text : '';
@@ -4136,24 +4293,85 @@ async function analyseWithAI(ex, q, userAnswer, block, analyseEx, analyseQ){
       // Store verdict for score calculation
       playerVerdicts[key(analyseEx,analyseQ)] = parsed.verdict || '';
       const v = parsed.verdict || '';
-      const isOk = v.includes('CORRECT') && !v.includes('PARTIELLEMENT') && !v.includes('IN');
-      const isPartial = v.includes('PARTIELLEMENT');
-      const isWrong = v.includes('INCORRECT');
+      const isWrong = v.indexOf('INCORRECT') !== -1;
+      const isPartial = v.indexOf('PARTIELLEMENT') !== -1;
+      const isOk = !isWrong && !isPartial && v.indexOf('CORRECT') !== -1;
       const color = isOk ? '#16a34a' : isPartial ? '#d97706' : '#dc2626';
       const bg = isOk ? '#f0fdf4' : isPartial ? '#fffbeb' : '#fef2f2';
       const border = isOk ? '#22c55e' : isPartial ? '#f59e0b' : '#f87171';
       const icon = isOk ? '✓' : isPartial ? '◑' : '✗';
       block.style.background = bg;
       block.style.borderColor = border;
+      // Color the answer textarea
+      var ta2 = document.getElementById('answerTA');
+      if(ta2){
+        ta2.style.background = bg;
+        ta2.style.border = '2px solid ' + border;
+        ta2.style.boxShadow = '0 0 0 3px ' + border + '33';
+      }
+      // Update score badge in question header
+      var badge = document.getElementById('q-score-badge');
+      if(badge){
+        badge.style.display = '';
+        badge.style.cssText = 'font-size:11px;font-weight:700;padding:3px 10px;border-radius:100px;background:'+bg+';border:1.5px solid '+border+';color:'+color;
+        badge.textContent = ptsLabel;
+      }
+      // No separate banner — verdict is already in the corrBlock
+      // Color the question card header
+      var qCard = document.getElementById('questionCard');
+      if(qCard){
+        var cardHeader = qCard.querySelector('.card-header-strip');
+        if(cardHeader) cardHeader.style.background = bg;
+      }
+      var ptsAttrib = parsed.points !== undefined ? parsed.points : (isOk ? pts : isPartial ? Math.round(pts*0.5*10)/10 : 0);
+      var ptsLabel = '+' + ptsAttrib + ' pt' + (ptsAttrib > 1 ? 's' : '') + ' / ' + pts;
+      var demarcheHTML = (parsed.demarche||parsed.correction||'').replace(/→/g,'<span style="color:'+color+';font-weight:700;margin:0 4px">→</span>').replace(/\n/g,'<br>');
+      var commentaireHTML = parsed.commentaire || parsed.feedback || '';
+      block.style.borderLeftWidth = '4px';
       block.innerHTML =
-        '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">' +
-        '<div style="width:22px;height:22px;border-radius:50%;background:'+color+';display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff;font-weight:700;flex-shrink:0">'+icon+'</div>' +
-        '<span style="font-size:13px;font-weight:700;color:'+color+'">'+v+'</span></div>' +
-        '<div style="font-size:13px;color:#374151;margin-bottom:8px">'+parsed.feedback+'</div>' +
-        '<div style="background:rgba(0,0,0,.04);border-radius:8px;padding:10px 12px;font-size:12px;color:#374151;line-height:1.7">' +
-        '<strong style="font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:#64748b">Correction</strong><br>' +
-        parsed.correction + '</div>' +
-        '<div style="margin-top:8px;font-size:11px;color:#6b7280">'+q.pts+' pt'+(q.pts>1?'s':'')+' pour cette question</div>';
+        // Header verdict + points
+        '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">' +
+        '<div style="display:flex;align-items:center;gap:10px">' +
+        '<div style="width:32px;height:32px;border-radius:50%;background:'+color+';display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;font-weight:700;flex-shrink:0">'+icon+'</div>' +
+        '<div style="font-size:15px;font-weight:700;color:'+color+'">'+v+'</div></div>' +
+        '<div style="font-size:15px;font-weight:700;color:'+color+';background:'+bg+';border:2px solid '+border+';padding:5px 16px;border-radius:100px">'+ptsLabel+'</div>' +
+        '</div>' +
+        // Commentaire personnalisé
+        '<div style="font-size:13px;color:#374151;line-height:1.7;padding:10px 12px;background:rgba(0,0,0,.03);border-radius:8px;border-left:3px solid '+border+';margin-bottom:10px">'+commentaireHTML+'</div>' +
+        // Démarche
+        '<div style="background:rgba(0,0,0,.03);border-radius:8px;padding:12px 14px">' +
+        '<div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#64748b;margin-bottom:8px">démarche correcte</div>' +
+        '<div style="font-size:12.5px;color:#1e293b;line-height:1.9;font-family:-apple-system,sans-serif">'+demarcheHTML+'</div>' +
+        '</div>' +
+        // Score cumulé
+        (function(){
+          var exs=playerExercises.length?playerExercises:exercises;
+          var earned=0,max=0;
+          exs.forEach(function(ex2){
+            ex2.questions.forEach(function(q2,i2){
+              var pts2=parseFloat(q2.pts)||0; max+=pts2;
+              var v2=playerVerdicts[key(ex2.id,i2)]||'';
+              var isW=v2.indexOf('INCORRECT')!==-1;
+              var isP=v2.indexOf('PARTIELLEMENT')!==-1;
+              var isC=v2&&!isW&&!isP&&v2.indexOf('CORRECT')!==-1;
+              if(isC) earned+=pts2;
+              else if(isP) earned+=pts2*0.5;
+            });
+          });
+          earned=Math.round(earned*10)/10;
+          var score20=max>0?Math.min(20,Math.round(earned/max*20*2)/2):0;
+          var pct=max>0?Math.round(earned/max*100):0;
+          var barColor=pct>=70?'#22c55e':pct>=40?'#f59e0b':'#ef4444';
+          return '<div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(0,0,0,.07)">'
+            +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">'
+            +'<span style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.08em">score actuel</span>'
+            +'<span style="font-size:13px;font-weight:700;color:'+barColor+'">'+earned+' / '+Math.round(max*10)/10+' pts · '+score20+'/20</span>'
+            +'</div>'
+            +'<div style="height:5px;background:rgba(0,0,0,.07);border-radius:100px;overflow:hidden">'
+            +'<div style="height:100%;width:'+pct+'%;background:'+barColor+';border-radius:100px;transition:width .5s"></div>'
+            +'</div>'
+            +'</div>';
+        })();
     } else {
       // Fallback to static correction
       showStaticCorr(q, block);
@@ -4162,16 +4380,61 @@ async function analyseWithAI(ex, q, userAnswer, block, analyseEx, analyseQ){
     showStaticCorr(q, block);
   }
   buildFooter((playerExercises.length?playerExercises:exercises).find(e=>e.id===curEx));
+  buildSidebar(); // Met à jour la pill de score
 }
 
 function showStaticCorr(q, block){
-  block.style.background='#f0fdf4';
-  block.style.borderColor='#22c55e';
-  block.innerHTML =
-    '<div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#16a34a;margin-bottom:8px">✓ Correction</div>' +
-    (q.answer?'<div style="margin-bottom:8px"><strong>Réponse :</strong> '+q.answer+'</div>':'') +
-    (q.solution?'<div style="color:#374151"><strong>Démarche :</strong><br>'+q.solution+'</div>':'Rédige ta démarche et compare avec ton professeur.') +
-    '<div style="margin-top:8px;font-size:11px;color:#6b7280">'+q.pts+' pt'+(q.pts>1?'s':'')+' pour cette question</div>';
+  // Local verdict based on text comparison when IA not available
+  var ta2=document.getElementById('answerTA');
+  var userAns=(ta2?ta2.value:'').trim().toLowerCase().replace(/[\s,;.!?]/g,'');
+  var correctAns=(q.answer||'').trim().toLowerCase().replace(/[\s,;.!?]/g,'');
+  
+  // Determine local verdict
+  var verdict, color, bg, border, icon, pts=parseFloat(q.pts)||0, ptsGiven=0;
+  if(!userAns){
+    verdict='INCORRECT'; color='#dc2626'; bg='#fef2f2'; border='#f87171'; icon='✗'; ptsGiven=0;
+  } else if(correctAns && userAns===correctAns){
+    verdict='CORRECT'; color='#16a34a'; bg='#f0fdf4'; border='#22c55e'; icon='✓'; ptsGiven=pts;
+  } else if(correctAns && (userAns.includes(correctAns)||correctAns.includes(userAns)||(userAns.length>3&&correctAns.length>3&&(correctAns.includes(userAns.slice(0,Math.floor(userAns.length*0.6)))||userAns.includes(correctAns.slice(0,Math.floor(correctAns.length*0.6))))))){
+    verdict='PARTIELLEMENT CORRECT'; color='#d97706'; bg='#fffbeb'; border='#f59e0b'; icon='◑'; ptsGiven=Math.round(pts*0.5*10)/10;
+  } else {
+    verdict='INCORRECT'; color='#dc2626'; bg='#fef2f2'; border='#f87171'; icon='✗'; ptsGiven=0;
+  }
+  
+  // Store verdict
+  playerVerdicts[key(curEx,curQ)]=verdict;
+  
+  // Apply colors
+  block.style.background=bg;
+  block.style.borderColor=border;
+  block.style.borderLeftWidth='4px';
+  if(ta2){ta2.style.background=bg;ta2.style.border='2px solid '+border;ta2.style.boxShadow='0 0 0 3px '+border+'33';}
+  
+  // Update score badge
+  var badge=document.getElementById('q-score-badge');
+  if(badge){
+    badge.style.display='';
+    badge.style.cssText='font-size:11px;font-weight:700;padding:3px 10px;border-radius:100px;background:'+bg+';border:1.5px solid '+border+';color:'+color;
+    badge.textContent='+'+ptsGiven+' pt'+(pts>1?'s':'')+' / '+pts;
+  }
+  
+  var ptsLabel='+'+ptsGiven+' pt'+(pts>1?'s':'')+' / '+pts;
+  block.innerHTML=
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">'
+    +'<div style="display:flex;align-items:center;gap:10px">'
+    +'<div style="width:32px;height:32px;border-radius:50%;background:'+color+';display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;font-weight:700;flex-shrink:0">'+icon+'</div>'
+    +'<div style="font-size:15px;font-weight:700;color:'+color+'">'+verdict+'</div></div>'
+    +'<div style="font-size:15px;font-weight:700;color:'+color+';background:'+bg+';border:2px solid '+border+';padding:5px 16px;border-radius:100px">'+ptsLabel+'</div>'
+    +'</div>'
+    +(q.answer?'<div style="margin-bottom:10px;font-size:13px;padding:8px 12px;background:rgba(0,0,0,.03);border-radius:8px"><strong style="color:#475569">Réponse attendue :</strong> '+q.answer+'</div>':'')
+    +(q.solution
+      ?'<div style="background:rgba(0,0,0,.03);border-radius:8px;padding:12px 14px">'
+        +'<div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#64748b;margin-bottom:8px">démarche correcte</div>'
+        +'<div style="font-size:12.5px;color:#1e293b;line-height:1.9">'+q.solution+'</div>'
+        +'</div>'
+      :'<div style="font-size:13px;color:#64748b">Compare ta démarche avec ton professeur.</div>');
+  
+  buildSidebar();
 }
 
 function goNextFromCorr(){
@@ -4581,13 +4844,40 @@ function showFullCorrections(){
   document.getElementById('questionCard').innerHTML=html;
 }
 function tick(){
-  if(totalSecs<=0){document.getElementById("timerVal").textContent="0:00:00";document.getElementById("timerDot").style.background="#E24B4A";return;}
   totalSecs--;
+  if(totalSecs<=0){
+    if(playerPhase===1){
+      // Fin automatismes → basculer sur partie 2 (1h40)
+      playerPhase=2;
+      totalSecs=100*60;
+      // Move to first Partie 2 exercise
+      var p2=playerExercises.find(function(e){return e.pts!==6;});
+      if(p2){curEx=p2.id;curQ=0;buildQuestion();buildSidebar();}
+      showToast('⏱ Automatismes terminés — partie 2 : 1h40');
+      var dot=document.getElementById("timerDot"); if(dot) dot.style.background="var(--orange)";
+    } else {
+      // Fin brevet — afficher écran de fin
+      totalSecs=0;
+      document.getElementById("timerVal").textContent="0:00:00";
+      var dot=document.getElementById("timerDot"); if(dot) dot.style.background="#E24B4A";
+      clearInterval(playerTimerInt);
+      showToast('⏱ Temps écoulé !');
+      setTimeout(function(){ showEndScreen(); }, 1200);
+    }
+    return;
+  }
   const h=Math.floor(totalSecs/3600),m=Math.floor((totalSecs%3600)/60),s=totalSecs%60;
-  document.getElementById("timerVal").textContent=h+":"+String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
-  if(totalSecs<900)document.getElementById("timerDot").style.background="#E24B4A";
+  document.getElementById("timerVal").textContent=(h>0?h+':':'')+String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+  // Urgent si < 5 min
+  var dot=document.getElementById("timerDot");
+  if(dot){
+    if(totalSecs<300) dot.style.background="#E24B4A";
+    else if(totalSecs<600) dot.style.background="var(--orange)";
+    else dot.style.background="var(--orange)";
+  }
 }
 let totalSecs=7200;
+var playerPhase=1;
 
 function buildSidebar(){
   var exList = playerExercises.length ? playerExercises : [];
@@ -4610,7 +4900,16 @@ function buildSidebar(){
     html+='<div class="ex-dots">';
     e.questions.forEach(function(q,i){
       var isDoneQ=playerAnswers[key(e.id,i)]&&playerAnswers[key(e.id,i)].trim();
-      html+='<div class="dot'+(isDoneQ?' done':active&&curQ===i?' active':'')+'" onclick="event.stopPropagation();jumpToQ('+e.id+','+i+')"></div>';
+      var vv=playerVerdicts[key(e.id,i)]||'';
+      var isWrong2=vv.indexOf('INCORRECT')!==-1;
+      var isPartial2=vv.indexOf('PARTIELLEMENT')!==-1;
+      var isCorrect2=vv&&!isWrong2&&!isPartial2&&vv.indexOf('CORRECT')!==-1;
+      var dotCls2='dot';
+      if(active&&curQ===i) dotCls2+=' active';
+      else if(isCorrect2) dotCls2+=' done';
+      else if(isPartial2) dotCls2+=' partial';
+      else if(isWrong2) dotCls2+=' wrong';
+      html+='<div class="'+dotCls2+'" onclick="event.stopPropagation();jumpToQ('+e.id+','+i+')"></div>';
     });
     html+='</div></div>';
   });
